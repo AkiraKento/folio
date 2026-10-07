@@ -1,0 +1,20 @@
+Fala, Tansos! 👋
+Eu e o [nome] tivemos uma ideia e queria ouvir vocês (e talvez recrutar umas cobaias 😅).
+
+*A ideia:* um app de flashcards com repetição espaçada, tipo o Anki, só que simples, bonito e pronto pra usar. Sem configurar modelo, instalar add-on ou montar baralho do zero.
+
+*Por quê:* o Anki funciona muito, mas tem uma barreira de entrada. Muita gente desiste antes de pegar o jeito: é configuração, é montar os cards, é manter a constância. E a ideia não é competir com cursinho. É ser o app que a pessoa usa *junto* com o cursinho.
+
+*Como seria:*
+• Áreas separadas: medicina, concursos, direito, psicologia…
+• Modelos de card prontos pra cada área + um guia de como estudar (fase passiva e ativa, como montar a agenda, prompts de IA que geram cards bons)
+• O mesmo algoritmo de revisão do Anki (FSRS, que é aberto)
+• Funciona offline no celular; depois vem a versão web com sincronização
+• Grátis no básico; no plano pago, análise do seu estudo, cronograma e mentoria
+
+*Primeiro passo:* um protótipo pra Android (APK) só com o essencial: criar/importar cards e revisar todo dia. A ideia é testar se fica mais fácil de manter do que o Anki.
+
+O que eu queria de vocês:
+1️⃣ Sinceridade: vocês usariam? Já desistiram do Anki ou nunca tentaram? Por quê?
+2️⃣ Quem topa testar o APK por umas 2 semanas quando ficar pronto? (o Google exige 12 testadores pra liberar o app na Play Store, então cada um conta 🙏)
+3️⃣ Se conhecerem alguém que estuda pra concurso, direito ou psico, me passem o contato. Quero conversar com uns 10 a 15 pra entender o que trava.

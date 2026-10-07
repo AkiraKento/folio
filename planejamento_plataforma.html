@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plataforma de Flashcards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<style>
+:root{
+  --paper:#F5F6F3;--surface:#FFFFFF;--surface-2:#EDEFEA;
+  --ink:#141C1A;--ink-soft:#4A5754;--ink-faint:#78857F;
+  --rule:#D8DCD4;--rule-strong:#B9C0B6;
+  --accent:#1F5F5B;--accent-soft:#DCE9E6;
+  --crit:#A2322A;--crit-soft:#F2DFDC;
+  --warn:#8F6414;--warn-soft:#F3E7CE;
+  --good:#37704A;--good-soft:#DDEBDF;
+  --shadow:0 1px 2px rgba(20,28,26,.06),0 8px 24px -16px rgba(20,28,26,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1413;--surface:#161E1C;--surface-2:#1D2725;
+    --ink:#E3E9E5;--ink-soft:#A6B3AE;--ink-faint:#7C8A85;
+    --rule:#2A3532;--rule-strong:#3C4A46;
+    --accent:#6FBFB2;--accent-soft:#1B302E;
+    --crit:#E08277;--crit-soft:#33201E;
+    --warn:#D9AC5A;--warn-soft:#2E2718;
+    --good:#7DBF8D;--good-soft:#1B2A20;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1413;--surface:#161E1C;--surface-2:#1D2725;
+  --ink:#E3E9E5;--ink-soft:#A6B3AE;--ink-faint:#7C8A85;
+  --rule:#2A3532;--rule-strong:#3C4A46;
+  --accent:#6FBFB2;--accent-soft:#1B302E;
+  --crit:#E08277;--crit-soft:#33201E;
+  --warn:#D9AC5A;--warn-soft:#2E2718;
+  --good:#7DBF8D;--good-soft:#1B2A20;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Source Serif 4",Georgia,serif;font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px 96px}
+@media(max-width:640px){.wrap{padding:0 16px 64px}body{font-size:16px}}
+h1,h2,h3,.label,th,.phase-n,nav a,.btn{font-family:Archivo,"Helvetica Neue",Arial,sans-serif}
+.mono,code{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-size:.88em}
+code{background:var(--surface-2);padding:1px 5px;border-radius:4px}
+.label{font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint)}
+header{padding:56px 0 28px;border-bottom:1px solid var(--rule)}
+h1{font-size:clamp(30px,5vw,44px);line-height:1.08;margin:10px 0 14px;letter-spacing:-.01em}
+.lede{font-size:19px;color:var(--ink-soft);max-width:720px;margin:0}
+nav{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px}
+nav a{font-size:13px;font-weight:600;color:var(--accent);text-decoration:none}
+nav a:hover{text-decoration:underline}
+section{padding:44px 0 8px}
+h2{font-size:25px;margin:6px 0 16px;letter-spacing:-.005em}
+h3{font-size:17px;margin:26px 0 8px}
+p{margin:0 0 14px}
+ul,ol{margin:0 0 16px;padding-left:22px}
+li{margin:4px 0}
+a{color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:20px 22px;box-shadow:var(--shadow);margin:0 0 16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.alert{border-left:4px solid var(--crit);background:var(--crit-soft);border-radius:0 8px 8px 0;padding:14px 18px;margin:0 0 12px}
+.alert.warn{border-color:var(--warn);background:var(--warn-soft)}
+.alert.good{border-color:var(--good);background:var(--good-soft)}
+.alert b:first-child{font-family:Archivo,sans-serif}
+.in li::marker{content:"✓  ";color:var(--good)}
+.out li::marker{content:"—  ";color:var(--ink-faint)}
+.in h3,.out h3{margin-top:0}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tblwrap{overflow-x:auto;margin:0 0 16px}
+.tbl th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);border-bottom:1px solid var(--rule-strong);padding:8px 10px}
+.tbl td{border-bottom:1px solid var(--rule);padding:10px;vertical-align:top}
+.tbl tr.pick td{background:var(--accent-soft)}
+.phase{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:18px 0;border-bottom:1px solid var(--rule)}
+.phase:last-child{border-bottom:0}
+@media(max-width:640px){.phase{grid-template-columns:1fr;gap:4px}}
+.phase-n{font-weight:700;color:var(--accent);font-size:14px}
+.phase-n small{display:block;font-weight:500;color:var(--ink-faint);font-size:12px;margin-top:2px}
+.phase h3{margin:0 0 6px}
+.done{font-size:14.5px;color:var(--ink-soft);margin-top:6px}
+.done b{font-family:Archivo,sans-serif;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
+.q{padding:14px 0;border-bottom:1px solid var(--rule)}
+.q:last-child{border-bottom:0}
+.q p{margin:0}
+.q .how{color:var(--ink-soft);font-size:15px;margin-top:4px}
+.q .how::before{content:"Como responder → ";font-family:Archivo,sans-serif;font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+.prio{display:inline-block;font-family:Archivo,sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:4px;margin-right:6px;vertical-align:1px}
+.p1{background:var(--crit-soft);color:var(--crit)}
+.p2{background:var(--warn-soft);color:var(--warn)}
+.p3{background:var(--surface-2);color:var(--ink-soft)}
+pre.msg{white-space:pre-wrap;font-family:"Source Serif 4",Georgia,serif;font-size:16px;background:var(--surface);border:1px solid var(--rule);border-radius:10px;padding:20px 22px;margin:0 0 12px;box-shadow:var(--shadow)}
+.btn{font-size:14px;font-weight:600;background:var(--accent);color:var(--paper);border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.btn:active{transform:translateY(1px)}
+.schema{font-family:"IBM Plex Mono",monospace;font-size:13.5px;line-height:1.55;background:var(--surface-2);border-radius:8px;padding:14px 16px;overflow-x:auto;white-space:pre;margin:0 0 14px}
+footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--rule);font-size:14px;color:var(--ink-faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="label">Projeto · 06/10/2026</div>
+  <h1>Plataforma de flashcards: plano do protótipo</h1>
+  <p class="lede">Um Anki simples, bonito e pronto pra usar, com áreas próprias (medicina, concursos, direito, psicologia), modelos de card prontos e um plano pago com análise do estudo, cronograma e mentoria. A ideia não é competir com cursinho: é ser o app que a pessoa usa <i>junto</i> com ele.</p>
+  <nav>
+    <a href="#alertas">Antes de começar</a>
+    <a href="#escopo">Escopo do APK</a>
+    <a href="#stack">Stack</a>
+    <a href="#fases">Fases</a>
+    <a href="#seguranca">Segurança</a>
+    <a href="#pesquisa">O que pesquisar</a>
+    <a href="#mensagem">Mensagem pros Tansos</a>
+  </nav>
+</header>
+
+<section id="alertas">
+  <div class="label">01</div>
+  <h2>Três coisas para resolver antes de escrever código</h2>
+
+  <div class="alert"><b>Os cards da Osler não podem entrar no app.</b> Na conversa surgiu a ideia de "começar por med com os cards que você já tem". Os ~48 mil cards do pipeline são conteúdo pago da Osler: distribuir isso numa plataforma própria fere direito autoral e os termos de uso, e é exatamente o tipo de problema que mata um produto pequeno. O que dá pra usar: cards <b>autorais</b> (os ShadowCards das aulas, por exemplo, desde que não copiem os slides do professor literalmente), cards que o próprio usuário cria ou importa, ou conteúdo feito em parceria com alguém que tenha os direitos.</div>
+
+  <div class="alert warn"><b>O algoritmo é livre; o código do Anki não é "de boa".</b> O SM-2 e o FSRS são públicos e podem ser usados. Já o código do Anki está sob AGPL-3 e o do AnkiDroid sob GPL-3: copiar trechos obriga a abrir o código do app inteiro sob a mesma licença. A saída é usar a biblioteca <code>ts-fsrs</code>, da própria equipe do FSRS (<a href="https://github.com/open-spaced-repetition">open-spaced-repetition</a>), e conferir a licença no repositório antes de adotar.</div>
+
+  <div class="alert warn"><b>Calendário: a prova da transferência é em 01/11.</b> Até lá o projeto deve ficar no modo leve: fazer as entrevistas, montar a lista de espera e decidir o nicho, umas 2 h por semana. Se o seu amigo quiser começar o esqueleto do app nesse período, melhor ainda. O desenvolvimento pesado entra em novembro.</div>
+</section>
+
+<section id="escopo">
+  <div class="label">02</div>
+  <h2>Escopo do protótipo (APK)</h2>
+  <p>O protótipo tem que responder <b>duas perguntas</b>: <i>quem desistiu do Anki, ou nunca tentou, consegue manter revisão diária por duas semanas no nosso app?</i> e <i>as pessoas usam o Modo Consulta sem a gente pedir?</i> Tudo que não ajuda a responder isso fica para depois.</p>
+  <div class="alert good"><b>Core feature: Modo Consulta.</b> Os versos dos cards viram um texto corrido para ler, grifar e anotar, e os grifos reaparecem na revisão. Isso é a fase passiva da conversa; a revisão é a fase ativa. Hoje só a Osler tem algo parecido, preso ao conteúdo dela. Especificação completa em <code>antigravity/docs/MODO_CONSULTA.md</code>.</div>
+  <div class="grid2">
+    <div class="card in">
+      <h3>Entra</h3>
+      <ul>
+        <li><b>Modo Consulta (core):</b> lista de versos com grifo em 5 cores, sublinhado, notas, painel de anotações e busca; os grifos aparecem no verso durante a revisão.</li>
+        <li><b>Onboarding em 3 telas:</b> área (Med / Concursos / Direito / Psico), quanto tempo por dia, data da prova. O app sai disso com um deck de exemplo e a meta diária.</li>
+        <li><b>Decks e cards</b> nos modelos Básico, Básico+invertido e Cloze, com imagem.</li>
+        <li><b>Modelos prontos por área</b> (ex.: "artigo de lei → card", "caso clínico → conduta", "conceito → exemplo").</li>
+        <li><b>Revisão com FSRS</b> via <code>ts-fsrs</code>. Modo simples com 2 botões (Errei/Acertei) e modo avançado com 4.</li>
+        <li><b>Tela "Hoje":</b> cards pendentes, tempo estimado, sequência de dias e heatmap (dá pra reaproveitar a lógica do NoctisStats).</li>
+        <li><b>Importação</b> de CSV e de <code>.apkg</code> simples. Quem já tem baralho no Anki entra sem perder nada.</li>
+        <li><b>Offline:</b> SQLite no aparelho e exportação de backup.</li>
+        <li>Botão de <b>feedback</b> dentro do app.</li>
+      </ul>
+    </div>
+    <div class="card out">
+      <h3>Fica para depois</h3>
+      <ul>
+        <li>Login, nuvem e sincronização</li>
+        <li>Versão web</li>
+        <li>Anúncios e pagamentos</li>
+        <li>Mentoria, cronograma e análise (o premium)</li>
+        <li>Gerar cards com IA dentro do app (por enquanto basta um guia de prompts em texto)</li>
+        <li>Agrupar notas "irmãs" na Consulta e oclusão de imagem</li>
+        <li>iOS (Android é a grande maioria no Brasil, então começar por ele faz sentido)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="alert good"><b>Por que guardar o histórico de revisões desde o 1º dia:</b> com o <i>revlog</i> salvo, dá pra otimizar os pesos do FSRS por usuário mais tarde. A Osler não faz isso (só expõe retenção e intervalo máximo), e esse pode ser um diferencial técnico real.</div>
+</section>
+
+<section id="stack">
+  <div class="label">03</div>
+  <h2>Stack recomendada</h2>
+  <div class="tblwrap"><table class="tbl">
+    <thead><tr><th>Opção</th><th>Prós</th><th>Contras</th></tr></thead>
+    <tbody>
+      <tr class="pick"><td><b>Expo (React Native + TypeScript)</b><br><span class="label">recomendada</span></td><td>Um código só para Android, web e (um dia) iOS. Gera APK pelo EAS Build sem precisar instalar o Android Studio. O <code>ts-fsrs</code> é nativo em TS. O Claude escreve bem nessa stack.</td><td>Testar no aparelho exige o app Expo Go ou um build de desenvolvimento.</td></tr>
+      <tr><td>Flutter</td><td>Interface muito fluida e bom desempenho.</td><td>Dart separa o app da web/TS. Existe pacote FSRS em Dart, mas o ecossistema de exemplos é menor.</td></tr>
+      <tr><td>Web (PWA) + Capacitor</td><td>O caminho mais rápido se a web vier primeiro.</td><td>Parece menos "app", e notificação e offline dão mais trabalho.</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Para a fase da nuvem:</b> Supabase (Postgres + login + regras de acesso por linha), que tem plano gratuito para começar. Isso responde ao "pago um host barato pro banco de dados": dá pra adiar esse custo até ter usuários de verdade.</p>
+  <h3>Modelo de dados mínimo</h3>
+<div class="schema">decks        (id, nome, area, parent_id, criado_em)
+note_types   (id, nome, campos[], template_frente, template_verso, css)
+notes        (id, note_type_id, deck_id, campos{json}, tags[], atualizado_em)
+cards        (id, note_id, ord, due, stability, difficulty, state,
+              reps, lapses, last_review)
+review_logs  (id, card_id, rating, state, due, elapsed_days, reviewed_at)
+settings     (meta_diaria, retencao_desejada, pesos_fsrs, area, data_prova)</div>
+  <p>Todas as tabelas recebem <code>user_id</code> e <code>updated_at</code> desde já, mesmo sem login. Assim a sincronização entra depois sem migração dolorosa.</p>
+</section>
+
+<section id="fases">
+  <div class="label">04</div>
+  <h2>Fases</h2>
+  <div class="card">
+    <div class="phase">
+      <div class="phase-n">Fase 0<small>out → 01/11 · leve</small></div>
+      <div><h3>Validação e decisões</h3>
+        <ul><li>Mandar a mensagem pros Tansos e marcar 10 a 15 conversas curtas (ver roteiro na seção 6).</li>
+        <li>Lista de espera num formulário simples, com a pergunta "qual sua área?".</li>
+        <li>Decidir o <b>nicho de entrada</b>. É um só; os outros vêm depois.</li>
+        <li>Definir com o amigo quem faz o quê e por escrito: percentual, decisões e o que acontece se alguém sair.</li></ul>
+        <div class="done"><b>Pronto quando</b> houver 10+ entrevistas, nicho escolhido, nome provisório e divisão de papéis.</div></div>
+    </div>
+    <div class="phase">
+      <div class="phase-n">Fase 1<small>~2 semanas</small></div>
+      <div><h3>Esqueleto</h3>
+        <ul><li>Projeto Expo, navegação e SQLite local com o modelo de dados acima.</li>
+        <li>Criar, editar e apagar decks e cards. Renderizar Básico e Cloze.</li></ul>
+        <div class="done"><b>Pronto quando</b> der pra criar um deck com 20 cards no celular e eles continuarem lá depois de fechar o app.</div></div>
+    </div>
+    <div class="phase">
+      <div class="phase-n">Fase 2<small>1–2 semanas</small></div>
+      <div><h3>Motor de revisão</h3>
+        <ul><li>Integrar o <code>ts-fsrs</code>, montar a fila do dia (novos + revisões), botão de desfazer e os modos de 2 e 4 botões.</li>
+        <li>Gravar o <code>review_logs</code>.</li></ul>
+        <div class="done"><b>Pronto quando</b> você usar o app por 3 dias com cards seus e os intervalos baterem com os do Anki com os mesmos parâmetros.</div></div>
+    </div>
+    <div class="phase">
+      <div class="phase-n">Fase 3<small>1–2 semanas</small></div>
+      <div><h3>Primeiro uso sem atrito</h3>
+        <ul><li>Onboarding, modelos prontos da área escolhida e deck de exemplo.</li>
+        <li>Importação de CSV e <code>.apkg</code>, tela "Hoje" com heatmap e sequência, e lembrete diário.</li></ul>
+        <div class="done"><b>Pronto quando</b> alguém que nunca viu o app fizer a primeira revisão em menos de 5 minutos, sem ajuda.</div></div>
+    </div>
+    <div class="phase">
+      <div class="phase-n">Fase 4<small>2–3 semanas</small></div>
+      <div><h3>Teste com gente de verdade</h3>
+        <ul><li><b>Caminho rápido:</b> mandar o APK por link e instalar por fora da loja.</li>
+        <li><b>Caminho Play Store:</b> uma conta pessoal nova de desenvolvedor só libera publicação depois de um <a href="https://support.google.com/googleplay/android-developer/answer/14151465">teste fechado com pelo menos 12 testadores por 14 dias seguidos</a>. Os Tansos e amigos cumprem esse requisito e ainda geram o feedback.</li>
+        <li>Coletar métricas mínimas, sem dado pessoal: dias com revisão, cards por dia e onde a pessoa larga.</li></ul>
+        <div class="done"><b>Pronto quando</b> houver 14 dias de uso de 12+ pessoas.</div></div>
+    </div>
+    <div class="phase">
+      <div class="phase-n">Fase 5<small>decisão</small></div>
+      <div><h3>Seguir, ajustar ou largar</h3>
+        <p>Critérios para seguir (definidos <i>antes</i> do teste, pra não se enganar depois):</p>
+        <ul><li>≥ 40% dos testadores revisaram em 10 ou mais dos 14 dias.</li>
+        <li>≥ 40% responderiam "muito decepcionado" se o app sumisse.</li>
+        <li>Pelo menos 3 pessoas perguntam espontaneamente quando sai a versão de verdade.</li></ul>
+        <p>Se passar, os próximos passos são login + nuvem (Supabase), versão web e só então monetização.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="seguranca">
+  <div class="label">05</div>
+  <h2>Segurança (o medo do vibe coding)</h2>
+  <p>Enquanto o app for só offline, o risco é baixo: os dados ficam no aparelho. O risco nasce junto com a nuvem. O checklist para essa fase:</p>
+  <div class="grid2">
+    <div class="card"><ul>
+      <li><b>RLS ligado em todas as tabelas</b> do Supabase, com regra <code>user_id = auth.uid()</code>. Esse é o erro nº 1 de app feito com IA.</li>
+      <li>A chave <code>service_role</code> nunca vai no app. No APK só pode ir a chave pública (anon).</li>
+      <li>Nada de senha própria: usar o login do Supabase (Google e e-mail com link).</li>
+      <li>Segredos em variáveis de ambiente, fora do Git, com <code>.gitignore</code> desde o primeiro commit.</li>
+    </ul></div>
+    <div class="card"><ul>
+      <li>Validar o conteúdo dos cards (HTML) antes de renderizar, para que um deck importado não consiga rodar script.</li>
+      <li>Rodar uma revisão de segurança (<code>/security-review</code>) antes de cada versão que vá para testadores.</li>
+      <li>LGPD: política de privacidade, botão "apagar minha conta" e coletar o mínimo de dados.</li>
+      <li>Backup automático do banco (vem no plano pago do Supabase; até lá, exportação manual).</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="pesquisa">
+  <div class="label">06</div>
+  <h2>Pontos a pesquisar para refinar o negócio</h2>
+  <p><span class="prio p1">P1</span>muda o que o protótipo deve ser · <span class="prio p2">P2</span>muda o modelo de negócio · <span class="prio p3">P3</span>resolver antes de cobrar</p>
+
+  <h3>A. Público e problema</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p1">P1</span>Por que as pessoas largam o Anki? A barreira é configuração, criar cards, constância ou a pilha de revisões que cresce?</p><p class="how">Conversas de 15 min. Pergunte o que a pessoa fez da última vez que tentou, e não "você usaria?". Seu irmão é o entrevistado nº 1.</p></div>
+    <div class="q"><p><span class="prio p1">P1</span>Qual nicho primeiro? Med já tem Osler, Medcof e outros com flashcards; concurso tem um público enorme e menos produto focado em repetição espaçada.</p><p class="how">Compare o tamanho do público, quanto ele já paga por mês em preparação e quão fácil é chegar até ele (onde ele está: Telegram, Instagram, grupos).</p></div>
+    <div class="q"><p><span class="prio p1">P1</span>A pessoa quer fazer os próprios cards ou receber cards prontos? Isso define se o produto é "ferramenta" ou "conteúdo".</p><p class="how">Pergunte nas entrevistas e observe o teste: quem importou, quem criou, quem só usou o deck de exemplo.</p></div>
+  </div>
+
+  <h3>B. Concorrência</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p1">P1</span>Mapear quem já faz isso: Anki/AnkiDroid, Noji (ex-AnkiPro), RemNote, Quizlet, Brainscape, Mochi, e os nacionais (Osler, Medcof, Estratégia, Gran, Qconcursos, TEC). Preço, plataformas, se usam FSRS, se importam <code>.apkg</code>.</p><p class="how">Uma planilha com uma linha por concorrente. Instalar os 3 mais próximos e usar por 2 dias.</p></div>
+    <div class="q"><p><span class="prio p1">P1</span>O que os usuários reclamam nos concorrentes?</p><p class="how">Ler avaliações de 1 a 3 estrelas na Play Store do AnkiDroid e do Noji e no r/Anki. É a lista de funcionalidades de graça.</p></div>
+    <div class="q"><p><span class="prio p2">P2</span>Os cursinhos veem um app paralelo como ameaça ou como parceiro? (ex.: o cursinho distribui o deck dele dentro do app)</p><p class="how">Conversar com 1 ou 2 professores ou criadores de conteúdo de concurso.</p></div>
+  </div>
+
+  <h3>C. Conteúdo e direitos</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p1">P1</span>De onde vem conteúdo legal para cada área? Lei seca é pública, o que ajuda muito em concurso e direito. Em med e psico depende de autoria própria.</p><p class="how">Listar fontes de domínio público (legislação, diretrizes do MS) e possíveis parceiros (monitores, ligas acadêmicas, criadores).</p></div>
+    <div class="q"><p><span class="prio p2">P2</span>Decks compartilhados entre usuários: quem responde se alguém subir material pirateado?</p><p class="how">Ver como o AnkiWeb e o Quizlet tratam isso nos termos de uso (canal de denúncia, remoção).</p></div>
+  </div>
+
+  <h3>D. Monetização</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p2">P2</span>Anúncio em app de estudo vale a pena? Ele quebra o foco da revisão, e o valor por anúncio no Brasil é baixo.</p><p class="how">Estimar a receita com AdMob para 1.000 usuários ativos e comparar com o efeito na retenção. Talvez anúncio só fora da tela de revisão, ou nada.</p></div>
+    <div class="q"><p><span class="prio p2">P2</span>Quanto cobrar no premium e o que exatamente ele inclui?</p><p class="how">Referências: preço do Noji, RemNote e AnkiMobile, e do que concurseiro já paga em plataforma de questões. Em freemium, a conversão costuma ser de poucos por cento, então faça a conta de quantos usuários precisa para pagar o servidor.</p></div>
+    <div class="q"><p><span class="prio p2">P2</span>Mentoria humana não escala. Qual parte vira produto automático (cronograma gerado, análise de desempenho) e qual continua sendo serviço caro de poucas vagas?</p><p class="how">Desenhar as duas opções da conversa ("ensinamos o método" vs. "fazemos por você") como dois planos e testar o interesse nas entrevistas.</p></div>
+    <div class="q"><p><span class="prio p2">P2</span>Taxa da Google: assinatura digital vendida dentro do app tem que usar o <a href="https://play.google.com/about/monetization-ads/payments">faturamento do Google Play</a>, com comissão. Uma mentoria ao vivo pode ser cobrada por fora?</p><p class="how">Ler a política de pagamentos atualizada e o que mudou no Brasil (houve disputa no CADE sobre pagamento alternativo). Vender pela web também é uma opção.</p></div>
+  </div>
+
+  <h3>E. Jurídico e empresa</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p3">P3</span>CNPJ: o MEI cobre desenvolvimento de software e mentoria, ou precisa ser ME no Simples?</p><p class="how">Conferir a lista de ocupações do MEI e falar 20 min com um contador.</p></div>
+    <div class="q"><p><span class="prio p3">P3</span>Acordo de sócios entre amigos: percentual, vesting, quem decide o quê, saída.</p><p class="how">Modelos de memorando de entendimento para startups. Fazer <b>antes</b> de ter receita.</p></div>
+    <div class="q"><p><span class="prio p3">P3</span>LGPD (dados de estudo, possíveis usuários menores de idade), termos de uso e política de privacidade (a Play Store exige).</p><p class="how">Começar com um gerador de política e revisar quando houver receita.</p></div>
+    <div class="q"><p><span class="prio p3">P3</span>O nome está livre?</p><p class="how">Busca no INPI, disponibilidade de domínio .com.br e @ no Instagram.</p></div>
+  </div>
+
+  <h3>F. Distribuição e custos</h3>
+  <div class="card">
+    <div class="q"><p><span class="prio p2">P2</span>Como o usuário chega até o app? Conteúdo no Instagram e TikTok de estudo, grupos de concurso, ligas acadêmicas, indicação com recompensa.</p><p class="how">Ver como o Noji e os perfis de "studygram" crescem. Testar um post de antes/depois com o protótipo.</p></div>
+    <div class="q"><p><span class="prio p3">P3</span>Quanto custa servir 100, 1.000 e 10.000 usuários (banco, armazenamento de imagens, eventual IA)?</p><p class="how">Calculadora de preços do Supabase e do Expo EAS. Imagem de card é o que pesa no armazenamento.</p></div>
+  </div>
+
+  <h3>Roteiro rápido de entrevista (15 min)</h3>
+  <ol>
+    <li>Pra que você estuda hoje e quanto tempo por dia?</li>
+    <li>Como você revisa o que já estudou? Me mostra.</li>
+    <li>Já usou Anki ou outro app de flashcard? Me conta da última vez: o que aconteceu?</li>
+    <li>O que fez você parar (ou continuar)?</li>
+    <li>Você paga por alguma ferramenta de estudo hoje? Quanto?</li>
+    <li>Se existisse X, o que teria que ter pra você trocar? <i>(só no final, pra não enviesar)</i></li>
+  </ol>
+</section>
+
+<section id="mensagem">
+  <div class="label">07</div>
+  <h2>Mensagem para o grupo "Tansos"</h2>
+  <p>Já está com a formatação do WhatsApp (<code>*negrito*</code>). Troque <b>[nome]</b> pelo nome do seu amigo. O texto também está em <code>mensagem_tansos.txt</code> nesta pasta.</p>
+<pre class="msg" id="msg">Fala, Tansos! 👋
+Eu e o [nome] tivemos uma ideia e queria ouvir vocês (e talvez recrutar umas cobaias 😅).
+
+*A ideia:* um app de flashcards com repetição espaçada, tipo o Anki, só que simples, bonito e pronto pra usar. Sem configurar modelo, instalar add-on ou montar baralho do zero.
+
+*Por quê:* o Anki funciona muito, mas tem uma barreira de entrada. Muita gente desiste antes de pegar o jeito: é configuração, é montar os cards, é manter a constância. E a ideia não é competir com cursinho. É ser o app que a pessoa usa *junto* com o cursinho.
+
+*Como seria:*
+• Áreas separadas: medicina, concursos, direito, psicologia…
+• Modelos de card prontos pra cada área + um guia de como estudar (fase passiva e ativa, como montar a agenda, prompts de IA que geram cards bons)
+• O mesmo algoritmo de revisão do Anki (FSRS, que é aberto)
+• Funciona offline no celular; depois vem a versão web com sincronização
+• Grátis no básico; no plano pago, análise do seu estudo, cronograma e mentoria
+
+*Primeiro passo:* um protótipo pra Android (APK) só com o essencial: criar/importar cards e revisar todo dia. A ideia é testar se fica mais fácil de manter do que o Anki.
+
+O que eu queria de vocês:
+1️⃣ Sinceridade: vocês usariam? Já desistiram do Anki ou nunca tentaram? Por quê?
+2️⃣ Quem topa testar o APK por umas 2 semanas quando ficar pronto? (o Google exige 12 testadores pra liberar o app na Play Store, então cada um conta 🙏)
+3️⃣ Se conhecerem alguém que estuda pra concurso, direito ou psico, me passem o contato. Quero conversar com uns 10 a 15 pra entender o que trava.</pre>
+  <button class="btn" id="copy">Copiar mensagem</button>
+</section>
+
+<footer>Baseado na conversa de 06/10/2026. Regras da Play Store conferidas em 06/10/2026: <a href="https://support.google.com/googleplay/android-developer/answer/14151465">teste fechado para contas pessoais novas</a> e <a href="https://play.google.com/about/monetization-ads/payments">política de pagamentos</a>.</footer>
+</div>
+<script>
+document.getElementById('copy').addEventListener('click',async e=>{
+  const t=document.getElementById('msg').innerText;
+  try{await navigator.clipboard.writeText(t);e.target.textContent='Copiado ✓'}
+  catch(_){const r=document.createRange();r.selectNodeContents(document.getElementById('msg'));const s=getSelection();s.removeAllRanges();s.addRange(r);e.target.textContent='Selecionado — Ctrl+C'}
+  setTimeout(()=>e.target.textContent='Copiar mensagem',2000);
+});
+</script>
+</body>
+</html>

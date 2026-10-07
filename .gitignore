@@ -1,0 +1,11 @@
+node_modules/
+.expo/
+dist/
+build/
+npm-debug.*
+*.log
+*.tsbuildinfo
+.DS_Store
+coverage/
+*.apk
+*.aab

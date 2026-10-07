@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Folio",
+    "slug": "folio",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "folio",
+    "userInterfaceStyle": "automatic",
+    "android": {
+      "package": "com.folio.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#031417",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      }
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "avicena",
+  "type": "standard",
+  "fields": [
+    "question",
+    "answer",
+    "reference"
+  ],
+  "templates": [
+    "Card 1"
+  ]
+}

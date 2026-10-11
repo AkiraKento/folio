@@ -1,0 +1,190 @@
+{
+  "deck": {
+    "id": "00000000-0000-4000-b000-000000000002",
+    "name": "Concursos::Direito Constitucional",
+    "area": "Concursos",
+    "description": "[EXEMPLO] Deck autoral introdutório com 20 notas sobre Princípios Fundamentais e Direitos e Garantias Individuais (CF/88)."
+  },
+  "notes": [
+    {
+      "id": "00000000-0000-4000-c000-000000000101",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os cinco fundamentos da República Federativa do Brasil expressos no artigo 1º da CF/88?",
+        "Verso": "[EXEMPLO] 1. Soberania<br>2. Cidadania<br>3. Dignidade da pessoa humana<br>4. Valores sociais do trabalho e da livre iniciativa<br>5. Pluralismo político<br><i>(Mnemônico clássico: SO-CI-DI-VA-PLU)</i>."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "artigo1", "fundamentos"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000102",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a diferença entre os fundamentos da República (art. 1º) e os objetivos fundamentais (art. 3º)?",
+        "Verso": "[EXEMPLO] Os <b>fundamentos</b> representam os pilares estruturais e axiológicos existentes do Estado (SO-CI-DI-VA-PLU). Já os <b>objetivos fundamentais</b> são metas programáticas a serem alcançadas pelo Estado, identificados por verbos no infinitivo (construir, garantir, erradicar, promover)."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "fundamentos", "objetivos"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000103",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que estabelece o princípio da legalidade estrita aplicável à Administração Pública (art. 37, caput)?",
+        "Verso": "[EXEMPLO] O particular pode fazer tudo o que a lei não proíbe (legalidade ampla, art. 5º, II). A Administração Pública, por sua vez, só pode agir quando houver expressa autorização ou determinação em lei (legalidade estrita)."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "legalidade", "administracao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000104",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Em quais hipóteses excepcionais é permitida a entrada em domicílio sem consentimento do morador durante a noite?",
+        "Verso": "[EXEMPLO] Durante a noite (e também de dia), é permitida a entrada apenas em caso de:<br>1. Flagrante delito;<br>2. Desastre;<br>3. Para prestar socorro.<br><i>A determinação judicial só pode ser cumprida durante o dia.</i>"
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "domicilio", "inviolabilidade"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000105",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os requisitos constitucionais para a interceptação de comunicações telefônicas?",
+        "Verso": "[EXEMPLO] 1. Ordem judicial devidamente fundamentada;<br>2. Nas hipóteses e na forma que a lei estabelecer;<br>3. Para fins de investigação criminal ou instrução processual penal.<br><i>É vedada a interceptação em matéria cível ou administrativa.</i>"
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "sigilo", "telefonia"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000106",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é o cabimento constitucional do remédio Habeas Data (art. 5º, LXXII)?",
+        "Verso": "[EXEMPLO] O Habeas Data serve para:<br>a) Assegurar o conhecimento de informações relativas à pessoa do impetrante, constantes de registros de entidades governamentais ou de caráter público;<br>b) Retificação de dados, quando não se prefira fazê-lo por processo sigiloso."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "habeas-data", "remedios"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000107",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quem possui legitimidade ativa para impetrar Mandado de Segurança Coletivo (art. 5º, LXX)?",
+        "Verso": "[EXEMPLO] 1. Partido político com representação no Congresso Nacional;<br>2. Organização sindical, entidade de classe ou associação legalmente constituída e em funcionamento há pelo menos um ano, em defesa dos interesses de seus membros ou associados."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "mandado-de-seguranca", "legitimidade"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000108",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a finalidade precípua do Mandado de Injunção (art. 5º, LXXI)?",
+        "Verso": "[EXEMPLO] Conceder-se-á Mandado de Injunção sempre que a falta de norma regulamentadora torne inviável o exercício dos direitos e liberdades constitucionais e das prerrogativas inerentes à nacionalidade, à soberania e à cidadania."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "mandado-de-injuncao", "omissao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000109",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quem é parte legítima para propor Ação Popular (art. 5º, LXXIII) e qual é seu objeto?",
+        "Verso": "[EXEMPLO] Qualquer <b>cidadão</b> (aquele em pleno gozo dos direitos políticos). O objeto é anular ato lesivo ao patrimônio público ou de entidade de que o Estado participe, à moralidade administrativa, ao meio ambiente e ao patrimônio histórico e cultural."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "acao-popular", "cidadao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000110",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os crimes considerados inafiançáveis e imprescritíveis pela CF/88?",
+        "Verso": "[EXEMPLO] 1. A prática do <b>racismo</b> (sujeito à pena de reclusão);<br>2. A ação de <b>grupos armados</b>, civis ou militares, contra a ordem constitucional e o Estado Democrático."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "crimes", "imprescritibilidade"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000111",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A criação de associações e, na forma da lei, a de cooperativas {{c1::independem de autorização}}, sendo {{c2::vedada}} a interferência estatal em seu funcionamento.",
+        "Verso extra": "Art. 5º, XVIII, CF/88. A criação independe de autorização do Poder Público."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "associacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000112",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] As associações só poderão ser compulsoriamente dissolvidas ou ter suas atividades suspensas por {{c1::decisão judicial}}, exigindo-se, no caso de dissolução compulsória, o {{c2::trânsito em julgado}}.",
+        "Verso extra": "Art. 5º, XIX, CF/88. Para suspensão basta decisão judicial; para dissolução compulsória exige-se trânsito em julgado."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "associacao", "dissolucao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000113",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] No caso de iminente perigo público, a autoridade competente poderá usar de propriedade particular, assegurada ao proprietário indenização ulterior, {{c1::se houver dano}} (requisição administrativa).",
+        "Verso extra": "Art. 5º, XXV, CF/88. A indenização na requisição administrativa é ulterior e apenas condicional à existência de dano."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "requisicao", "propriedade", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000114",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A desapropriação por necessidade ou utilidade pública, ou por interesse social, dar-se-á mediante {{c1::justa e prévia indenização em dinheiro}}, ressalvados os casos constitucionais de títulos da dívida pública.",
+        "Verso extra": "Art. 5º, XXIV, CF/88. Regra geral: prévia, justa e em dinheiro."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "desapropriacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000115",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A lei penal {{c1::não retroagirá}}, salvo para {{c2::beneficiar o réu}} (princípio da retroatividade benigna).",
+        "Verso extra": "Art. 5º, XL, CF/88. A retroatividade só ocorre in bonam partem."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "penal", "retroatividade", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000116",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] São gratuitas as ações de {{c1::habeas corpus}} e {{c2::habeas data}}, e, na forma da lei, os atos necessários ao exercício da cidadania.",
+        "Verso extra": "Art. 5º, LXXVII, CF/88. Mandado de segurança não é gratuito por previsão constitucional direta."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "gratuidade", "remedios", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000117",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Os crimes de tortura, tráfico ilícito de entorpecentes, terrorismo e os hediondos são inafiançáveis e {{c1::insuscetíveis de graça ou anistia}}, respondendo os mandantes, os executores e os que, podendo evitá-los, se omitirem.",
+        "Verso extra": "Art. 5º, XLIII, CF/88 (regra 3T + Hediondos: inafiançáveis e sem graça/anistia, mas prescritíveis)."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "hediondos", "graca", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000118",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Ninguém será preso senão em flagrante delito ou por {{c1::ordem escrita e fundamentada de autoridade judiciária competente}}, salvo nos casos de {{c2::transgressão militar}} ou crime propriamente militar definidos em lei.",
+        "Verso extra": "Art. 5º, LXI, CF/88. Reserva de jurisdição para decretação de prisão."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "prisao", "flagrante", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000119",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A prisão de qualquer pessoa e o local onde se encontre serão comunicados {{c1::imediatamente}} ao juiz competente e à família do preso ou à pessoa por ele indicada.",
+        "Verso extra": "Art. 5º, LXII, CF/88. A comunicação deve ser imediata."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "prisao", "comunicacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000120",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] As normas definidoras dos direitos e garantias fundamentais têm aplicação {{c1::imediata}}.",
+        "Verso extra": "Art. 5º, § 1º, CF/88. Princípio da aplicabilidade imediata das normas definidoras de direitos fundamentais."
+      },
+      "tags": ["[EXEMPLO]", "concursos", "constitucional", "aplicabilidade", "cloze"]
+    }
+  ]
+}

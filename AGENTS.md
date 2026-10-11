@@ -1,11 +1,12 @@
-# AGENTS.md — Folio (nome provisório)
+# AGENTS.md — Weiss
 
 App Android de flashcards com repetição espaçada (FSRS) cujo diferencial é o **Modo Consulta**: os versos dos cards viram um texto corrido que a pessoa lê, grifa, sublinha e anota, e esses grifos reaparecem na revisão. Público: estudantes de medicina, concursos, direito e psicologia que acham o Anki difícil.
 
 Antes de qualquer tarefa, leia:
 1. `docs/PRD.md`: o produto, as telas e o modelo de dados.
 2. `docs/MODO_CONSULTA.md`: a especificação da funcionalidade central. **Leia inteira antes de mexer em renderização de card, anotação ou revisão.**
-3. `docs/ROADMAP.md`: a lista de tarefas, em ordem. Trabalhe sempre na primeira tarefa não marcada.
+3. `docs/PASSO_A_PASSO_REVIEWER_ANKI.md`: como renderizar os cards igual ao Anki. **Leia antes de mexer em `src/webview/card`, `src/render` ou na tela de revisão.**
+4. `docs/ROADMAP.md`: a lista de tarefas, em ordem. Trabalhe sempre na primeira tarefa não marcada.
 
 ## Stack (não trocar sem perguntar)
 
@@ -58,10 +59,10 @@ O código de `src/webview/` é empacotado com **esbuild** num HTML/JS estático 
 
 ## Regras que não podem ser quebradas
 
-- **Conteúdo:** nunca incluir, gerar a partir de, nem importar em lote cards de cursos ou plataformas comerciais (Osler, Medcof, Estratégia etc.). Os decks de exemplo são autorais e curtos; quando não houver conteúdo, use placeholders marcados com `[EXEMPLO]`.
+- **Conteúdo (uso pessoal):** por enquanto o Weiss é usado só pelo Akira, que importa os próprios decks, inclusive os da Osler. Isso é permitido no aparelho dele e em testes locais. Mas: nenhum `.apkg` ou conteúdo de terceiros entra no git (o `.gitignore` já cobre `*.apkg`), no APK, nos decks de exemplo ou em fixtures versionadas. Fixtures de teste são sintéticas (ver `docs/referencia/modelos/*/exemplo.json`). Os decks de exemplo continuam autorais, marcados com `[EXEMPLO]`. **Se o app for distribuído a outras pessoas, esta regra precisa ser revista antes.**
 - **Licença:** não copiar código do Anki (AGPL) nem do AnkiDroid (GPL). O formato `.apkg` pode ser lido, porque é um formato de arquivo. O algoritmo vem do `ts-fsrs`.
 - **Anotações nunca são gravadas nos campos do card.** Elas vivem na tabela `annotations` e são ancoradas pelo texto (ver `MODO_CONSULTA.md`).
-- **Segurança:** HTML de card sempre passa pelo DOMPurify antes de ir para o DOM; `<script>`, `<style>` externo, `on*=` e `javascript:` são removidos. A WebView roda com `originWhitelist` restrito e sem acesso a arquivos fora da pasta de mídia do app.
+- **Segurança:** o HTML dos **campos** das notas sempre passa pelo DOMPurify antes de entrar no template; `<script>`, `on*=` e `javascript:` são removidos dos campos. Os `<script>` do **template** do modelo rodam (os modelos são do próprio usuário), com o interruptor Ajustes → "Executar scripts dos modelos" e as regras de `docs/PASSO_A_PASSO_REVIEWER_ANKI.md` (shims, bloqueio de rede, erros no log). A WebView roda com `originWhitelist` restrito, `baseUrl` na pasta de mídia e sem acesso a arquivos fora dela. Nenhuma requisição de rede sai de dentro de um card.
 - **Sem segredos no repositório.** O MVP não tem backend. Quando entrar o Supabase (fora do MVP): RLS ligado em todas as tabelas, só a chave `anon` no app, nunca a `service_role`.
 - **Privacidade:** nenhum SDK de analytics ou de anúncio no MVP. Nada sai do aparelho.
 - **Dados do usuário são sagrados:** toda migration tem teste de ida sobre um banco com dados. Nunca apagar tabela ou coluna com dados sem migração de cópia.

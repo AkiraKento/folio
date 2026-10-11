@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 
 export type ThemeMode = 'system' | 'light' | 'dark';
@@ -89,15 +89,37 @@ export const darkAnnotationColors: Record<AnnotationColorName, AnnotationColorTo
   },
 };
 
+let currentGlobalThemeMode: ThemeMode = 'system';
+const themeListeners = new Set<(mode: ThemeMode) => void>();
+
+export function setAppThemeMode(mode: ThemeMode): void {
+  currentGlobalThemeMode = mode;
+  themeListeners.forEach((fn) => fn(mode));
+}
+
+export function getAppThemeMode(): ThemeMode {
+  return currentGlobalThemeMode;
+}
+
 /**
  * Hook para obter o tema atual (claro/escuro) respeitando o sistema
  * ou a preferência selecionada pelo usuário.
  */
 export function useTheme(overrideMode?: ThemeMode) {
   const systemColorScheme = useColorScheme();
-  const [userMode] = useState<ThemeMode>(overrideMode ?? 'system');
+  const [globalMode, setGlobalMode] = useState<ThemeMode>(currentGlobalThemeMode);
 
-  const activeMode = overrideMode ?? userMode;
+  useEffect(() => {
+    const listener = (newMode: ThemeMode) => {
+      setGlobalMode(newMode);
+    };
+    themeListeners.add(listener);
+    return () => {
+      themeListeners.delete(listener);
+    };
+  }, []);
+
+  const activeMode = overrideMode ?? globalMode;
   const isDark = activeMode === 'system' ? systemColorScheme === 'dark' : activeMode === 'dark';
 
   const tokens = isDark ? darkTheme : lightTheme;
@@ -108,5 +130,6 @@ export function useTheme(overrideMode?: ThemeMode) {
     annotationColors: annotationTokens,
     isDark,
     mode: activeMode,
+    setThemeMode: setAppThemeMode,
   };
 }

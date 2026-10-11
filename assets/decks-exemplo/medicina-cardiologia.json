@@ -1,0 +1,190 @@
+{
+  "deck": {
+    "id": "00000000-0000-4000-b000-000000000001",
+    "name": "Medicina::Cardiologia",
+    "area": "Medicina",
+    "description": "[EXEMPLO] Deck autoral introdutório com 20 notas sobre Fisiologia Cardiovascular e Insuficiência Cardíaca."
+  },
+  "notes": [
+    {
+      "id": "00000000-0000-4000-c000-000000000001",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a definição clínica de Insuficiência Cardíaca (IC)?",
+        "Verso": "[EXEMPLO] Síndrome clínica complexa caracterizada por sintomas típicos (como dispneia, ortopneia e fadiga) e sinais de congestão ou hipoperfusão, decorrentes de uma anormalidade estrutural ou funcional do enchimento ou da ejeção ventricular."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "ic", "definicao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000002",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que caracteriza a Insuficiência Cardíaca com Fração de Ejeção Reduzida (ICFEr)?",
+        "Verso": "[EXEMPLO] Fração de ejeção do ventrículo esquerdo (FEVE) ≤ 40%, associada a sintomas e sinais de insuficiência cardíaca."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "icfer", "classificacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000003",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os quatro pilares farmacológicos com benefício comprovado de sobrevida na ICFEr?",
+        "Verso": "[EXEMPLO] 1. Inibidores do SRAA (preferencialmente INRA/sacubitril-valsartana, ou IECA/BRA)<br>2. Betabloqueadores cardiosseletivos (carvedilol, succinato de metoprolol ou bisoprolol)<br>3. Antagonistas do receptor mineralocorticoide (espironolactona)<br>4. Inibidores do cotransportador SGLT2 (dapagliflozina ou empagliflozina)."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "icfer", "farmacologia", "pilares"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000004",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é o principal papel dos diuréticos de alça (ex.: furosemida) no manejo da IC?",
+        "Verso": "[EXEMPLO] Promover alívio rápido da congestão venocapilar e dos edemas periféricos pelo bloqueio do carreador Na-K-2Cl na alça de Henle. Devem ser usados na menor dose necessária para manter a euvolemia."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "farmacologia", "diureticos"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000005",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que representa a onda P no traçado do eletrocardiograma (ECG)?",
+        "Verso": "[EXEMPLO] A despolarização elétrica de ambos os átrios. A primeira porção reflete o átrio direito e a segunda porção reflete o átrio esquerdo."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "ecg", "fisiologia"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000006",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que representa o complexo QRS e qual a sua duração normal?",
+        "Verso": "[EXEMPLO] Representa a despolarização dos ventrículos. Sua duração normal em adultos é inferior a 120 ms (menos de 3 pequenos quadrados no papel padrão a 25 mm/s)."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "ecg", "qrs"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000007",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual a distinção fisiológica entre pré-carga e pós-carga cardíaca?",
+        "Verso": "[EXEMPLO] <strong>Pré-carga:</strong> tensão na parede do ventrículo ao final da diástole (determinada pelo volume diastólico final e retorno venoso).<br><strong>Pós-carga:</strong> resistência que o ventrículo precisa vencer para ejetar o sangue (tensão parietal durante a ejeção sistólica)."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "fisiologia", "hemodinamica"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000008",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que preconiza a Lei de Frank-Starling?",
+        "Verso": "[EXEMPLO] A força e o volume sistólico de ejeção do miocárdio aumentam em resposta ao aumento do volume diastólico final (maior estiramento das miofibrilas antes da contração), até atingir um platô fisiológico."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "fisiologia", "mecanismo"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000009",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual a principal utilidade clínica da dosagem dos peptídeos natriuréticos (BNP ou NT-proBNP) na sala de emergência?",
+        "Verso": "[EXEMPLO] Destacam-se pelo alto <em>valor preditivo negativo</em>: valores baixos afastam com alta segurança o diagnóstico de insuficiência cardíaca descompensada como causa de dispneia aguda."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "biomarcadores", "emergencia"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000010",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os eventos mecânicos que compreendem a sístole ventricular no ciclo cardíaco?",
+        "Verso": "[EXEMPLO] 1. Contração isovolumétrica (todas as valvas fechadas, elevação abrupta da pressão ventricular sem variação de volume).<br>2. Fase de ejeção rápida (abertura das valvas aórtica e pulmonar).<br>3. Fase de ejeção lenta ou reduzida."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "fisiologia", "ciclo-cardiaco"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000011",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Na ausculta cardíaca normal, a primeira bulha (B1) coincide com o fechamento das valvas {{c1::mitral e tricúspide}}, enquanto a segunda bulha (B2) corresponde ao fechamento das valvas {{c2::aórtica e pulmonar}}.",
+        "Verso extra": "[EXEMPLO] B1 marca o início da sístole ventricular e B2 marca o término da sístole (início da diástole)."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "semiologia", "bulhas"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000012",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A terceira bulha cardíaca (B3) surge no início da diástole devido ao impacto do fluxo sanguíneo em um ventrículo com complacência reduzida, indicando {{c1::sobrecarga de volume ventricular}} na {{c2::ICFEr descompensada}}.",
+        "Verso extra": "[EXEMPLO] O ritmo gerado por B3 na presença de taquicardia é conhecido como ritmo de galope ventricular."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "semiologia", "b3"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000013",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Os três betabloqueadores recomendados com redução comprovada de mortalidade na ICFEr são: {{c1::carvedilol}}, {{c2::succinato de metoprolol}} e {{c3::bisoprolol}}.",
+        "Verso extra": "[EXEMPLO] Devem ser iniciados em doses baixas com o paciente previamente euvolêmico e titulados gradualmente a cada 2 a 4 semanas."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "farmacologia", "betabloqueadores"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000014",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] No complexo INRA, o sacubitril é uma pró-droga que inibe a enzima {{c1::neprilisina}}, aumentando os níveis séricos de {{c2::peptídeos natriuréticos}} e bradicinina.",
+        "Verso extra": "[EXEMPLO] Pelo risco de angioedema decorrente da inibição simultânea da degradação de bradicinina, exige intervalo de 36 horas após a última dose de IECA antes da primeira dose."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "farmacologia", "inra"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000015",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Os inibidores do cotransportador SGLT2 (dapagliflozina e empagliflozina) reduzem hospitalizações e mortalidade na IC através da promoção de {{c1::glicosúria e natriurese}}, melhora da bioenergética miocárdica e redução da {{c2::pressão de enchimento ventricular}}.",
+        "Verso extra": "[EXEMPLO] Esse benefício independe da presença de diabetes mellitus."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "farmacologia", "sglt2"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000016",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] No eletrocardiograma, a duração do intervalo PR fisiológico varia de {{c1::120 ms}} a {{c2::200 ms}}, refletindo o tempo de condução atrioventricular.",
+        "Verso extra": "[EXEMPLO] Intervalo PR prolongado (> 200 ms) define bloqueio atrioventricular de primeiro grau (BAV 1º grau)."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "ecg", "intervalo-pr"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000017",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] No traçado do ECG, a onda T expressa o fenômeno bioelétrico de {{c1::repolarização ventricular}} e habitualmente apresenta concordância de polaridade com o complexo QRS.",
+        "Verso extra": "[EXEMPLO] Ondas T simétricas e pontiagudas podem ser manifestação precoce de hipercalemia."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "ecg", "onda-t"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000018",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A espironolactona age bloqueando os receptores de {{c1::aldosterona}} nas células principais dos túbulos coletores renais, inibindo a fibrose miocárdica e prevenindo a perda de {{c2::potássio}}.",
+        "Verso extra": "[EXEMPLO] O monitoramento periódico da função renal e do potássio sérico é mandatório para evitar hipercalemia grave."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "farmacologia", "espironolactona"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000019",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A ativação neuro-humoral mantida na IC envolve a estimulação do sistema simpático e do {{c1::sistema renina-angiotensina-aldosterona}}, culminando em vasoconstrição crônica e {{c2::remodelamento miocárdico adverso}}.",
+        "Verso extra": "[EXEMPLO] Os pilares farmacológicos visam exatamente bloquear essas vias neuro-hormonais desadaptativas."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "fisiopatologia", "sraa"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000020",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O relaxamento isovolumétrico ventricular inicia-se imediatamente com o fechamento da {{c1::valva aórtica}} e termina com a abertura da {{c2::valva mitral}}.",
+        "Verso extra": "[EXEMPLO] Durante esse período do ciclo cardíaco, todas as valvas estão fechadas e a pressão intraventricular declina rapidamente sem alteração de volume."
+      },
+      "tags": ["[EXEMPLO]", "medicina", "cardiologia", "fisiologia", "diastole"]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-# PRD — Folio (nome provisório)
+# PRD — Weiss
 
 Versão 0.1 · 06/10/2026 · escopo: protótipo Android (APK) para teste fechado
 

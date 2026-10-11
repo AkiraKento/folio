@@ -18,7 +18,7 @@ if (!fs.existsSync(distHtmlDir)) {
   fs.mkdirSync(distHtmlDir, { recursive: true });
 }
 
-async function buildEntry(entryName, entryPath, title = 'Folio WebView') {
+async function buildEntry(entryName, entryPath, title = 'Weiss WebView') {
   if (!fs.existsSync(entryPath)) {
     console.log(`Pular ${entryName}: arquivo ${entryPath} ainda não existe.`);
     return;
@@ -67,20 +67,22 @@ ${jsCode}
 
   // Salva o módulo TypeScript exportando o HTML como string para o React Native
   const tsModulePath = path.join(outputDir, `${entryName}.html.ts`);
+  const tsDirectModulePath = path.join(outputDir, `${entryName}.ts`);
   const escapedHtml = JSON.stringify(html);
   const tsContent = `// Gerado automaticamente por scripts/build-webview.mjs - NÃO EDITAR MANUALMENTE
 export const ${entryName}Html: string = ${escapedHtml};
 `;
   fs.writeFileSync(tsModulePath, tsContent, 'utf-8');
+  fs.writeFileSync(tsDirectModulePath, tsContent, 'utf-8');
 
   console.log(`✓ Webview '${entryName}' compilado com sucesso.`);
 }
 
 async function main() {
   console.log('Iniciando compilação dos módulos WebView...');
-  await buildEntry('hello', path.join(webviewSrcDir, 'hello.ts'), 'Folio - Olá Mundo');
-  await buildEntry('card', path.join(webviewSrcDir, 'card', 'index.ts'), 'Folio - Card');
-  await buildEntry('consulta', path.join(webviewSrcDir, 'consulta', 'index.ts'), 'Folio - Consulta');
+  await buildEntry('hello', path.join(webviewSrcDir, 'hello.ts'), 'Weiss - Olá Mundo');
+  await buildEntry('card', path.join(webviewSrcDir, 'card', 'index.ts'), 'Weiss - Card');
+  await buildEntry('consulta', path.join(webviewSrcDir, 'consulta', 'index.ts'), 'Weiss - Consulta');
   console.log('Compilação WebView concluída.');
 }
 

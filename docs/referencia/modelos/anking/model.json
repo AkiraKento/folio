@@ -1,0 +1,14 @@
+{
+  "name": "AnKing",
+  "type": "cloze",
+  "fields": [
+    "Text",
+    "Extra",
+    "Personal Notes",
+    "Missed Questions",
+    "One by one"
+  ],
+  "templates": [
+    "Cloze"
+  ]
+}

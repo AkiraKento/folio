@@ -1,0 +1,190 @@
+{
+  "deck": {
+    "id": "00000000-0000-4000-b000-000000000003",
+    "name": "Direito::Direito Civil",
+    "area": "Direito",
+    "description": "[EXEMPLO] Deck autoral introdutório com 20 notas sobre Teoria Geral do Direito Civil, Pessoas, Bens e Negócio Jurídico (CC/02)."
+  },
+  "notes": [
+    {
+      "id": "00000000-0000-4000-c000-000000000201",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quando tem início a personalidade civil da pessoa natural e qual é a proteção legal conferida ao nascituro (art. 2º do CC)?",
+        "Verso": "[EXEMPLO] A personalidade civil começa com o <b>nascimento com vida</b>. No entanto, a lei põe a salvo, desde a <b>concepção</b>, os direitos do nascituro (teoria concepcionista adotada pela jurisprudência para direitos da personalidade)."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "personalidade", "nascituro"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000202",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quem são os absolutamente incapazes de exercer pessoalmente os atos da vida civil segundo o Código Civil (após o Estatuto da Pessoa com Deficiência)?",
+        "Verso": "[EXEMPLO] Apenas os <b>menores de 16 (dezesseis) anos</b> são absolutamente incapazes (art. 3º do CC). As pessoas com deficiência não são mais consideradas incapazes por essa condição."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "incapacidade", "absoluta"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000203",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são as hipóteses legais de cessação da incapacidade civil por emancipação voluntária e legal (art. 5º, parágrafo único)?",
+        "Verso": "[EXEMPLO] 1. Concessão dos pais (ou de um deles na falta do outro), mediante instrumento público, se o menor tiver 16 anos completos;<br>2. Casamento;<br>3. Exercício de emprego público efetivo;<br>4. Colação de grau em ensino superior;<br>5. Economia própria por estabelecimento civil/comercial ou relação de emprego."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "emancipacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000204",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é comoriência (art. 8º do CC) e qual é a sua consequência sucessória direta?",
+        "Verso": "[EXEMPLO] Ocorre quando dois ou mais indivíduos falecem na mesma ocasião, não se podendo averiguar se algum dos comorientes precedeu aos outros. Presume-se que a morte foi simultânea, de modo que <b>não há transmissão sucessória de direitos hereditários entre eles</b>."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "comoriencia", "sucessoes"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000205",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os requisitos de validade do negócio jurídico estabelecidos no artigo 104 do Código Civil?",
+        "Verso": "[EXEMPLO] 1. <b>Agente capaz</b>;<br>2. <b>Objeto lícito, possível, determinado ou determinável</b>;<br>3. <b>Forma prescrita ou não defesa em lei</b>.<br><i>(Escada Ponteana: plano da validade)</i>."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "negocio-juridico", "validade"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000206",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a diferença fundamental entre condição suspensiva e condição resolutiva no negócio jurídico?",
+        "Verso": "[EXEMPLO] A <b>condição suspensiva</b> subordina o início da eficácia do negócio a evento futuro e incerto (enquanto não se realizar, não se adquire o direito). A <b>condição resolutiva</b> extingue a eficácia do negócio quando o evento futuro e incerto ocorrer."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "condicao", "eficacia"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000207",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que caracteriza o vício do negócio jurídico denominado 'Lesão' (art. 157 do CC)?",
+        "Verso": "[EXEMPLO] Ocorre quando uma pessoa, sob <b>premente necessidade</b> ou por <b>inexperiência</b>, se obriga a prestação manifestamente desproporcional ao valor da prestação oposta. Diferencia-se do estado de perigo por não exigir risco à vida ou integridade física."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "vicios-consentimento", "lesao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000208",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a distinção no plano temporal entre a nulidade absoluta e a nulidade relativa (anulabilidade)?",
+        "Verso": "[EXEMPLO] O negócio <b>nulo</b> não se convalida pelo decurso do tempo nem é suscetível de confirmação (não prescreve a ação declaratória de nulidade, art. 169). O negócio <b>anulável</b> é passível de confirmação e convalidação caso não seja impugnado no prazo decadencial legal (art. 178)."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "nulidade", "anulabilidade"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000209",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que são benfeitorias necessárias, úteis e voluptuárias (art. 96 do CC)?",
+        "Verso": "[EXEMPLO] 1. <b>Necessárias</b>: têm por fim conservar o bem ou evitar que se deteriore;<br>2. <b>Úteis</b>: aumentam ou facilitam o uso do bem;<br>3. <b>Voluptuárias</b>: de mero deleite ou recreio, que não aumentam o uso habitual da coisa."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "bens", "benfeitorias"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000210",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a regra geral de distinção entre prescrição e decadência?",
+        "Verso": "[EXEMPLO] A <b>prescrição</b> extingue a pretensão executória ou condenatória decorrente da violação de um direito subjetivo (art. 189). A <b>decadência</b> extingue o próprio direito potestativo pelo não exercício no prazo legal ou convencional."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "prescricao", "decadencia"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000211",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Salvo disposição especial em contrário, a lei começa a vigorar em todo o país {{c1::quarenta e cinco dias}} depois de oficialmente publicada (vacatio legis da LINDB).",
+        "Verso extra": "Art. 1º, caput, da LINDB (Decreto-Lei nº 4.657/1942). No exterior são 3 meses."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "lindb", "vacatio-legis", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000212",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Os direitos da personalidade são {{c1::intransmissíveis}} e {{c2::irrenunciáveis}}, não podendo o seu exercício sofrer limitação voluntária, salvo os casos previstos em lei.",
+        "Verso extra": "Art. 11 do Código Civil. Caracteres típicos dos direitos da personalidade."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "personalidade", "direitos", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000213",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Considera-se condição a cláusula que, derivando exclusivamente da vontade das partes, subordina o efeito do negócio jurídico a {{c1::evento futuro e incerto}}.",
+        "Verso extra": "Art. 121 do Código Civil. O termo, por sua vez, refere-se a evento futuro e certo."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "condicao", "negocio-juridico", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000214",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Configura-se {{c1::estado de perigo}} quando alguém, premido da necessidade de salvar-se, ou a pessoa de sua família, de grave dano conhecido pela outra parte, assume obrigação excessivamente onerosa.",
+        "Verso extra": "Art. 156 do Código Civil. O dolo de aproveitamento da outra parte é requisito indispensável."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "estado-de-perigo", "vicios", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000215",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O negócio jurídico nulo por simulação não produz efeitos, mas subsistirá o que se dissimulou, se for {{c1::válido na substância e na forma}} (simulação relativa).",
+        "Verso extra": "Art. 167 do Código Civil. Aproveitamento do negócio dissimulado válido."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "simulacao", "nulidade", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000216",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] É de {{c1::quatro anos}} o prazo de decadência para pleitear-se a anulação do negócio jurídico, contado, no caso de coação, do dia em que ela {{c2::cessar}}.",
+        "Verso extra": "Art. 178, I, do Código Civil. Na coação, o termo inicial é o dia em que ela cessar."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "coacao", "decadencia", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000217",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A pretensão de reparação civil prescreve em {{c1::três anos}}, segundo o artigo 206, § 3º, inciso V, do Código Civil.",
+        "Verso extra": "Art. 206, § 3º, V, do Código Civil. Prazo trienal da responsabilidade civil extracontratual."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "prescricao", "reparacao-civil", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000218",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Prescreve em {{c1::dez anos}} a pretensão quando a lei não lhe haja fixado prazo menor (regra geral da prescrição no Código Civil).",
+        "Verso extra": "Art. 205 do Código Civil. Prazo prescricional residual / geral decenal."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "prescricao", "prazo-geral", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000219",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Os negócios jurídicos devem ser interpretados conforme a {{c1::boa-fé objetiva}} e os {{c2::usos do lugar de sua celebração}}.",
+        "Verso extra": "Art. 113 do Código Civil. Princípio da boa-fé objetiva interpretativa."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "boa-fe", "interpretacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000220",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Também comete ato ilícito o titular de um direito que, ao exercê-lo, excede manifestamente os limites impostos pelo seu fim econômico ou social, pela boa-fé ou pelos bons costumes ({{c1::abuso de direito}}).",
+        "Verso extra": "Art. 187 do Código Civil. Teoria objetiva do abuso de direito."
+      },
+      "tags": ["[EXEMPLO]", "direito", "civil", "abuso-de-direito", "ato-ilicito", "cloze"]
+    }
+  ]
+}

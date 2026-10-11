@@ -10,4 +10,5 @@ description: Pega a próxima tarefa não marcada do ROADMAP, implementa, testa e
 6. Rode `npm run check` (tsc + eslint + jest). Corrija até passar.
 7. Se a tarefa mexe em UI, rode no emulador ou aparelho Android e descreva o que viu.
 8. Marque `[x]` no ROADMAP e anote numa linha qualquer decisão tomada.
-9. Termine com um walkthrough: o que mudou, como testar e o que ficou pendente.
+9. Faça o commit das alterações com mensagem descritiva em português do Brasil.
+10. Termine com um walkthrough: o que mudou, como testar e o que ficou pendente.

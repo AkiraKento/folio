@@ -1,0 +1,10 @@
+{
+  "_comentario": "Nota sintética com a MESMA estrutura HTML das notas avicena da Osler (classes, cloze já marcado, referência). Texto inventado: serve de fixture de teste.",
+  "noteType": "avicena",
+  "tags": ["Assunto::ClínicaCirúrgica", "origem::Exemplo"],
+  "fields": {
+    "question": "<p><strong>Cirurgia Geral.</strong> <span class=\"cloze\">[...]</span> é a inflamação de um órgão de exemplo.</p>",
+    "answer": "<div class=\"FlashcardAnswerJSX__Answer-sc-k6880g-1 bDwuow\"><p><strong>Cirurgia Geral.</strong> <span class=\"cloze\">Exemplite</span> é a inflamação de um órgão de exemplo.</p><p><em>Comentário em itálico com </em><u>sublinhado</u><em> e uma imagem:</em></p><img src=\"exemplo-avicena.png\"><table><tr><th>Achado</th><th>Valor</th></tr><tr><td>A</td><td>1</td></tr><tr><td>B</td><td>2</td></tr></table></div>",
+    "reference": "<p class=\"FlashcardAnswerJSX__Reference-sc-k6880g-2 gWUDhV\"></p><p><em>Título de referência de exemplo</em>, em <strong>UpToDate</strong>.</p><p></p>"
+  }
+}

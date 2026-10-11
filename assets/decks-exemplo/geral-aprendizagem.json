@@ -1,0 +1,190 @@
+{
+  "deck": {
+    "id": "00000000-0000-4000-b000-000000000005",
+    "name": "Estudos::Técnicas de Aprendizagem",
+    "area": "Geral",
+    "description": "[EXEMPLO] Deck autoral introdutório com 20 notas sobre Técnicas de Aprendizagem Baseadas em Evidências e Repetição Espaçada."
+  },
+  "notes": [
+    {
+      "id": "00000000-0000-4000-c000-000000000401",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é o algoritmo FSRS (Free Spaced Repetition Scheduler) e qual é seu diferencial em relação ao SM-2 do Anki tradicional?",
+        "Verso": "[EXEMPLO] O FSRS é um algoritmo moderno de repetição espaçada baseado no modelo de três variáveis da memória: <b>Retrievability (R)</b>, <b>Stability (S)</b> e <b>Difficulty (D)</b>. Diferente do SM-2, o FSRS calibra intervalos personalizados com base no objetivo de retenção desejada pelo usuário (ex.: 90%) e adapta-se dinamicamente ao histórico individual de revisões."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "fsrs", "algoritmos"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000402",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é a Técnica Feynman de aprendizagem e quais são suas quatro etapas?",
+        "Verso": "[EXEMPLO] Um método para dominar conceitos explicando-os em linguagem simples:<br>1. <b>Escolher o conceito</b>;<br>2. <b>Explicar para uma criança de 10 anos</b> (usando termos simples e analogias);<br>3. <b>Identificar lacunas</b> onde a explicação travou ou usou jargões;<br>4. <b>Revisitar a fonte e simplificar</b> a explicação final."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "feynman", "tecnicas"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000403",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Por que o 'grifo passivo' tem utilidade de aprendizagem considerada baixa em meta-análises educacionais?",
+        "Verso": "[EXEMPLO] Porque grifar ou sublinhar sem processamento ativo exige esforço cognitivo mínimo e cria uma <b>falsa sensação de domínio</b>. Para ser útil, o grifo deve servir de base para resumo reflexivo, elaboração ou elaboração de cards de evocação ativa."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "grifos", "meta-analise"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000404",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é o princípio da 'Informação Atômica' (Atomic Principle) na formulação de flashcards?",
+        "Verso": "[EXEMPLO] Cada flashcard deve conter apenas <b>uma única ideia ou fato essencial</b>. Cards longos com listas de itens tornam a revisão lenta, ambígua na autoavaliação (acertar metade da lista) e aumentam a taxa de abandono do deck."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "flashcards", "regras-de-formulacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000405",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é a 'Interrogação Elaborativa' (Elaborative Interrogation) e como aplicá-la nos estudos?",
+        "Verso": "[EXEMPLO] Consiste em fazer perguntas a si mesmo como <i>'Por que este fato é verdade?'</i> ou <i>'Por que faz sentido que X cause Y?'</i> ao estudar um novo conteúdo. Esse processo ancora a nova informação a conceitos pré-existentes na memória de longo prazo."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "elaboracao", "compreensao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000406",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é o Efeito de Geração (Generation Effect) e como ele se manifesta em flashcards do tipo Cloze?",
+        "Verso": "[EXEMPLO] A informação produzida ou completada ativamente pela própria mente (como preencher uma lacuna <code>[...]</code>) é muito mais bem lembrada do que a mesma informação lida pronta, pois ativa redes associativas mais densas."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "cloze", "geracao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000407",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a diferença entre a fase passiva (leitura/contexto) e a fase ativa (revisão) no Folio?",
+        "Verso": "[EXEMPLO] Na <b>fase passiva (Modo Consulta)</b>, o estudante lê o texto contínuo formado pelos versos, compreende o contexto geral, grifa e anota. Na <b>fase ativa (Revisão)</b>, ele é testado frente/verso pelo algoritmo FSRS para fortalecer as conexões neurais."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "folio", "modo-consulta", "revisao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000408",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é a 'Dupla Codificação' (Dual Coding) proposta por Allan Paivio?",
+        "Verso": "[EXEMPLO] O cérebro processa informações verbais e visuais por canais cognitivos separados. Combinar <b>texto claro</b> com <b>diagramas ou imagens relevantes</b> cria dois códigos de recuperação independentes, duplicando as chances de recordação."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "dupla-codificacao", "paivio"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000409",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é a 'Sobrecarga de Revisão' (Review Hell / Backlog) e como evitá-la?",
+        "Verso": "[EXEMPLO] Ocorre quando o estudante adiciona novos cards muito depressa sem considerar que cada novo card gerará revisões futuras cumulativas. Evita-se limitando os <b>cards novos por dia</b> (padrão: 20 novos/dia) e mantendo a constância diária."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "backlog", "habito"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000410",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Por que o sono na noite após o estudo é determinante para a taxa de retenção do dia seguinte?",
+        "Verso": "[EXEMPLO] Sem o sono, os traços sinápticos temporários no hipocampo não passam pela cascata de fosforilação e síntese proteica necessária para a <b>consolidação estrutural</b> no córtex, tornando as memórias altamente vulneráveis ao decaimento."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "sono", "retencao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000411",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A evocação ativa (active recall) é até {{c1::duas a três vezes}} mais eficaz para a retenção a longo prazo do que a simples releitura passiva de resumos.",
+        "Verso extra": "Karpicke & Roediger (2008), Science. A evocação ativa reconstrui as conexões neurais."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "active-recall", "evocacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000412",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] No algoritmo FSRS, o parâmetro {{c1::Stability (S)}} representa o tempo em dias necessário para a probabilidade de recordação (Retrievability) cair de 100% para {{c2::90%}}.",
+        "Verso extra": "A estabilidade cresce exponencialmente a cada resposta 'Acertei' / 'Bom' / 'Fácil'."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "fsrs", "stability", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000413",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O intervalo ideal para revisar um flashcard ocorre exatamente quando a chance de lembrá-lo está perto de {{c1::90%}} (limiar de esquecimento produtivo).",
+        "Verso extra": "Revisar cedo demais desperdiça tempo; revisar tarde demais resulta em esquecimento total."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "intervalo-otimo", "fsrs", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000414",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Para evitar o efeito de reconhecimento passivo, o estudante deve {{c1::tentar responder mentalmente ou em voz alta}} antes de virar o card para ver a resposta.",
+        "Verso extra": "Olhar a resposta antes de tentar evocar invalida o benefício cognitivo da sessão."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "revisao", "habito", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000415",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A regra dos 20 cards novos por dia resulta em uma média estável de aproximadamente {{c1::100 a 150}} revisões diárias em regime permanente com o FSRS.",
+        "Verso extra": "Manter a meta de novos controlada garante sustentabilidade do hábito no longo prazo."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "carga-diaria", "habito", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000416",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O recurso de sepultamento de irmãs ({{c1::bury siblings}}) impede que cartões derivados da mesma nota apareçam na fila no mesmo dia, prevenindo pistas artificiais.",
+        "Verso extra": "Exemplo: o card invertido ou a lacuna c2 da mesma nota fica agendada para o dia seguinte."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "bury", "irmas", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000417",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Antes de criar flashcards, o estudante deve primeiro {{c1::compreender a estrutura geral}} do tema (o Modo Consulta do Folio serve exatamente a esse propósito).",
+        "Verso extra": "Tentar memorizar fatos desconexos sem modelo mental prévio é ineficaz e frustrante."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "compreensao-previa", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000418",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A técnica de Pomodoro tradicional utiliza blocos de foco de {{c1::25 minutos}} intercalados com pausas curtas de {{c2::5 minutos}} para manter a vigilância atencional.",
+        "Verso extra": "Cirillo (1980s). Evita a fadiga cognitiva acumulada durante sessões prolongadas."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "pomodoro", "foco", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000419",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A retenção desejada padrão recomendada no algoritmo FSRS é de {{c1::0,90}} (90%), equilibrando alta fixação com volume gerenciável de repetições.",
+        "Verso extra": "Aumentar para 95% ou 97% dobra ou triplica a quantidade de revisões diárias."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "fsrs", "retencao-desejada", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000420",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Em dias com pouco tempo disponível, a regra de ouro da repetição espaçada é {{c1::priorizar as revisões pendentes}} e pausar a adição de cards novos.",
+        "Verso extra": "Revisar mantém a estabilidade do que já foi aprendido; cards novos podem esperar."
+      },
+      "tags": ["[EXEMPLO]", "estudos", "aprendizagem", "habito", "priorizacao", "cloze"]
+    }
+  ]
+}

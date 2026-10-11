@@ -34,7 +34,7 @@ function initHelloView() {
         width: 100%;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
       ">
-        <h1 style="font-size: 24px; margin-bottom: 12px; color: #203e3a;">Folio WebView</h1>
+        <h1 style="font-size: 24px; margin-bottom: 12px; color: #203e3a;">Weiss WebView</h1>
         <p style="font-size: 15px; color: #5b858b; line-height: 1.5; margin-bottom: 20px;">
           Pipeline esbuild funcionando perfeitamente dentro da WebView do Android.
         </p>

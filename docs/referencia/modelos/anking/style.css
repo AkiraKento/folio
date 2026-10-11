@@ -1,0 +1,1221 @@
+/*    ANKING NOTETYPE  */
+
+/*The AnKing wishes you the best of luck! Be sure to check out our youtube channel 
+for all things Anki and Pre-med/Med School related 
+(including how to customize this card type and use these decks):  www.AnKingMed.com  */
+
+/*#########################################################
+################  USER CUSTOMIZATION START  ##############*/
+/* You can choose colors at www.htmlcolorcodes.com */
+
+/* TIMER ON/OFF */
+.timer {
+  display: block;
+  /* ‘none’ or ‘block’ */
+}
+
+/* TAGS ON/OFF DESKTOP & MOBILE*/
+#tags-container {
+  display: block;
+  /* ‘none’ or ‘block’ */
+}
+
+.mobile #tags-container {
+  display: block;
+  /* ‘none’ or ‘block’ */
+}
+
+/* MOVE TAGS UP FOR 'NO-DISTRACTIONS' ADD-ON */
+#tags-container {
+  padding-bottom: 0px;
+  /* 0 normal, 55 to move up */
+}
+
+/*~~~~~~~~~FONT SIZE~~~~~~~~~*/
+/*NOTE: anything with 'px' will keep a font that size indefinitely, 
+'rem' is a fraction of this size above and allows all text to change size with the above setting */
+/* Desktop */
+html {
+  font-size: 22px;
+}
+
+/* Mobile */
+.mobile {
+  font-size: 22px;
+}
+
+/*IPAD ADJUSTMENTS (currently not applied)
+.ipad .card {
+  font-size: 28px;
+}
+.ipad .hints {
+  font-size: 24px;
+}
+*/
+
+/*Revealed Hints Font Size*/
+.hints {
+  font-size: .85rem;
+}
+
+
+/*~~~~~~~~~FONT STYLE~~~~~~~~~*/
+.card,
+kbd {
+  font-family: 'Lato', arial, sans-serif;
+  /*Step exam's font is Arial Greek*/
+}
+
+
+/*~~~~~~~MAX IMAGE HEIGHT/WIDTH~~~~~~~*/
+img {
+  max-width: 85%;
+  max-height: 100%;
+}
+
+
+/*~~~~~~~~~COLORS (CalmCoder Light Mode)~~~~~~~~~*/
+/* Default Text Color */
+.card {
+  color: #203E3A;
+}
+
+/* Background Color */
+.card {
+  background-color: #f0f4f0;
+}
+
+/* Cloze Color */
+.cloze {
+  color: #4a90a4;
+}
+
+/* One by One Cloze Color */
+.cloze.one-by-one {
+  color: #8b8fa3;
+}
+
+/* One by One Cloze Hint Color */
+.cloze-hint {
+  color: #3a9d7f;
+}
+
+/* "Extra" Field Color */
+#extra {
+  color: #b8941f;
+}
+
+/* Hint Reveal Color */
+.hints {
+  color: #3a9d8f;
+}
+
+/* Missed Questions Hint Reveal Color */
+#missed {
+  color: #8b8fa3;
+}
+
+/* Timer Countdown Color */
+.timer {
+  color: transparent;
+}
+
+/* Empty Link Color */
+a:not([href]),
+a[href^="javascript:"] {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+/*~~~~~~~~NIGHT MODE COLORS (Noctis Obscuro Dark Mode)~~~~~~~~*/
+/* NM Default Text Color */
+.nightMode.card,
+.night_mode .card,
+.night-mode .card {
+  color: #b2cacd !important;
+}
+
+/* NM Background Color */
+.nightMode.card,
+.night_mode .card,
+.night-mode .card {
+  background-color: #031417 !important;
+}
+
+/* NM Cloze Color */
+.nightMode .cloze,
+.night_mode .cloze,
+.night-mode .cloze {
+  color: #169fb1 !important;
+}
+
+/* NM One by One Cloze Color */
+.nightMode .cloze.one-by-one,
+.night_mode .cloze.one-by-one,
+.night-mode .cloze.one-by-one {
+    color: #df769b !important;
+}
+
+/* NM One by One Cloze Hint Color */
+.nightMode .cloze-hint,
+.night_mode .cloze-hint,
+.night-mode .cloze-hint {
+    color: #49e9a6 !important;
+}
+
+/* NM "Extra" Field Color */
+.nightMode #extra,
+.night_mode #extra,
+.night-mode #extra {
+  color: #e69533 !important;
+}
+
+/* NM Hint Reveal Color */
+.nightMode .hints,
+.night_mode .hints,
+.night-mode .hints {
+  color: #49d6e9 !important;
+}
+
+
+/* ~~~~~COLOR ACCENTS FOR BOLD-ITALICS-UNDERLINE~~~~~~*/
+b {
+  color: inherit;
+}
+
+u {
+  color: inherit;
+}
+
+i {
+  color: inherit;
+}
+
+/*################  USER CUSTOMIZATION END  ################
+###########################################################*/
+
+
+/* Styling For Whole Card*/
+.card {
+  font-family: 'Lato', arial, sans-serif;
+  text-align: center;
+  font-size: 1rem;
+  height: 100%;
+  margin: 0px 15px;
+  flex-grow: 1;
+  padding-bottom: 1em;
+  width: 75%; /* Take up only % of the parent container */
+  min-width: 200px; /* Ensure a minimum width */
+  max-width: 900px; /* Optionally set a maximum width */
+  margin: 0 auto; /* Center within the parent */
+  display: block; /* Ensure it behaves like a block element */
+  margin-top: 20px;
+}
+
+.mobile .card {
+  padding-bottom: 5em;
+}
+
+/* Style the horizontal line */
+hr {
+  opacity: .7;
+}
+
+/* Formatting For Timer */
+.timer {
+  font-size: 20px;
+  margin: 12em auto auto auto;
+}
+
+
+/* ~~~~~~~~~ FIELDS ~~~~~~~~~ */
+/* Cloze format */
+.cloze {
+  font-weight: bold;
+}
+
+/* Adjustments For Cloze Edit In Review On Mobile */
+.clozefield,
+.mobile .editcloze {
+  display: none;
+}
+
+.editcloze,
+.mobile .clozefield {
+  display: block;
+}
+
+/* Text When Hint Is Shown*/
+.hints {
+  font-style: italic;
+}
+
+/*add spacing between hints and extra field*/
+.hints+#extra {
+  margin-top: 1rem;
+}
+
+/* Extra Field */
+#extra {
+  font-style: italic;
+  font-size: 1rem;
+}
+
+
+/* ~~~~~~~~~TABLE STYLES~~~~~~~~~ */
+
+/* Table dynamic resize, includes mobile and tablet support */
+table {
+  overflow-x: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-collapse: collapse;
+  overflow: scroll;
+  white-space: normal;
+  font-style: normal;
+  font-size: clamp(0.1rem, 1.7vw, 0.9rem) !important;
+  max-width: 95vw;
+}
+
+/* Left and right border cleanup */
+table td:first-child {
+  border-left: 1px solid white;
+}
+table td:last-child {
+  border-right: 1px solid white;
+}
+
+/* Table dynamic padding */
+table tr, td, th {
+  padding-top: clamp(0.05rem, 1vw, 1rem);
+  padding-bottom: clamp(0.05rem, 1vw, 1rem);
+  padding-left: clamp(0.05rem, 1vw, 1rem);
+  padding-right: clamp(0.05rem, 1vw, 1rem);
+}
+
+/* Span Correct */
+table span {
+  font-size: clamp(0.1rem, 1.7vw, 0.9rem) !important;
+}
+
+/* Horizontal Header Style, applies to any row that spans all columns */ 
+table tr td:first-child[colspan]:last-child[colspan] {
+  background-color: #ffffff;
+  color: #367390;
+  border-top: 3px solid #367390;
+  border-bottom: 3px solid #367390;
+  text-align: middle;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
+}
+
+/* Alternate Header Style, set in T5 addon settings */
+table th {
+  background-color: #ddecf2;
+  color: #266988;
+  border: 1px solid #ffffff;
+  font-weight: normal;
+  text-align: middle;
+}
+
+/* Alternate grey rows */
+table tr:nth-child(even) {
+  color: #000000;
+  background-color: #f8f8f8;
+}
+
+/* Default styles if not overridden by above */
+table {
+  color: #000000;
+  border: 1px solid #a4cde0;
+  background-color: #ffffff;
+}
+
+
+/* ~~~~~~~~~DETAILS FOR IMAGES~~~~~~~~~ */
+.mobile .card img {
+  max-width: 100% !important;
+}
+
+#extra img {
+  min-width: 30%;
+}
+
+/*Image hover zoom*/
+img:active {
+  transform: scale(1.2);
+}
+
+.mobile img:active {
+  transform: scale(1.0) !important;
+}
+
+/* Classes for individual cards */
+.image40 img {
+  width: 40% !important;
+}
+
+.image50 img {
+  width: 50% !important;
+}
+
+.image60 img {
+  width: 60% !important;
+}
+
+.image70 img {
+  width: 70% !important;
+}
+
+.image80 img {
+  width: 80% !important;
+}
+
+.image90 img {
+  width: 90% !important;
+}
+
+.image40 img,
+.image50 img,
+.image60 img,
+.image70 img,
+.image80 img,
+.image90 img {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.mobile .image40 img,
+.mobile .image50 img,
+.mobile .image60 img,
+.mobile .image70 img,
+.mobile .image80 img,
+.mobile .image90 img {
+  width: auto !important;
+}
+
+
+/* ~~~~~~~MNEMONICS LEFT JUSTIFIED~~~~~~~ */
+.mnemonics {
+  display: inline-block;
+  max-width: 50%;
+  text-align: left;
+}
+
+.mobile .mnemonics {
+  max-width: 90%;
+}
+
+.centerbox {
+  text-align: center;
+}
+
+
+/* ~~~~~~~~~ LISTS ~~~~~~~~~ */
+ul, ol {
+  padding-left: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-block: 10px;
+  text-align: left;
+}
+
+@media (min-width: 1025px) {
+  ul, ol {
+    max-width: 50%;
+  }
+}
+
+ul ul, table ul, ol ol, table ol {
+  padding-left: 20px;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mobile ul {
+  text-align: left;
+  max-width: 100%;
+}
+
+.mobile ol {
+  text-align: left;
+  max-width: 100%;
+}
+
+
+/* ~~~~~~~~~ ADD-ON CONFIGURATIONS ~~~~~~~~~ */
+/*Compatibility with Image Style Editor add-on*/
+.card {
+  --w: 0%;
+}
+
+.mobile .card {
+  --w: 100% !important;
+}
+
+/*Max image width for resize images in editor add-on */
+.card [class^=ui-] img {
+  max-width: 10% !important;
+}
+
+/*Compatibility with resize images in editor add-on */
+.resizer {
+  min-width: 0% !important;
+}
+
+.mobile .resizer {
+  min-width: 100% !important;
+}
+
+/* Fix to make pop-up dictionary images the right size */
+.qtip img {
+  max-width: 95% !important;
+  max-height: 95% !important;
+}
+
+
+/* ~~~~~~ANKING HYPERLINK IMAGE~~~~~~ */
+#pic {
+  opacity: 0.0;
+  font-size: 16px;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-style: bold;
+  height: 50px;
+  border: 0;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  display: block;
+}
+
+#pic:hover {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.mobile #pic {
+  display: none;
+}
+
+
+/* ~~~~~~~~~ TAGS ~~~~~~~~~ */
+/* Container To Fix Tags At Bottom Of Screen */
+#tags-container,
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  background-color: transparent !important;
+}
+
+/* Clickable Tags (Minimalist Pills - Avicena style) */
+kbd,
+.tag-pill {
+  font-family: 'Lato', arial, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: lowercase !important;
+  padding: 3px 10px !important;
+  border-radius: 12px !important;
+  background-color: transparent !important;
+  border-width: 1.5px !important;
+  border-style: solid !important;
+  letter-spacing: 0.5px !important;
+  box-shadow: 0 2px 4px rgba(0, 86, 97, 0.15) !important;
+  transition: all 0.2s ease !important;
+  display: inline-block !important;
+  opacity: 1 !important;
+  vertical-align: middle !important;
+  line-height: normal !important;
+  height: auto !important;
+  text-shadow: none !important;
+  margin: 1px !important;
+}
+
+/* Tag Becomes More Visible On Hover */
+kbd:hover,
+.tag-pill:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+}
+
+/* CalmCoder Light Mode Accent Colors for Tags */
+kbd:nth-of-type(5n+1), .tag-pill:nth-child(5n+1) { border-color: #b8941f !important; color: #b8941f !important; }
+kbd:nth-of-type(5n+2), .tag-pill:nth-child(5n+2) { border-color: #8b8fa3 !important; color: #8b8fa3 !important; }
+kbd:nth-of-type(5n+3), .tag-pill:nth-child(5n+3) { border-color: #3a9d7f !important; color: #3a9d7f !important; }
+kbd:nth-of-type(5n+4), .tag-pill:nth-child(5n+4) { border-color: #3a9d8f !important; color: #3a9d8f !important; }
+kbd:nth-of-type(5n+5), .tag-pill:nth-child(5n+5) { border-color: #5aa0b4 !important; color: #5aa0b4 !important; }
+
+/* Tag Mobile Adjustments */
+.mobile kbd,
+.mobile .tag-pill {
+  font-size: 10px !important;
+}
+
+
+/* ~~~~~~~~~BUTTON LAYOUT~~~~~~~~~ */
+.button-general {
+  outline: 0;
+  border-radius: 8px;
+  border: 1.5px solid #4a90a4 !important;
+  padding: 5px 12px;
+  text-align: center;
+  display: inline-block;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-size: 11px;
+  font-weight: 700;
+  background-color: rgba(74, 144, 164, 0.12);
+  color: #207d87 !important;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.mobile .button-general {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+.expanded-button {
+  display: block;
+  margin: auto;
+  margin-top: 10px;
+  font-weight: bold;
+  width: 50% !important;
+  background: #4a90a4 !important;
+  color: #ffffff !important;
+  border-color: #4a90a4 !important;
+}
+
+#button-mq:not(.expanded-button) {
+  color: #b8941f !important;
+  border-color: #b8941f !important;
+  background-color: rgba(184, 148, 31, 0.12) !important;
+}
+
+html:not(.mobile) .button-general:hover {
+  background-color: #4a90a4 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+html:not(.mobile) #button-mq:hover {
+  background-color: #b8941f !important;
+  color: #ffffff !important;
+}
+
+/* Blur styles */
+img {
+  transition: filter 0.3s ease;
+}
+
+.blur {
+  filter: blur(15px);
+}
+
+/*
+ANKIHUB_END
+Text below this comment will not be modified by AnkiHub or AnKing add-ons.
+Do not edit or remove this comment if you want to protect the content below.
+*/
+
+
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+/*~~~~~~~~~ CALMCODER (LIGHT MODE) & NOCTIS OBSCURO (DARK MODE) ~~~~~~~~~*/
+html {
+  background-color: #e4ebe4 !important;
+  font-family: 'Lato', arial, sans-serif !important;
+}
+
+.card {
+  font-family: 'Lato', arial, sans-serif !important;
+  color: #203E3A !important;
+  background-color: #f0f4f0 !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 0 4px 10px rgba(0, 86, 97, 0.1), 0 1px 3px rgba(0, 86, 97, 0.08) !important;
+  border: none !important;
+}
+
+/* Cloze & Hint Colors */
+.cloze {
+  color: #4a90a4 !important;
+  font-weight: bold;
+}
+.cloze.one-by-one { color: #8b8fa3 !important; }
+.cloze-hint { color: #3a9d7f !important; }
+#extra { color: #b8941f !important; }
+.hints { color: #3a9d8f !important; }
+#missed { color: #8b8fa3 !important; }
+.reference { color: #3a9d7f !important; font-size: 17px; text-align: right; margin-top: 15px; }
+
+/* Links and dividers */
+a { color: #4a90a4; }
+hr {
+  border: none !important;
+  height: 1px !important;
+  background-color: rgba(0, 86, 97, 0.15) !important;
+  opacity: 1 !important;
+}
+
+/* ~~~~~~~~ NIGHT MODE (Noctis Obscuro) ~~~~~~~~ */
+@media (prefers-color-scheme: dark) {
+  html { background-color: #021012 !important; }
+}
+html.nightMode, html.night_mode, html.night-mode,
+.nightMode html, .night_mode html, .night-mode html {
+  background-color: #021012 !important;
+}
+
+.nightMode.card, .night_mode .card, .night-mode .card,
+.card.nightMode, .card.night_mode, .card.night-mode,
+body.nightMode, body.night_mode, body.night-mode {
+  color: #b2cacd !important;
+  background-color: #031417 !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+  border: none !important;
+}
+
+.nightMode .cloze, .night_mode .cloze, .night-mode .cloze { color: #169fb1 !important; }
+.nightMode .cloze.one-by-one, .night_mode .cloze.one-by-one, .night-mode .cloze.one-by-one { color: #df769b !important; }
+.nightMode .cloze-hint, .night_mode .cloze-hint, .night-mode .cloze-hint { color: #49e9a6 !important; }
+.nightMode #extra, .night_mode #extra, .night-mode #extra { color: #e69533 !important; }
+.nightMode .hints, .night_mode .hints, .night-mode .hints { color: #49d6e9 !important; }
+.nightMode #missed, .night_mode #missed, .night-mode #missed { color: #49d6e9 !important; }
+.nightMode .reference, .night_mode .reference, .night-mode .reference { color: #c1d4d7 !important; }
+
+.nightMode a, .night_mode a, .night-mode a { color: #169fb1; }
+.nightMode hr, .night_mode hr, .night-mode hr { background-color: rgba(178, 202, 205, 0.2) !important; }
+
+/* Night Mode Tags (Noctis Obscuro Accent Colors) */
+.nightMode kbd, .night_mode kbd, .night-mode kbd,
+.nightMode .tag-pill, .night_mode .tag-pill, .night-mode .tag-pill {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+.nightMode kbd:nth-of-type(5n+1), .night_mode kbd:nth-of-type(5n+1), .night-mode kbd:nth-of-type(5n+1),
+.nightMode .tag-pill:nth-child(5n+1), .night_mode .tag-pill:nth-child(5n+1), .night-mode .tag-pill:nth-child(5n+1) {
+  border-color: #e69533 !important; color: #e69533 !important;
+}
+.nightMode kbd:nth-of-type(5n+2), .night_mode kbd:nth-of-type(5n+2), .night-mode kbd:nth-of-type(5n+2),
+.nightMode .tag-pill:nth-child(5n+2), .night_mode .tag-pill:nth-child(5n+2), .night-mode .tag-pill:nth-child(5n+2) {
+  border-color: #169fb1 !important; color: #169fb1 !important;
+}
+.nightMode kbd:nth-of-type(5n+3), .night_mode kbd:nth-of-type(5n+3), .night-mode kbd:nth-of-type(5n+3),
+.nightMode .tag-pill:nth-child(5n+3), .night_mode .tag-pill:nth-child(5n+3), .night-mode .tag-pill:nth-child(5n+3) {
+  border-color: #49e9a6 !important; color: #49e9a6 !important;
+}
+.nightMode kbd:nth-of-type(5n+4), .night_mode kbd:nth-of-type(5n+4), .night-mode kbd:nth-of-type(5n+4),
+.nightMode .tag-pill:nth-child(5n+4), .night_mode .tag-pill:nth-child(5n+4), .night-mode .tag-pill:nth-child(5n+4) {
+  border-color: #49d6e9 !important; color: #49d6e9 !important;
+}
+.nightMode kbd:nth-of-type(5n+5), .night_mode kbd:nth-of-type(5n+5), .night-mode kbd:nth-of-type(5n+5),
+.nightMode .tag-pill:nth-child(5n+5), .night_mode .tag-pill:nth-child(5n+5), .night-mode .tag-pill:nth-child(5n+5) {
+  border-color: #df769b !important; color: #df769b !important;
+}
+
+/* Night Mode Buttons */
+.nightMode .button-general, .night_mode .button-general, .night-mode .button-general {
+  background-color: rgba(22, 159, 177, 0.15) !important;
+  border-color: #169fb1 !important;
+  color: #49e9a6 !important;
+}
+.nightMode .button-general:hover, .night_mode .button-general:hover, .night-mode .button-general:hover {
+  background-color: #169fb1 !important;
+  color: #021012 !important;
+}
+.nightMode .expanded-button, .night_mode .expanded-button, .night-mode .expanded-button {
+  background-color: #169fb1 !important;
+  color: #021012 !important;
+  border-color: #169fb1 !important;
+}
+.nightMode #button-mq:not(.expanded-button), .night_mode #button-mq:not(.expanded-button), .night-mode #button-mq:not(.expanded-button) {
+  color: #e69533 !important;
+  border-color: #e69533 !important;
+  background-color: rgba(230, 149, 51, 0.15) !important;
+}
+
+/* Tables (CalmCoder / Noctis Obscuro) */
+table {
+  font-family: 'Lato', arial, sans-serif !important;
+  color: #203E3A !important;
+  border: 1px solid rgba(0, 86, 97, 0.2) !important;
+  background-color: #ffffff !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+table th {
+  background-color: #ddecf2 !important;
+  color: #266988 !important;
+  border: 1px solid #ffffff !important;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-weight: 700 !important;
+}
+table tr:nth-child(even) {
+  background-color: #f8fafa !important;
+  color: #203E3A !important;
+}
+table td {
+  border: 1px solid rgba(0, 86, 97, 0.1) !important;
+  font-family: 'Lato', arial, sans-serif !important;
+}
+table tr td:first-child[colspan]:last-child[colspan] {
+  background-color: #ddecf2 !important;
+  color: #266988 !important;
+  border-top: 3px solid #3a7a9f !important;
+  border-bottom: 3px solid #3a7a9f !important;
+}
+
+.nightMode table, .night_mode table, .night-mode table {
+  color: #b2cacd !important;
+  border: 1px solid rgba(73, 233, 166, 0.2) !important;
+  background-color: #062e32 !important;
+}
+.nightMode table th, .night_mode table th, .night-mode table th {
+  background-color: #083d44 !important;
+  color: #40d4e7 !important;
+  border: 1px solid rgba(73, 233, 166, 0.2) !important;
+}
+.nightMode table tr:nth-child(even), .night_mode table tr:nth-child(even), .night-mode table tr:nth-child(even) {
+  background-color: #031417 !important;
+  color: #b2cacd !important;
+}
+.nightMode table td, .night_mode table td, .night-mode table td {
+  border: 1px solid rgba(73, 233, 166, 0.15) !important;
+}
+.nightMode table tr td:first-child[colspan]:last-child[colspan],
+.night_mode table tr td:first-child[colspan]:last-child[colspan],
+.night-mode table tr td:first-child[colspan]:last-child[colspan] {
+  background-color: #083d44 !important;
+  color: #40d4e7 !important;
+  border-top: 3px solid #169fb1 !important;
+  border-bottom: 3px solid #169fb1 !important;
+}
+
+/* IO Colors */
+.card {
+  --rect-bg: #4a90a4 !important;
+  --rect-border: #e4ebe4 !important;
+  --active-rect-bg: #8b8fa3 !important;
+  --active-rect-border: #203E3A !important;
+}
+.nightMode.card, .night_mode .card, .night-mode .card {
+  --rect-bg: #169fb1 !important;
+  --rect-border: #021012 !important;
+  --active-rect-bg: #e66533 !important;
+  --active-rect-border: #b2cacd !important;
+}
+
+
+/* ~~~~~~~~~ BLOCO DE NOTAS (JANELA FLUTUANTE REDIMENSIONÁVEL) ~~~~~~~~~ */
+/* CalmCoder (Light Mode) & Noctis Obscuro (Dark Mode) */
+
+.notepad-wrapper {
+  display: inline-block;
+  position: relative;
+  margin: 12px auto;
+  z-index: 1000;
+}
+
+.notepad-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(46, 139, 153, 0.1);
+  border: 1.5px solid #2e8b99;
+  color: #207d87;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(32, 125, 135, 0.12);
+  transition: all 0.2s ease;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.notepad-toggle-btn:hover,
+.notepad-toggle-btn.active {
+  background: #2e8b99;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(32, 125, 135, 0.25);
+}
+
+.nightMode .notepad-toggle-btn,
+.night_mode .notepad-toggle-btn,
+.night-mode .notepad-toggle-btn {
+  background: rgba(73, 233, 166, 0.1);
+  border-color: #49e9a6;
+  color: #49e9a6;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.nightMode .notepad-toggle-btn:hover,
+.nightMode .notepad-toggle-btn.active,
+.night_mode .notepad-toggle-btn:hover,
+.night_mode .notepad-toggle-btn.active,
+.night-mode .notepad-toggle-btn:hover,
+.night-mode .notepad-toggle-btn.active {
+  background: #49e9a6;
+  color: #0b1a20;
+  box-shadow: 0 4px 12px rgba(73, 233, 166, 0.3);
+}
+
+/* Janela / Balão Flutuante */
+.notepad-balloon {
+  display: none !important;
+  position: fixed;
+  bottom: 30px;
+  right: 25px;
+  width: 380px;
+  height: 280px;
+  min-width: 260px;
+  min-height: 180px;
+  max-width: 95vw;
+  max-height: 90vh;
+  background-color: #ffffff;
+  border: 1.5px solid #2e8b99;
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(32, 125, 135, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
+  flex-direction: column;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.92) translateY(12px);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  pointer-events: none;
+  overflow: hidden;
+  text-align: left;
+  font-family: 'Lato', arial, sans-serif !important;
+}
+
+.notepad-balloon.active {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) translateY(0);
+  pointer-events: auto !important;
+}
+
+#notepad-raw-data,
+#notepad-raw-data * {
+  display: none !important;
+  visibility: hidden !important;
+  position: fixed !important;
+  left: -9999px !important;
+  top: -9999px !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.nightMode .notepad-balloon,
+.night_mode .notepad-balloon,
+.night-mode .notepad-balloon {
+  background-color: #0b1a20;
+  border-color: #49e9a6;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 4px 14px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustes Específicos para Dispositivos Móveis (AnkiDroid / AnkiMobile) */
+@media (max-width: 600px) {
+  .notepad-balloon {
+    bottom: 20px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: calc(100vw - 20px) !important;
+    height: 55vh !important;
+    max-height: 75vh !important;
+  }
+}
+.mobile .notepad-balloon {
+  bottom: 20px !important;
+  left: 10px !important;
+  right: 10px !important;
+  width: auto !important;
+  max-width: calc(100vw - 20px) !important;
+  height: 55vh !important;
+  max-height: 75vh !important;
+}
+
+/* Cabeçalho da Janela (Área de Arraste) */
+.notepad-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(46, 139, 153, 0.12);
+  border-bottom: 1px solid rgba(46, 139, 153, 0.25);
+  font-weight: 700;
+  font-size: 13px;
+  color: #207d87;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  flex-shrink: 0;
+  touch-action: none;
+  font-family: 'Lato', arial, sans-serif !important;
+}
+
+.nightMode .notepad-header,
+.night_mode .notepad-header,
+.night-mode .notepad-header {
+  background: rgba(73, 233, 166, 0.12);
+  border-bottom-color: rgba(73, 233, 166, 0.25);
+  color: #49e9a6;
+}
+
+.notepad-header:active {
+  cursor: grabbing;
+}
+
+.notepad-header-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notepad-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Botão Salvar */
+.notepad-save-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #2e8b99;
+  border: 1px solid #207d87;
+  color: #ffffff !important;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  touch-action: manipulation;
+}
+
+.notepad-save-btn:hover {
+  background: #207d87;
+  transform: scale(1.04);
+}
+
+.notepad-save-btn.saved {
+  background: #28a745 !important;
+  border-color: #1e7e34 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.5);
+}
+
+.nightMode .notepad-save-btn,
+.night_mode .notepad-save-btn,
+.night-mode .notepad-save-btn {
+  background: #49e9a6;
+  border-color: #38c88e;
+  color: #0b1a20 !important;
+}
+
+.nightMode .notepad-save-btn:hover,
+.night_mode .notepad-save-btn:hover,
+.night-mode .notepad-save-btn:hover {
+  background: #38c88e;
+}
+
+.nightMode .notepad-save-btn.saved,
+.night_mode .notepad-save-btn.saved,
+.night-mode .notepad-save-btn.saved {
+  background: #00e8c6 !important;
+  border-color: #00e8c6 !important;
+  color: #0b1a20 !important;
+  box-shadow: 0 0 10px rgba(0, 232, 198, 0.6);
+}
+
+.notepad-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.7;
+  padding: 0 4px;
+  line-height: 1;
+  border-radius: 4px;
+  transition: opacity 0.2s, transform 0.2s;
+  touch-action: manipulation;
+}
+
+.notepad-close-btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+/* Área de Conteúdo */
+.notepad-content {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Textarea Nativo */
+.notepad-textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: 'Lato', arial, sans-serif !important;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #2b303a;
+  padding: 12px 14px;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  -webkit-touch-callout: default !important;
+  pointer-events: auto !important;
+  cursor: text;
+}
+
+.mobile .notepad-textarea {
+  font-size: 16px !important; /* Evita zoom automático no iOS/Android */
+  padding: 10px 12px;
+}
+
+.nightMode .notepad-textarea,
+.night_mode .notepad-textarea,
+.night-mode .notepad-textarea {
+  color: #c5d1de;
+}
+
+.notepad-textarea::placeholder {
+  color: #8b8fa3;
+  font-style: italic;
+  opacity: 0.75;
+}
+
+/* Scrollbar Customizada */
+.notepad-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+.notepad-textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+.notepad-textarea::-webkit-scrollbar-thumb {
+  background: rgba(46, 139, 153, 0.3);
+  border-radius: 3px;
+}
+.nightMode .notepad-textarea::-webkit-scrollbar-thumb,
+.night_mode .notepad-textarea::-webkit-scrollbar-thumb,
+.night-mode .notepad-textarea::-webkit-scrollbar-thumb {
+  background: rgba(73, 233, 166, 0.3);
+}
+
+/* Alças de Redimensionamento */
+.notepad-resizer {
+  position: absolute;
+  z-index: 10001;
+  touch-action: none;
+}
+
+.notepad-resizer.t { top: 0; left: 6px; right: 6px; height: 6px; cursor: n-resize; }
+.notepad-resizer.b { bottom: 0; left: 6px; right: 6px; height: 6px; cursor: s-resize; }
+.notepad-resizer.l { left: 0; top: 6px; bottom: 6px; width: 6px; cursor: w-resize; }
+.notepad-resizer.r { right: 0; top: 6px; bottom: 6px; width: 6px; cursor: e-resize; }
+
+.notepad-resizer.tl { top: 0; left: 0; width: 10px; height: 10px; cursor: nw-resize; }
+.notepad-resizer.tr { top: 0; right: 0; width: 10px; height: 10px; cursor: ne-resize; }
+.notepad-resizer.bl { bottom: 0; left: 0; width: 10px; height: 10px; cursor: sw-resize; }
+.notepad-resizer.br {
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: se-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2e8b99;
+  opacity: 0.6;
+}
+
+.nightMode .notepad-resizer.br,
+.night_mode .notepad-resizer.br,
+.night-mode .notepad-resizer.br {
+  color: #49e9a6;
+}
+
+
+/* --- Image Zoom (Avicena) --- */
+img.zoom-enabled {
+  cursor: zoom-in;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+img.zoomed-img {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  max-width: 95vw !important;
+  max-height: 95vh !important;
+  z-index: 10000 !important;
+  cursor: zoom-out;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7);
+  background-color: white;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.nightMode img.zoomed-img,
+.night_mode img.zoomed-img,
+.night-mode img.zoomed-img {
+  background-color: #031417;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.9);
+}
+
+
+/* --- IMAGENS EM TAMANHO REAL & REMOÇÃO DA MOLDURA/ALÇA AZUL --- */
+img,
+img:focus,
+img:active,
+.main img,
+anki-editable img,
+[contenteditable="true"] img,
+[contenteditable] img,
+[data-efdrcfield] img,
+[data-EFDRCfield] img {
+  outline: none !important;
+  border: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-user-drag: none !important;
+  max-width: 100%;
+  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 6px;
+  margin: 15px auto;
+  display: block;
+}

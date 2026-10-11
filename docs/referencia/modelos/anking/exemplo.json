@@ -1,0 +1,12 @@
+{
+  "_comentario": "Nota sintética com a mesma estrutura das notas AnKing do Akira: cor fixa preta inline (some no modo escuro se não for tratada), cloze com dica, Extra e 'One by one' ligado.",
+  "noteType": "AnKing",
+  "tags": ["1°semestre", "Fisio", "UNESP2027-CB::Circulatorio"],
+  "fields": {
+    "Text": "<span style=\"color: rgb(0, 0, 0);\">A estimulação de exemplo ou</span><span style=\"color: rgb(0, 0, 255);\"> {{c1::(termo)::Dica de exemplo}}&nbsp;</span> reduz {{c2::a frequência}}.",
+    "Extra": "<b>Texto extra de exemplo</b>",
+    "Personal Notes": "",
+    "Missed Questions": "",
+    "One by one": "."
+  }
+}

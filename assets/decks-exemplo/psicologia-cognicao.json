@@ -1,0 +1,190 @@
+{
+  "deck": {
+    "id": "00000000-0000-4000-b000-000000000004",
+    "name": "Psicologia::Cognição e Aprendizagem",
+    "area": "Psicologia",
+    "description": "[EXEMPLO] Deck autoral introdutório com 20 notas sobre Psicologia Cognitiva, Memória e Mecanismos de Aprendizagem."
+  },
+  "notes": [
+    {
+      "id": "00000000-0000-4000-c000-000000000301",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Quais são os quatro componentes do modelo tripartite estendido de memória de trabalho de Alan Baddeley?",
+        "Verso": "[EXEMPLO] 1. <b>Executivo Central</b> (controle atencional e tomada de decisão);<br>2. <b>Alça Fonológica</b> (informação verbal e acústica);<br>3. <b>Esboço Visuoespacial</b> (informação visual e espacial);<br>4. <b>Retentor Episódico</b> (integração temporária entre subsistemas e memória de longo prazo)."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "memoria-trabalho", "baddeley"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000302",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que descreve a 'Curva do Esquecimento' proposta pioneiramente por Hermann Ebbinghaus?",
+        "Verso": "[EXEMPLO] Demonstra a taxa exponencial com que a informação memorizada decai no tempo quando não há tentativas ativas de recordação ou reforço. A maior perda de retenção ocorre logo nas primeiras horas e dias após o contato inicial com o conteúdo."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "ebbinghaus", "esquecimento"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000303",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é o 'Efeito de Testagem' (Testing Effect / Retrieval Practice) na psicologia da aprendizagem?",
+        "Verso": "[EXEMPLO] O fenômeno pelo qual o ato de <b>evocar ativamente</b> a informação da memória (autoavaliação, flashcards, testes) consolida as trilhas de memória muito mais eficazmente do que a mera releitura passiva do mesmo conteúdo."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "efeito-testagem", "evocacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000304",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é a diferença entre memória episódica e memória semântica (subtipos da memória declarativa/explícita)?",
+        "Verso": "[EXEMPLO] A <b>memória episódica</b> armazena eventos autobiográficos vivenciados pessoalmente, vinculados a contexto temporal e espacial específico. A <b>memória semântica</b> armazena conhecimentos gerais, fatos, vocabulário e conceitos desvinculados do momento específico em que foram aprendidos."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "memoria-declarativa", "tulving"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000305",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que sustenta a Teoria dos Níveis de Processamento de Craik e Lockhart (1972)?",
+        "Verso": "[EXEMPLO] A retenção na memória não depende do tempo de exposição, mas sim da <b>profundidade da análise do estímulo</b>. Processamentos superficiais (estrutural e fonológico) geram traços frágeis; processamentos profundos (semânticos, com atribuição de significado e associação conceitual) produzem traços duradouros."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "niveis-processamento", "craik-lockhart"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000306",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é a interferência proativa versus a interferência retroativa no esquecimento?",
+        "Verso": "[EXEMPLO] Na <b>interferência proativa</b>, informações aprendidas anteriormente dificultam a lembrança de novas informações. Na <b>interferência retroativa</b>, o aprendizado de novas informações prejudica o acesso a memórias adquiridas previamente."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "interferencia", "esquecimento"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000307",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é Metacognição e qual é o seu papel no monitoramento da aprendizagem?",
+        "Verso": "[EXEMPLO] É a capacidade de <b>conhecer e regular os próprios processos cognitivos</b> ('pensar sobre o próprio pensamento'). Envolve estimar o próprio nível de domínio, identificar lacunas conceituais e ajustar estratégias de estudo (como reconhecer a ilusão de competência gerada pela releitura passiva)."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "metacognicao", "autorregulacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000308",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] Qual é o papel do sono de ondas lentas (NREM) e do sono REM na consolidação da memória?",
+        "Verso": "[EXEMPLO] Durante o sono NREM profundo ocorre a reativação de padrões neurais hipocampais e transferência para o neocórtex (consolidação da <b>memória declarativa</b>). O sono REM está predominantemente associado à consolidação de <b>memórias procedurais</b>, emocionais e integração criativa de esquemas."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "sono", "consolidacao"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000309",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que prevê a Teoria da Carga Cognitiva de John Sweller para o design instrucional?",
+        "Verso": "[EXEMPLO] Como a memória de trabalho tem capacidade estritamente limitada, o aprendizado é maximizado quando se reduz a <b>carga cognitiva extrínseca</b> (distrações, formatação confusa), gerencia-se a <b>carga intrínseca</b> (complexidade inerente) e estimula-se a <b>carga germânica</b> (construção de esquemas mentais)."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "carga-cognitiva", "sweller"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000310",
+      "note_type_id": "00000000-0000-4000-8000-000000000001",
+      "fields": {
+        "Frente": "[EXEMPLO] O que é o fenômeno da 'Dificuldade Desejável' (Desirable Difficulties) proposto por Robert Bjork?",
+        "Verso": "[EXEMPLO] Estratégias que tornam o aprendizado inicial mais desafiador e lento (como espaçamento, intercalação e recordação ativa) parecem menos eficientes a curto prazo, mas geram retenção substancialmente superior e capacidade de transferência a longo prazo."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "bjork", "dificuldade-desejavel"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000311",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O chamado 'mágico número sete, mais ou menos dois' de George Miller refere-se à capacidade média de itens ou agrupamentos (chunks) retidos na {{c1::memória de curto prazo}}.",
+        "Verso extra": "Miller (1956). Posteriormente refinado por Cowan (2001) para cerca de 4 itens centrais sem agrupamento."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "miller", "capacidade", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000312",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A {{c1::prática espaçada}} (spaced repetition) produz retenção duradoura significativamente maior do que a prática concentrada ou em bloco ({{c2::massed practice / cramming}}).",
+        "Verso extra": "O efeito de espaçamento é um dos pilares empíricos mais robustos da psicologia cognitiva."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "espacamento", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000313",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A estrutura neural subcortical do lobo temporal medial crucial para a consolidação de novas memórias declarativas a longo prazo é o {{c1::hipocampo}}.",
+        "Verso extra": "Lesões bilaterais do hipocampo causam amnésia anterógrada severa (caso histórico de H.M.)."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "hipocampo", "neuroanatomia", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000314",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] Na curva de posição serial, a tendência a lembrar melhor os primeiros itens de uma lista é o {{c1::efeito de primazia}}, e os últimos itens é o {{c2::efeito de recência}}.",
+        "Verso extra": "A primazia reflete transferência para a memória de longo prazo; a recência reflete manutenção ativa na memória de trabalho."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "posicao-serial", "primazia", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000315",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O fenômeno em que a sensação subjetiva de facilidade na releitura é confundida com o domínio real do conteúdo é chamado de {{c1::ilusão de competência}}.",
+        "Verso extra": "A fluência de processamento na leitura passiva engana a metacognição do estudante."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "ilusao-competencia", "fluencia", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000316",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A técnica de estudo que alterna diferentes tópicos ou tipos de problemas em uma única sessão denomina-se {{c1::intercalação}} (interleaving practice).",
+        "Verso extra": "Diferente do estudo em blocos homogêneos, a intercalação aprimora a capacidade de discriminação e categorização."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "intercalacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000317",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A modificação e fortalecimento duradouro da transmissão sináptica decorrente de ativação repetida de neurônios é conhecida como {{c1::potenciação de longa duração}} (LTP).",
+        "Verso extra": "Long-Term Potentiation (LTP) é o mecanismo celular e molecular primário da plasticidade sináptica e da memória."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "ltp", "sinapse", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000318",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] A memória {{c1::procedural}} (implícita/não declarativa) é responsável pela aquisição de habilidades motoras e hábitos, sendo mediada principalmente pelos gânglios da base e cerebelo.",
+        "Verso extra": "Exemplos: andar de bicicleta, digitar no teclado ou tocar um instrumento."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "memoria-procedural", "ganglios-base", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000319",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O princípio da {{c1::especificidade de codificação}} de Endel Tulving propõe que a recuperação é mais provável quando as pistas presentes no teste coincidem com as pistas codificadas durante o aprendizado.",
+        "Verso extra": "Tulving & Thomson (1973). O contexto interno e externo funciona como pista de evocação."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "tulving", "codificacao", "cloze"]
+    },
+    {
+      "id": "00000000-0000-4000-c000-000000000320",
+      "note_type_id": "00000000-0000-4000-8000-000000000003",
+      "fields": {
+        "Texto": "[EXEMPLO] O processo dinâmico no qual uma memória já consolidada, ao ser evocada, torna-se temporariamente lábil e suscetível a modificação antes de estabilizar-se novamente é denominado {{c1::reconsolidação}}.",
+        "Verso extra": "A reconsolidação permite a atualização adaptativa de informações e novas associações."
+      },
+      "tags": ["[EXEMPLO]", "psicologia", "cognicao", "reconsolidacao", "memoria", "cloze"]
+    }
+  ]
+}

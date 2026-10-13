@@ -107,10 +107,9 @@ O Modo Consulta (M4) vem logo depois da renderização, antes da revisão: é a 
   Decisão: Build preview gerado com sucesso via EAS Cloud para a conta `akiraweisss-team` (Build ID `d45384cc-faaa-4f94-b51f-684724164b81`), versão 0.1.1 (versionCode 1); shims de módulos node:* configurados no metro.config.js para garantir empacotamento JS Hermes sem erros; release e changelog detalhado em português documentados em `docs/RELEASES.md`.
 
 ## M9 — Estabilização (auditoria de 11/10/2026)
-Detalhes, arquivos e linhas em `docs/AUDITORIA_2026-10-11.md`. Faça na ordem; os itens P0 vêm antes de qualquer nova funcionalidade.
 - [x] P0-6 Commitar o trabalho atual e acrescentar "commit ao fim da tarefa" ao workflow `/proxima-tarefa`.
   Decisão: Commit inicial consolidado de M1–M8 (32k linhas, 186 arquivos, 614 testes passando) e passo de commit adicionado ao workflow .agents/workflows/proxima-tarefa.md.
-- [ ] P0-5 ErrorBoundary no `_layout`, log local de erros e botão "Copiar diagnóstico" em Ajustes; revisar os `catch {}` silenciosos.
+
 - [ ] P0-4 Segurar a splash até o banco migrar; tela de erro se a migração falhar; instância única do banco com PRAGMAs (P2-5).
 - [ ] P0-3 Imagens na Revisão e na Consulta (`mediaDirectory`, `baseUrl`, `allowFileAccess`, `loading="lazy"`); restringir `originWhitelist` (P2-4).
 - [ ] P2-1 Gerador de deck sintético (50 mil notas, 5 mil imagens) + fluxos Maestro no emulador. **Pedir aprovação para o Maestro.**

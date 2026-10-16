@@ -8,12 +8,14 @@ export interface CardRenderPayload {
   side: CardSide;
   theme?: ThemeMode;
   css?: string;
+  isBuiltinModel?: boolean;
   mediaBasePath?: string;
   cardOrd?: number;
   tags?: string[];
   annotations?: AnnotationData[];
   showHighlights?: boolean;
 }
+
 
 export type CardInboundMessage =
   | { type: 'renderCard'; payload: CardRenderPayload }

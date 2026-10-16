@@ -12,6 +12,8 @@ import { CardView } from './CardView';
 import type { UseReviewSessionReturn } from '@/review/types';
 import { Rating } from '@/scheduler';
 import { useMediaDirectory } from '@/media';
+import { BUILTIN_NOTE_TYPE_IDS } from '@/db/builtin-note-types';
+
 
 export interface ReviewViewProps {
   session: UseReviewSessionReturn;
@@ -272,6 +274,9 @@ export function ReviewView({
           html={isAnswerRevealed ? currentCardData.backHtml : currentCardData.frontHtml}
           side={isAnswerRevealed ? 'back' : 'front'}
           css={currentCardData.noteType.css ?? undefined}
+          isBuiltinModel={(Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
+            currentCardData.noteType.id
+          )}
           mediaBasePath={mediaDir}
           cardOrd={currentCardData.card.ord}
           tags={currentCardData.note.tags}
@@ -280,6 +285,7 @@ export function ReviewView({
           style={styles.cardView}
         />
       </View>
+
 
       {/* 3. Barra Inferior de Ação / Avaliação */}
       <View style={[styles.footer, { borderTopColor: theme.border, backgroundColor: theme.elevated }]}>

@@ -29,22 +29,29 @@ describe('Renderizador de Card Único para WebView (src/webview/card/renderer)',
     expect(cardRoot?.classList.contains('side-front')).toBe(true);
   });
 
-  test('injeta CSS do note type com escopo isolado', () => {
+  test('injeta CSS do note type em #note-css sem escopo .card-root e monta #qa', () => {
     renderCardToDom(rootElement, {
       html: '<p class="minha-pergunta">Texto</p>',
       side: 'front',
       theme: 'dark',
       css: '.card { font-size: 22px; } .minha-pergunta { color: red; }',
+      isBuiltinModel: false,
     });
 
-    const styleEl = rootElement.querySelector('#card-custom-style') as HTMLStyleElement;
+    const styleEl = rootElement.querySelector('#note-css') as HTMLStyleElement;
     expect(styleEl).not.toBeNull();
-    expect(styleEl.textContent).toContain('.card-root .card { font-size: 22px; }');
-    expect(styleEl.textContent).toContain('.card-root .minha-pergunta { color: red; }');
+    expect(styleEl.textContent).toContain('.card { font-size: 22px; }');
+    expect(styleEl.textContent).toContain('.minha-pergunta { color: red; }');
+    expect(styleEl.textContent).not.toContain('.card-root');
+
+    const qaEl = rootElement.querySelector('#qa');
+    expect(qaEl).not.toBeNull();
 
     const cardRoot = rootElement.querySelector('.card-root');
     expect(cardRoot?.classList.contains('theme-dark')).toBe(true);
+    expect(cardRoot?.classList.contains('nightMode')).toBe(true);
   });
+
 
   test('resolve caminhos de imagens relativas para o mediaBasePath', () => {
     renderCardToDom(rootElement, {

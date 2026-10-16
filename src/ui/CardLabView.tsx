@@ -10,7 +10,9 @@ import { eq, and, isNull } from 'drizzle-orm';
 import { getDb, type FolioDatabase } from '@/db/client';
 import * as schema from '@/db/schema';
 import type { NoteType } from '@/db/schema';
+import { BUILTIN_NOTE_TYPE_IDS } from '@/db/builtin-note-types';
 import { NoteTypesRepository } from '@/db/repositories/note-types';
+
 import { renderCard } from '@/render';
 import {
   ensureFixtureMediaFiles,
@@ -533,6 +535,13 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
             side={side}
             theme={cardTheme}
             css={selectedItem?.noteType.css ?? undefined}
+            isBuiltinModel={
+              selectedItem
+                ? (Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
+                    selectedItem.noteType.id
+                  )
+                : false
+            }
             mediaBasePath={mediaDir}
             cardOrd={activeNoteData.cardOrd}
             tags={activeNoteData.tags}
@@ -563,6 +572,13 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
                   side={cell.s}
                   theme={cell.t}
                   css={selectedItem?.noteType.css ?? undefined}
+                  isBuiltinModel={
+                    selectedItem
+                      ? (Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
+                          selectedItem.noteType.id
+                        )
+                      : false
+                  }
                   mediaBasePath={mediaDir}
                   cardOrd={activeNoteData.cardOrd}
                   tags={activeNoteData.tags}
@@ -573,6 +589,7 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
           ))}
         </ScrollView>
       )}
+
 
       <Snackbar
         visible={snackbarMessage !== null}

@@ -38,7 +38,7 @@ describe('Componente <CardView />', () => {
     mockPostMessage.mockClear();
   });
 
-  it('monta corretamente com cardHtml estático e dados iniciais injetados', () => {
+  it('monta corretamente com documento AnkiDroid gerado por lado e baseUrl de mídia', () => {
     let renderer: ReactTestRenderer.ReactTestRenderer;
     act(() => {
       renderer = ReactTestRenderer.create(
@@ -53,15 +53,20 @@ describe('Componente <CardView />', () => {
 
     const webViewInstance = renderer!.root.findByProps({ testID: 'card-view-webview' });
     expect(webViewInstance).toBeDefined();
-    expect(webViewInstance.props.source).toEqual({ html: cardHtml, baseUrl: 'media/' });
+    expect(webViewInstance.props.source.baseUrl).toBe('media/');
+    expect(webViewInstance.props.source.html).toContain('<html class="mobile android js">');
+    expect(webViewInstance.props.source.html).toContain('<body class="card card1">');
+    expect(webViewInstance.props.source.html).toContain('<div id="qa"><p>Qual o sintoma principal?</p></div>');
     expect(webViewInstance.props.allowFileAccess).toBe(true);
     expect(webViewInstance.props.originWhitelist).toEqual(['about:*', 'file://*']);
+    expect(cardHtml.length).toBeGreaterThan(100);
 
     const injectedScript: string = webViewInstance.props.injectedJavaScriptBeforeContentLoaded;
     expect(injectedScript).toContain('window.__INITIAL_CARD_DATA__');
     expect(injectedScript).toContain('Qual o sintoma principal?');
     expect(injectedScript).toContain('"side":"front"');
   });
+
 
   it('envia mensagem renderCard via postMessage ao alterar lado ou html após estar pronto', () => {
     let renderer: ReactTestRenderer.ReactTestRenderer;

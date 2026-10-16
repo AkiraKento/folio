@@ -65,15 +65,18 @@ ${jsCode}
   const htmlPath = path.join(distHtmlDir, `${entryName}.html`);
   fs.writeFileSync(htmlPath, html, 'utf-8');
 
-  // Salva o módulo TypeScript exportando o HTML como string para o React Native
+  // Salva o módulo TypeScript exportando o HTML e o JS do runtime como string para o React Native
   const tsModulePath = path.join(outputDir, `${entryName}.html.ts`);
   const tsDirectModulePath = path.join(outputDir, `${entryName}.ts`);
   const escapedHtml = JSON.stringify(html);
+  const escapedJs = JSON.stringify(jsCode);
   const tsContent = `// Gerado automaticamente por scripts/build-webview.mjs - NÃO EDITAR MANUALMENTE
 export const ${entryName}Html: string = ${escapedHtml};
+export const ${entryName}RuntimeJs: string = ${escapedJs};
 `;
   fs.writeFileSync(tsModulePath, tsContent, 'utf-8');
   fs.writeFileSync(tsDirectModulePath, tsContent, 'utf-8');
+
 
   console.log(`✓ Webview '${entryName}' compilado com sucesso.`);
 }

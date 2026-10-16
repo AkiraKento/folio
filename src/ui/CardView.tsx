@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { WebView, type WebViewMessageEvent } from 'react-native-webview';
-import { cardHtml } from '@/webview/generated/card';
+import { cardRuntimeJs } from '@/webview/generated/card';
+import { buildAnkiDocument } from '@/webview/card/ankiDocument';
 import type {
   CardInboundMessage,
   CardOutboundMessage,
@@ -25,9 +26,14 @@ export interface CardViewProps {
   side: CardSide;
 
   /**
-   * CSS opcional do note type (será isolado com escopo em .card-root).
+   * CSS do note type (inserido cru em #note-css, sem escopo .card-root).
    */
   css?: string;
+
+  /**
+   * Indica se o modelo é um dos embutidos do Weiss (recebe BASE_CARD_STYLES).
+   */
+  isBuiltinModel?: boolean;
 
   /**
    * Caminho base local da pasta de mídia do app (para imagens relativas).
@@ -87,13 +93,13 @@ export interface CardViewProps {
 
 /**
  * Componente React Native de exibição de card único.
- * Hospeda a WebView estática empacotada por esbuild (com DOMPurify,
- * escopo de CSS e resolução segura de mídia).
+ * Carrega um documento HTML completo no formato do AnkiDroid por lado do card (M10 Passo 2).
  */
 export function CardView({
   html,
   side,
   css,
+  isBuiltinModel,
   mediaBasePath,
   cardOrd,
   tags,
@@ -121,22 +127,43 @@ export function CardView({
       side,
       theme: resolvedTheme,
       css,
+      isBuiltinModel,
       mediaBasePath: effectiveMediaDir,
       cardOrd,
       tags,
       annotations,
       showHighlights,
     }),
-    [html, side, resolvedTheme, css, effectiveMediaDir, cardOrd, tags, annotations, showHighlights]
+    [
+      html,
+      side,
+      resolvedTheme,
+      css,
+      isBuiltinModel,
+      effectiveMediaDir,
+      cardOrd,
+      tags,
+      annotations,
+      showHighlights,
+    ]
   );
 
-  // Injeta os dados iniciais antes do primeiro carregamento do DOM para evitar tela em branco
+  // Gera o documento HTML completo no formato AnkiDroid para o lado atual
+  const ankiDocHtml = useMemo(
+    () =>
+      buildAnkiDocument(currentPayload, {
+        runtimeScript: cardRuntimeJs,
+      }),
+    [currentPayload]
+  );
+
+  // Mantém injectedJavaScriptBeforeContentLoaded para compatibilidade e inicialização imediata
   const initialDataScript = useMemo(() => {
     const serialized = JSON.stringify(currentPayload);
     return `window.__INITIAL_CARD_DATA__ = ${serialized}; true;`;
-  }, []); // Avaliado apenas na montagem da WebView
+  }, [currentPayload]);
 
-  // Atualiza a WebView via postMessage sempre que os dados mudarem após a inicialização
+  // Atualiza a WebView via postMessage caso já esteja pronta
   useEffect(() => {
     if (!isReady) return;
 
@@ -155,7 +182,6 @@ export function CardView({
       switch (message.type) {
         case 'ready':
           setIsReady(true);
-          // Caso os dados tenham mudado antes do handshake ready ser recebido
           webViewRef.current?.postMessage(
             JSON.stringify({
               type: 'renderCard',
@@ -194,7 +220,7 @@ export function CardView({
       <WebView
         ref={webViewRef}
         testID={`${testID}-webview`}
-        source={{ html: cardHtml, baseUrl: effectiveMediaDir }}
+        source={{ html: ankiDocHtml, baseUrl: effectiveMediaDir }}
         allowFileAccess
         originWhitelist={['about:*', 'file://*']}
         injectedJavaScriptBeforeContentLoaded={initialDataScript}

@@ -1,4 +1,6 @@
+import { WEISS_FONTS_CSS } from '../generated/fonts';
 import { buildAnkiShimsScript, processTemplateScripts } from './ankiShims';
+import { processModelCss } from './modelCss';
 import { BASE_CARD_STYLES, WEISS_OVERLAY_STYLES, WEISS_RESET_STYLES } from './styles';
 import type { CardRenderPayload } from './types';
 
@@ -47,7 +49,7 @@ export interface BuildAnkiDocumentOptions {
  * Monta um documento HTML completo por lado do card no formato exato do AnkiDroid (M10 Passo 2 e Passo 4):
  * - html.mobile.android.js (+ nightMode night_mode night-mode no escuro)
  * - body.card.card{ORD+1} (+ nightMode night_mode night-mode no escuro)
- * - #weiss-reset, #weiss-fonts, #note-css (CSS do modelo cru, sem escopo .card-root), #weiss-overlay
+ * - #weiss-reset, #weiss-fonts (fontes offline Lato, Passo 6), #note-css (CSS do modelo sem @import remoto), #weiss-overlay
  * - #weiss-anki-shims (shims do Anki ANTES do conteúdo)
  * - <div id="qa">{HTML do lado com scripts protegidos por try/catch ou removidos se executeModelScripts=false}</div>
  */
@@ -61,12 +63,12 @@ export function buildAnkiDocument(
   const ordNumber = (payload.cardOrd ?? 0) + 1;
 
   const includeBase = shouldIncludeBaseCardStyles(payload);
-  const rawModelCss = payload.css ?? '';
+  const rawModelCss = processModelCss(payload.css ?? '');
   const noteCss = includeBase
     ? `${BASE_CARD_STYLES}\n${rawModelCss}`
     : rawModelCss;
 
-  const fontsCss = options.fontsCss ?? '';
+  const fontsCss = options.fontsCss ?? WEISS_FONTS_CSS;
   const shimsScript = options.shimsScript ?? buildAnkiShimsScript(payload);
   const executeScripts = payload.executeModelScripts !== false;
   const qaHtml = processTemplateScripts(payload.html ?? '', executeScripts);

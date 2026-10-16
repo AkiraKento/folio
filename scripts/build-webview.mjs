@@ -133,9 +133,119 @@ export const RAW_MODEL_FIXTURES = ${JSON.stringify(loadedModels, null, 2)} as co
   console.log("✓ Fixtures de 'docs/referencia/modelos/' geradas com sucesso.");
 }
 
+function buildFontsModule() {
+  const fontsDir = path.join(rootDir, 'assets', 'fonts', 'lato');
+  const fixturesMediaDir = path.join(webviewSrcDir, 'card', '__fixtures__', 'media');
+
+  if (!fs.existsSync(fontsDir)) {
+    console.log("Pasta 'assets/fonts/lato' não encontrada; pulando compilação de fontes.");
+    return;
+  }
+
+  const fontConfigs = [
+    {
+      file: 'Lato-Italic-latin-ext.woff2',
+      style: 'italic',
+      weight: 400,
+      localNames: ["'Lato Italic'", "'Lato-Italic'"],
+      range:
+        'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF',
+    },
+    {
+      file: 'Lato-Italic-latin.woff2',
+      style: 'italic',
+      weight: 400,
+      localNames: ["'Lato Italic'", "'Lato-Italic'"],
+      range:
+        'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+    },
+    {
+      file: 'Lato-BoldItalic-latin-ext.woff2',
+      style: 'italic',
+      weight: 700,
+      localNames: ["'Lato Bold Italic'", "'Lato-BoldItalic'"],
+      range:
+        'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF',
+    },
+    {
+      file: 'Lato-BoldItalic-latin.woff2',
+      style: 'italic',
+      weight: 700,
+      localNames: ["'Lato Bold Italic'", "'Lato-BoldItalic'"],
+      range:
+        'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+    },
+    {
+      file: 'Lato-Regular-latin-ext.woff2',
+      style: 'normal',
+      weight: 400,
+      localNames: ["'Lato Regular'", "'Lato-Regular'"],
+      range:
+        'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF',
+    },
+    {
+      file: 'Lato-Regular-latin.woff2',
+      style: 'normal',
+      weight: 400,
+      localNames: ["'Lato Regular'", "'Lato-Regular'"],
+      range:
+        'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+    },
+    {
+      file: 'Lato-Bold-latin-ext.woff2',
+      style: 'normal',
+      weight: 700,
+      localNames: ["'Lato Bold'", "'Lato-Bold'"],
+      range:
+        'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF',
+    },
+    {
+      file: 'Lato-Bold-latin.woff2',
+      style: 'normal',
+      weight: 700,
+      localNames: ["'Lato Bold'", "'Lato-Bold'"],
+      range:
+        'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+    },
+  ];
+
+  const fontFaceRules = [];
+
+  for (const cfg of fontConfigs) {
+    const filePath = path.join(fontsDir, cfg.file);
+    if (!fs.existsSync(filePath)) {
+      console.warn(`Aviso: arquivo de fonte '${cfg.file}' não encontrado em ${fontsDir}`);
+      continue;
+    }
+    const buf = fs.readFileSync(filePath);
+    const b64 = buf.toString('base64');
+    const dataUri = `data:font/woff2;base64,${b64}`;
+
+    const locals = cfg.localNames.map((l) => `local(${l})`).join(', ');
+    fontFaceRules.push(`@font-face {
+  font-family: 'Lato';
+  font-style: ${cfg.style};
+  font-weight: ${cfg.weight};
+  font-display: swap;
+  src: ${locals}, url('${dataUri}') format('woff2');
+  unicode-range: ${cfg.range};
+}`);
+  }
+
+  const fontsCss = fontFaceRules.join('\n\n');
+  const tsContent = `// Gerado automaticamente por scripts/build-webview.mjs (M10 Passo 6) - NÃO EDITAR MANUALMENTE
+export const WEISS_FONTS_CSS: string = ${JSON.stringify(fontsCss)};
+`;
+
+  const fontsTsPath = path.join(outputDir, 'fonts.ts');
+  fs.writeFileSync(fontsTsPath, tsContent, 'utf-8');
+  console.log(`✓ Módulo de fontes offline 'fonts.ts' compilado com sucesso (${fontFaceRules.length} @font-face rules).`);
+}
+
 async function main() {
   console.log('Iniciando compilação dos módulos WebView...');
   buildModelFixtures();
+  buildFontsModule();
   await buildEntry('hello', path.join(webviewSrcDir, 'hello.ts'), 'Weiss - Olá Mundo');
   await buildEntry('card', path.join(webviewSrcDir, 'card', 'index.ts'), 'Weiss - Card');
   await buildEntry('consulta', path.join(webviewSrcDir, 'consulta', 'index.ts'), 'Weiss - Consulta');

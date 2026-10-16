@@ -39,16 +39,17 @@ export function shouldSkipAnchorElement(el: Element): boolean {
   if (id === 'tags-container' || id === 'action-container' || id === 'reload-imgs-btn') {
     return true;
   }
-  const classList = el.classList;
-  if (
-    classList &&
-    (classList.contains('tags-container') ||
-      classList.contains('notepad-wrapper') ||
-      classList.contains('tag-pill') ||
-      classList.contains('card-note-tooltip') ||
-      classList.contains('weiss-zoom-overlay'))
-  ) {
-    return true;
+  const cn = el.className;
+  if (typeof cn === 'string' && cn.length > 0) {
+    if (
+      cn.indexOf('tags-container') !== -1 ||
+      cn.indexOf('notepad-wrapper') !== -1 ||
+      cn.indexOf('tag-pill') !== -1 ||
+      cn.indexOf('card-note-tooltip') !== -1 ||
+      cn.indexOf('weiss-zoom-overlay') !== -1
+    ) {
+      return true;
+    }
   }
   return false;
 }
@@ -110,6 +111,9 @@ function getOwnerDocument(node: Node): Document {
 }
 
 export function extractAnchorText(root: Node): string {
+  if (!root.lastChild && (!root.childNodes || root.childNodes.length === 0)) {
+    return root.textContent || '';
+  }
   const nodes = textNodes(root);
   let out = '';
   for (let i = 0; i < nodes.length; i++) {
@@ -306,6 +310,9 @@ export function locate(root: Node, ann: AnnotationLocateQuery): [number, number]
 }
 
 function textNodes(root: Node): Text[] {
+  if (root.nodeType === TEXT_NODE_TYPE) {
+    return [root as Text];
+  }
   const out: Text[] = [];
   const stack: Node[] = [];
   let child = root.lastChild;
@@ -337,23 +344,16 @@ function applyClasses(
   const kind = ann.kind === 'ul' ? 'ul' : 'hl';
   const color = ann.color || 'amarelo';
   const hasNote = Boolean(ann.note && ann.note.trim().length > 0);
+  const baseClass = `cq-mark ann cq-${kind} ${kind} cq-c-${color} c-${color}${
+    hasNote ? ' cq-has-note has-note' : ''
+  }`;
+  const endClass = `${baseClass} cq-end end`;
 
-  for (let i = 0; i < marks.length; i++) {
-    const isEnd = i === marks.length - 1;
-    marks[i].className = [
-      'cq-mark',
-      'ann',
-      `cq-${kind}`,
-      kind,
-      `cq-c-${color}`,
-      `c-${color}`,
-      hasNote ? 'cq-has-note has-note' : '',
-      isEnd ? 'cq-end end' : '',
-    ]
-      .filter(Boolean)
-      .join(' ');
+  const total = marks.length;
+  for (let i = 0; i < total; i++) {
+    marks[i].className = i === total - 1 ? endClass : baseClass;
   }
-  return marks.length;
+  return total;
 }
 
 /**

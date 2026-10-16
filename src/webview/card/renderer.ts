@@ -1,4 +1,5 @@
 import { NIGHT_MODE_CLASSES, shouldIncludeBaseCardStyles } from './ankiDocument';
+import { processModelCss } from './modelCss';
 import { rewriteMediaElements } from './media';
 import { sanitizeCardHtml } from './sanitize';
 import { BASE_CARD_STYLES, WEISS_OVERLAY_STYLES, WEISS_RESET_STYLES } from './styles';
@@ -456,7 +457,7 @@ export function renderCardToDom(
   // 2. CSS do modelo SEM escopo (.card-root removido no M10 Passo 2);
   // BASE_CARD_STYLES entra apenas em modelos embutidos ou sem CSS.
   const includeBase = shouldIncludeBaseCardStyles(payload);
-  const rawModelCss = payload.css ?? '';
+  const rawModelCss = processModelCss(payload.css ?? '');
   const noteCss = includeBase ? `${BASE_CARD_STYLES}\n${rawModelCss}` : rawModelCss;
 
   // 3. Montagem do DOM com #note-css, #weiss-overlay e #qa

@@ -6,6 +6,30 @@ import { strings } from '../strings';
 import { SettingsRepository } from '@/db/repositories/settings';
 import * as notificationService from '@/notifications/notificationService';
 
+/* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
+jest.mock('react-native-webview', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+
+  const MockWebView = React.forwardRef((props: any, ref: any) => {
+    React.useImperativeHandle(ref, () => ({
+      postMessage: jest.fn(),
+    }));
+
+    return React.createElement(View, {
+      ...props,
+      testID: props.testID || 'mock-webview',
+    });
+  });
+
+  MockWebView.displayName = 'MockWebView';
+
+  return {
+    WebView: MockWebView,
+  };
+});
+/* eslint-enable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
+
 // Mock do notificationService
 jest.mock('@/notifications/notificationService', () => {
   const actual = jest.requireActual('@/notifications/notificationService');
@@ -18,6 +42,7 @@ jest.mock('@/notifications/notificationService', () => {
     requestNotificationPermission: jest.fn().mockResolvedValue(true),
   };
 });
+
 
 describe('SettingsView', () => {
   let db: ReturnType<typeof createTestDatabase>['db'];

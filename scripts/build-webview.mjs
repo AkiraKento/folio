@@ -78,8 +78,61 @@ export const ${entryName}Html: string = ${escapedHtml};
   console.log(`✓ Webview '${entryName}' compilado com sucesso.`);
 }
 
+function buildModelFixtures() {
+  const modelosDir = path.join(rootDir, 'docs', 'referencia', 'modelos');
+  const fixturesDir = path.join(webviewSrcDir, 'card', '__fixtures__');
+  const fixturesMediaDir = path.join(fixturesDir, 'media');
+
+  if (!fs.existsSync(fixturesDir)) {
+    fs.mkdirSync(fixturesDir, { recursive: true });
+  }
+  if (!fs.existsSync(fixturesMediaDir)) {
+    fs.mkdirSync(fixturesMediaDir, { recursive: true });
+  }
+
+  // PNG válido mínimo (64x64 em tom verde Calmcoder #3a9d7f) para exemplo-avicena.png
+  const samplePngBase64 =
+    'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAWUlEQVR4nO3PQREAMAgAoL9/Zzy4oI2Z0N17ng84A2gAagBqAGoAagBqAGoAagBqAGoAagBqAGoAagBqAGoAagBqAGoAagBqAGoAagBqAGoAagBqAGrgArs7AT44j1zBAAAAAElFTkSuQmCC';
+
+  const samplePngPath = path.join(fixturesMediaDir, 'exemplo-avicena.png');
+  fs.writeFileSync(samplePngPath, Buffer.from(samplePngBase64, 'base64'));
+
+  const modelKeys = ['avicena', 'anking'];
+  const loadedModels = {};
+
+  for (const key of modelKeys) {
+    const dir = path.join(modelosDir, key);
+    if (!fs.existsSync(dir)) continue;
+
+    const modelJson = JSON.parse(fs.readFileSync(path.join(dir, 'model.json'), 'utf-8'));
+    const exemploJson = JSON.parse(fs.readFileSync(path.join(dir, 'exemplo.json'), 'utf-8'));
+    const frontHtml = fs.readFileSync(path.join(dir, 'front.html'), 'utf-8');
+    const backHtml = fs.readFileSync(path.join(dir, 'back.html'), 'utf-8');
+    const styleCss = fs.readFileSync(path.join(dir, 'style.css'), 'utf-8');
+
+    loadedModels[key] = {
+      model: modelJson,
+      example: exemploJson,
+      frontHtml,
+      backHtml,
+      styleCss,
+    };
+  }
+
+  const generatedTsPath = path.join(fixturesDir, 'generated.ts');
+  const generatedContent = `// Gerado automaticamente por scripts/build-webview.mjs a partir de docs/referencia/modelos/*/ - NÃO EDITAR MANUALMENTE
+export const EXEMPLO_AVICENA_PNG_BASE64 = ${JSON.stringify(samplePngBase64)};
+
+export const RAW_MODEL_FIXTURES = ${JSON.stringify(loadedModels, null, 2)} as const;
+`;
+
+  fs.writeFileSync(generatedTsPath, generatedContent, 'utf-8');
+  console.log("✓ Fixtures de 'docs/referencia/modelos/' geradas com sucesso.");
+}
+
 async function main() {
   console.log('Iniciando compilação dos módulos WebView...');
+  buildModelFixtures();
   await buildEntry('hello', path.join(webviewSrcDir, 'hello.ts'), 'Weiss - Olá Mundo');
   await buildEntry('card', path.join(webviewSrcDir, 'card', 'index.ts'), 'Weiss - Card');
   await buildEntry('consulta', path.join(webviewSrcDir, 'consulta', 'index.ts'), 'Weiss - Consulta');
@@ -90,3 +143,4 @@ main().catch((err) => {
   console.error('Erro na compilação do WebView:', err);
   process.exit(1);
 });
+

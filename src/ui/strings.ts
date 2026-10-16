@@ -564,6 +564,32 @@ export const strings = {
       'Não foi possível migrar ou inicializar os dados locais com segurança. O aplicativo não pode prosseguir para evitar corrupção de dados. Copie o diagnóstico para relatar o problema.',
     errorDetailsToggle: 'Ver detalhes técnicos',
   },
+  developer: {
+    sectionTitle: 'Desenvolvedor',
+    unlockedSnackbar: 'Modo desenvolvedor ativado',
+    openCardLabButton: 'Laboratório de cards',
+    openCardLabDescription:
+      'Inspecione modelos do banco e as fixtures de referência (Avicena e AnKing) em frente/verso e claro/escuro.',
+  },
+  cardLab: {
+    title: 'Laboratório de cards',
+    backButton: 'Voltar',
+    modelsSectionTitle: 'Modelos',
+    fixtureBadge: 'Fixture',
+    dbModelBadge: 'Banco',
+    sideFront: 'Frente',
+    sideBack: 'Verso',
+    themeLight: 'Claro',
+    themeDark: 'Escuro',
+    viewSingle: 'Único',
+    viewGrid: 'Grade 2×2',
+    openRandomRealNoteButton: 'Abrir nota real aleatória deste modelo',
+    resetToSampleButton: 'Voltar para nota de exemplo',
+    noRealNoteFound: 'Nenhuma nota real encontrada no banco para este modelo.',
+    realNoteLoaded: 'Nota real aleatória carregada.',
+    sampleVariantLabel: 'Variação de exemplo:',
+  },
 } as const;
 
 export type Strings = typeof strings;
+

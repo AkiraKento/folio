@@ -127,8 +127,9 @@ Detalhes, arquivos e linhas em `docs/AUDITORIA_2026-10-11.md`. Faça na ordem; o
 
 ## M10 — Reviewer fiel aos modelos do Anki (Avicena / AnKing)
 Siga `docs/PASSO_A_PASSO_REVIEWER_ANKI.md` passo a passo. Pré-requisitos: M9 P0-3 (imagens + `baseUrl`) e P0-5 (log de erros).
-- [ ] Passo 1 — Fixtures de `docs/referencia/modelos/` + tela "Laboratório de cards".
+- [x] Passo 1 — Fixtures de `docs/referencia/modelos/` + tela "Laboratório de cards". *(Decisão: criado módulo `src/webview/card/__fixtures__/` sincronizado no `build:webview` a partir de `docs/referencia/modelos/{avicena,anking}/` com suporte às variações Avicena Cloze/Básico e AnKing Cloze múltiplo/único, imagem `exemplo-avicena.png` copiada para a pasta de mídia de teste e tela `CardLabView` desbloqueada por 7 toques na versão em Ajustes → Desenvolvedor → Laboratório de cards; criada também a pasta `docs/referencia/modelos-txt/` para recebimento de `.txt` do usuário).*
 - [ ] Passo 2 — Documento no formato do Anki (`html`/`body.card`/`#qa`, classes de modo noturno, CSS sem escopo, sem `BASE_CARD_STYLES` em modelo importado).
+
 - [ ] Passo 3 — Filtros `edit:`, `clickable::`, `cloze-only`, `tts`; sanitizar campos antes da substituição.
 - [ ] Passo 4 — Scripts do template + shims (`pycmd`, hooks, AnkiDroidJS, AnkiConnect local para o Bloco de Notas) + bloqueio de rede.
 - [ ] Passo 5 — Runtime do Weiss no documento (grifos depois dos scripts, balão, links, zoom, cor de fundo para o RN).

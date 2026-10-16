@@ -20,6 +20,8 @@ export default function SettingsScreen() {
           // Permanece na tela exibindo o resumo atualizado e notificação
         }}
       />
+
+
     </SafeAreaView>
   );
 }

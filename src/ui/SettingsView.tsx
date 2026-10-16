@@ -20,12 +20,14 @@ import { useReminder } from '@/notifications/useReminder';
 import { ReminderTimePickerModal } from './ReminderTimePickerModal';
 import { useFeedback } from '@/feedback/useFeedback';
 import { copyOrShareDiagnostic, logWarn } from '@/logging';
+import { CardLabView } from './CardLabView';
 
 export interface SettingsViewProps {
   onBack?: () => void;
   db?: FolioDatabase;
   onRestoreSuccess?: () => void;
   onSendFeedback?: () => void;
+  onOpenCardLab?: () => void;
 }
 
 export function SettingsView({
@@ -33,10 +35,15 @@ export function SettingsView({
   db,
   onRestoreSuccess,
   onSendFeedback,
+  onOpenCardLab,
 }: SettingsViewProps) {
   const { theme, mode: currentThemeMode, setThemeMode } = useTheme();
   const database = db ?? getDb();
   const [settingsRepo] = useState(() => new SettingsRepository(database));
+  const [, setVersionTapCount] = useState(0);
+  const [isDevUnlocked, setIsDevUnlocked] = useState(false);
+  const [isCardLabOpen, setIsCardLabOpen] = useState(false);
+
 
   // Estado das configurações
   const [settingsValues, setSettingsValues] = useState<FolioSettingsMap>(() => ({
@@ -147,8 +154,29 @@ export function SettingsView({
     }
   };
 
+  const handleVersionTap = () => {
+    setVersionTapCount((prev) => {
+      const next = prev + 1;
+      if (next >= 7 && !isDevUnlocked) {
+        setIsDevUnlocked(true);
+        setSnackbarMessage(strings.developer.unlockedSnackbar);
+      }
+      return next;
+    });
+  };
+
+  if (isCardLabOpen) {
+    return (
+      <CardLabView
+        db={database}
+        onBack={() => setIsCardLabOpen(false)}
+      />
+    );
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: theme.canvas }]}>
+
       {/* Cabeçalho */}
       <View
         style={[
@@ -584,14 +612,21 @@ export function SettingsView({
             ]}
           >
             <View style={styles.feedbackHeaderRow}>
-              <View style={styles.feedbackTitleContainer}>
+              <TouchableOpacity
+                testID="settings-version-tap"
+                style={styles.feedbackTitleContainer}
+                onPress={handleVersionTap}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={strings.feedback.versionLabel(feedback.versionInfo.appVersion)}
+              >
                 <Text style={[styles.feedbackAppName, { color: theme.fg }]}>
                   {strings.feedback.aboutTitle}
                 </Text>
                 <Text style={[styles.feedbackVersionBadge, { color: theme.accent }]}>
                   {strings.feedback.versionLabel(feedback.versionInfo.appVersion)}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
 
             <Text style={[styles.cardDescription, { color: theme.fg, marginTop: 4 }]}>
@@ -687,7 +722,53 @@ export function SettingsView({
             </View>
           </View>
         </View>
+
+        {/* SEÇÃO DESENVOLVEDOR (desbloqueada com 7 toques na versão) */}
+        {isDevUnlocked && (
+          <View testID="settings-developer-section" style={styles.section}>
+            <Text style={[styles.sectionTitle, { color: theme.fgMuted }]}>
+              {strings.developer.sectionTitle.toUpperCase()}
+            </Text>
+
+            <View
+              style={[
+                styles.card,
+                { backgroundColor: theme.elevated, borderColor: theme.border },
+              ]}
+            >
+              <Text style={[styles.cardDescription, { color: theme.fg }]}>
+                {strings.developer.openCardLabDescription}
+              </Text>
+
+              <TouchableOpacity
+                testID="open-card-lab-button"
+                style={[
+                  styles.feedbackSecondaryButton,
+                  {
+                    backgroundColor: theme.elevated2,
+                    borderColor: theme.accent,
+                  },
+                ]}
+                onPress={() => {
+                  if (onOpenCardLab) {
+                    onOpenCardLab();
+                  } else {
+                    setIsCardLabOpen(true);
+                  }
+                }}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel={strings.developer.openCardLabButton}
+              >
+                <Text style={[styles.feedbackSecondaryButtonText, { color: theme.accent }]}>
+                  🧪 {strings.developer.openCardLabButton}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
       </ScrollView>
+
 
       {/* MODAL DE RESTAURAÇÃO DE BACKUP */}
       <Modal

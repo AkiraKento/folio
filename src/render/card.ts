@@ -49,6 +49,8 @@ export function renderCardSide(input: RenderCardInput): string {
       cardName: templateDef.name,
       modelName,
       allClozesRevealed: input.allClozesRevealed,
+      theme: input.theme,
+      adjustFixedColorsInDarkMode: input.adjustFixedColorsInDarkMode,
     });
   }
 
@@ -63,6 +65,8 @@ export function renderCardSide(input: RenderCardInput): string {
     cardName: templateDef.name,
     modelName,
     allClozesRevealed: input.allClozesRevealed,
+    theme: input.theme,
+    adjustFixedColorsInDarkMode: input.adjustFixedColorsInDarkMode,
   });
 
   return renderTemplate(templateDef.back, {
@@ -76,6 +80,8 @@ export function renderCardSide(input: RenderCardInput): string {
     cardName: templateDef.name,
     modelName,
     allClozesRevealed: input.allClozesRevealed,
+    theme: input.theme,
+    adjustFixedColorsInDarkMode: input.adjustFixedColorsInDarkMode,
   });
 }
 
@@ -102,6 +108,8 @@ export function renderCard(input: RenderCardFullInput): RenderCardResult {
     cardName: templateDef.name,
     modelName,
     allClozesRevealed: input.allClozesRevealed,
+    theme: input.theme,
+    adjustFixedColorsInDarkMode: input.adjustFixedColorsInDarkMode,
   });
 
   const back = renderTemplate(templateDef.back, {
@@ -115,6 +123,8 @@ export function renderCard(input: RenderCardFullInput): RenderCardResult {
     cardName: templateDef.name,
     modelName,
     allClozesRevealed: input.allClozesRevealed,
+    theme: input.theme,
+    adjustFixedColorsInDarkMode: input.adjustFixedColorsInDarkMode,
   });
 
   return { front, back };

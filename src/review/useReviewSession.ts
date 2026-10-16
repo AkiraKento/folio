@@ -17,6 +17,7 @@ import {
   type SchedulerConfig,
 } from '@/scheduler';
 import { renderCard } from '@/render';
+import { useTheme } from '@/ui/theme';
 import type {
   ReviewCardData,
   ReviewQueueCounts,
@@ -26,7 +27,15 @@ import type {
 } from './types';
 
 export function useReviewSession(options: UseReviewSessionOptions = {}): UseReviewSessionReturn {
-  const { deckId, now: nowOption, db } = options;
+  const {
+    deckId,
+    now: nowOption,
+    db,
+    theme: themeOption,
+    adjustFixedColorsInDarkMode: adjustOption,
+  } = options;
+  const { isDark } = useTheme();
+  const effectiveTheme: 'light' | 'dark' = themeOption ?? (isDark ? 'dark' : 'light');
 
   const [loading, setLoading] = useState(true);
   const [deckName, setDeckName] = useState<string>('Revisão');
@@ -55,6 +64,13 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
     'executeModelScripts',
     DEFAULT_SETTINGS.executeModelScripts
   );
+  const adjustFixedColorsInDarkMode =
+    adjustOption !== undefined
+      ? adjustOption
+      : settingsRepo.getWithDefault<boolean>(
+          'adjustFixedColorsInDarkMode',
+          DEFAULT_SETTINGS.adjustFixedColorsInDarkMode
+        );
   const desiredRetention = settingsRepo.getWithDefault<number>(
     'desiredRetention',
     DEFAULT_SETTINGS.desiredRetention
@@ -107,6 +123,8 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
         cardOrd: card.ord,
         tags: note.tags,
         deckName: deck.name,
+        theme: effectiveTheme,
+        adjustFixedColorsInDarkMode,
       });
 
       return {
@@ -119,7 +137,7 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
         annotations: activeAnnotations,
       };
     },
-    [notesRepo, noteTypesRepo, decksRepo, annotationsRepo]
+    [notesRepo, noteTypesRepo, decksRepo, annotationsRepo, effectiveTheme, adjustFixedColorsInDarkMode]
   );
 
   // Inicialização da sessão e montagem da fila

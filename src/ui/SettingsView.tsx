@@ -54,6 +54,8 @@ export function SettingsView({
       settingsRepo.get<boolean>('showHighlightsInReview') ?? DEFAULT_SETTINGS.showHighlightsInReview,
     executeModelScripts:
       settingsRepo.get<boolean>('executeModelScripts') ?? DEFAULT_SETTINGS.executeModelScripts,
+    adjustFixedColorsInDarkMode:
+      settingsRepo.get<boolean>('adjustFixedColorsInDarkMode') ?? DEFAULT_SETTINGS.adjustFixedColorsInDarkMode,
     newCardsPerDay: settingsRepo.get<number>('newCardsPerDay') ?? DEFAULT_SETTINGS.newCardsPerDay,
     maxReviewsPerDay: settingsRepo.get<number>('maxReviewsPerDay') ?? DEFAULT_SETTINGS.maxReviewsPerDay,
     desiredRetention: settingsRepo.get<number>('desiredRetention') ?? DEFAULT_SETTINGS.desiredRetention,
@@ -624,6 +626,50 @@ export function SettingsView({
                   style={[
                     styles.toggleThumb,
                     settingsValues.executeModelScripts
+                      ? styles.toggleThumbActive
+                      : styles.toggleThumbInactive,
+                  ]}
+                />
+              </View>
+            </TouchableOpacity>
+
+            {/* Ajustar cores fixas no modo escuro */}
+            <TouchableOpacity
+              testID="settings-adjust-fixed-colors-toggle"
+              style={[styles.toggleRow, { borderTopColor: theme.border }]}
+              onPress={() =>
+                handleUpdateSetting(
+                  'adjustFixedColorsInDarkMode',
+                  !settingsValues.adjustFixedColorsInDarkMode
+                )
+              }
+              activeOpacity={0.7}
+              accessibilityRole="switch"
+              accessibilityState={{ checked: settingsValues.adjustFixedColorsInDarkMode }}
+              accessibilityLabel={strings.settings.adjustFixedColorsInDarkMode}
+            >
+              <View style={styles.toggleTextContainer}>
+                <Text style={[styles.rowTitle, { color: theme.fg }]}>
+                  {strings.settings.adjustFixedColorsInDarkMode}
+                </Text>
+                <Text style={[styles.rowSubtitle, { color: theme.fgMuted }]}>
+                  {strings.settings.adjustFixedColorsInDarkModeDesc}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.toggleTrack,
+                  {
+                    backgroundColor: settingsValues.adjustFixedColorsInDarkMode
+                      ? theme.accent
+                      : theme.elevated2,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.toggleThumb,
+                    settingsValues.adjustFixedColorsInDarkMode
                       ? styles.toggleThumbActive
                       : styles.toggleThumbInactive,
                   ]}

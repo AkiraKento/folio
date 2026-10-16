@@ -12,6 +12,7 @@ export interface FolioSettingsMap {
   dayRolloverHour: number;
   showHighlightsInReview: boolean;
   executeModelScripts: boolean;
+  adjustFixedColorsInDarkMode: boolean;
   lastHighlightColor: 'amarelo' | 'verde' | 'azul' | 'rosa' | 'laranja';
   fontSize: number;
   sampleDeckLoaded: boolean;
@@ -34,6 +35,7 @@ export const DEFAULT_SETTINGS: FolioSettingsMap = {
   dayRolloverHour: 4,
   showHighlightsInReview: true,
   executeModelScripts: true,
+  adjustFixedColorsInDarkMode: true,
   lastHighlightColor: 'amarelo',
   fontSize: 17,
   sampleDeckLoaded: false,

@@ -1,4 +1,10 @@
 import DOMPurify from 'dompurify';
+import { adjustFixedColorsForDarkMode } from './fixedColors';
+
+export interface SanitizeFieldOptions {
+  isDark?: boolean;
+  adjustFixedColorsInDarkMode?: boolean;
+}
 
 const FORBID_TAGS = ['script', 'iframe', 'object', 'embed', 'link'];
 const FORBID_ATTR = [
@@ -66,7 +72,10 @@ const POTENTIALLY_UNSAFE_HTML_RE =
  * Remove <script>, <iframe>, <object>, <embed>, <link>, atributos on*=, URLs javascript: e tags [sound:...].
  * Preserva o HTML e os <script> pertencentes ao template do modelo.
  */
-export function sanitizeFieldHtml(rawFieldValue: string): string {
+export function sanitizeFieldHtml(
+  rawFieldValue: string,
+  options?: SanitizeFieldOptions
+): string {
   if (!rawFieldValue || typeof rawFieldValue !== 'string') {
     return '';
   }
@@ -103,6 +112,11 @@ export function sanitizeFieldHtml(rawFieldValue: string): string {
         /(\b(?:href|src|action|formaction)\s*=\s*(?:["']\s*)?)javascript:[^"'\s>]*/gi,
         '$1#'
       );
+  }
+
+  // 4. Ajuste de cores fixas no modo escuro (M10 Passo 8)
+  if (options?.isDark && options.adjustFixedColorsInDarkMode !== false) {
+    cleaned = adjustFixedColorsForDarkMode(cleaned);
   }
 
   return cleaned;

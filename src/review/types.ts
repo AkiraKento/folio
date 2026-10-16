@@ -40,6 +40,8 @@ export interface UseReviewSessionOptions {
   deckId?: string;
   now?: number | Date;
   db?: FolioDatabase;
+  theme?: 'light' | 'dark';
+  adjustFixedColorsInDarkMode?: boolean;
 }
 
 export interface UseReviewSessionReturn {

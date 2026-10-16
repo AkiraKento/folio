@@ -78,7 +78,7 @@ function buildDefaultFieldsForNoteType(noteType: NoteType): {
 }
 
 export function CardLabView({ onBack, db }: CardLabViewProps) {
-  const { theme } = useTheme();
+  const { theme, isDark } = useTheme();
   const database = db ?? getDb();
   const defaultMediaDir = useMediaDirectory();
   const [mediaDir, setMediaDir] = useState<string>(defaultMediaDir);
@@ -94,6 +94,18 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
       );
     } catch {
       return DEFAULT_SETTINGS.executeModelScripts;
+    }
+  }, [database]);
+
+  const adjustFixedColorsInDarkMode = useMemo(() => {
+    try {
+      const repo = new SettingsRepository(database);
+      return repo.getWithDefault<boolean>(
+        'adjustFixedColorsInDarkMode',
+        DEFAULT_SETTINGS.adjustFixedColorsInDarkMode
+      );
+    } catch {
+      return DEFAULT_SETTINGS.adjustFixedColorsInDarkMode;
     }
   }, [database]);
 
@@ -192,8 +204,10 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
       cardOrd: activeNoteData.cardOrd,
       tags: activeNoteData.tags,
       deckName: 'Laboratório::Exemplo',
+      theme: isDark ? 'dark' : 'light',
+      adjustFixedColorsInDarkMode,
     });
-  }, [selectedItem, activeNoteData]);
+  }, [selectedItem, activeNoteData, isDark, adjustFixedColorsInDarkMode]);
 
   const handleSelectModel = (item: LabModelItem) => {
     setSelectedItemId(item.id);

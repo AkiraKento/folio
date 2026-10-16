@@ -51,13 +51,18 @@ function resolveFieldValue(fieldName: string, context: RenderContext): string {
   }
 
   // Busca nos campos da nota (primeiro exato, depois case-insensitive) e sanitiza o campo
+  const sanitizeOptions = {
+    isDark: context.theme === 'dark',
+    adjustFixedColorsInDarkMode: context.adjustFixedColorsInDarkMode,
+  };
+
   if (context.fields[normalized] !== undefined) {
-    return sanitizeFieldHtml(context.fields[normalized]);
+    return sanitizeFieldHtml(context.fields[normalized], sanitizeOptions);
   }
 
   for (const [key, value] of Object.entries(context.fields)) {
     if (key.toLowerCase() === lower) {
-      return sanitizeFieldHtml(value);
+      return sanitizeFieldHtml(value, sanitizeOptions);
     }
   }
 

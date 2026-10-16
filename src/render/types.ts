@@ -27,6 +27,10 @@ export interface RenderContext {
   frontHtml?: string;
   /** No Modo Consulta: todas as lacunas são reveladas e marcadas com <span class="cloze"> */
   allClozesRevealed?: boolean;
+  /** Tema de renderização ('light' | 'dark') para ajuste de cores fixas (Passo 8) */
+  theme?: 'light' | 'dark';
+  /** Liga/desliga o ajuste de cores fixas em modo escuro (padrão true) */
+  adjustFixedColorsInDarkMode?: boolean;
 }
 
 export interface RenderTemplateOptions extends RenderContext {
@@ -49,6 +53,10 @@ export interface RenderCardInput {
   deckName?: string;
   /** No Modo Consulta: todas as lacunas são reveladas e marcadas com <span class="cloze"> */
   allClozesRevealed?: boolean;
+  /** Tema de renderização ('light' | 'dark') */
+  theme?: 'light' | 'dark';
+  /** Liga/desliga o ajuste de cores fixas em modo escuro */
+  adjustFixedColorsInDarkMode?: boolean;
 }
 
 export interface RenderCardFullInput {
@@ -64,6 +72,10 @@ export interface RenderCardFullInput {
   deckName?: string;
   /** No Modo Consulta: todas as lacunas são reveladas e marcadas com <span class="cloze"> */
   allClozesRevealed?: boolean;
+  /** Tema de renderização ('light' | 'dark') */
+  theme?: 'light' | 'dark';
+  /** Liga/desliga o ajuste de cores fixas em modo escuro */
+  adjustFixedColorsInDarkMode?: boolean;
 }
 
 

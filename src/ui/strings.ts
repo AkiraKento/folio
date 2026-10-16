@@ -394,6 +394,8 @@ export const strings = {
     showHighlightsInReviewDesc: 'Exibe anotações e grifos do Modo Consulta ao virar o card',
     executeModelScripts: 'Executar scripts dos modelos',
     executeModelScriptsDesc: 'Permite que scripts de templates importados (como pílulas de tags e revelação um por um) rodem na revisão',
+    adjustFixedColorsInDarkMode: 'Ajustar cores fixas no modo escuro',
+    adjustFixedColorsInDarkModeDesc: 'Remove cores pretas de texto e fundos brancos fixos em cards antigos para legibilidade no modo escuro',
     themeSectionTitle: 'Aparência',
     themeSystem: 'Automático (Sistema)',
     themeLight: 'Claro (Calmcoder)',

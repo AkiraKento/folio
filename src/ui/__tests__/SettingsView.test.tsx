@@ -3,7 +3,7 @@ import ReactTestRenderer from 'react-test-renderer';
 import { SettingsView } from '../SettingsView';
 import { createTestDatabase } from '@/db/__tests__/test-utils';
 import { strings } from '../strings';
-import { SettingsRepository } from '@/db/repositories/settings';
+import { SettingsRepository, DEFAULT_SETTINGS } from '@/db/repositories/settings';
 import * as notificationService from '@/notifications/notificationService';
 
 /* eslint-disable @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any */
@@ -184,5 +184,36 @@ describe('SettingsView', () => {
     });
 
     expect(onSendFeedbackMock).toHaveBeenCalledTimes(1);
+  });
+
+  test('permite alternar ajuste de cores fixas no modo escuro persistindo no banco', async () => {
+    await act(async () => {
+      activeRenderer = ReactTestRenderer.create(<SettingsView db={db} />);
+    });
+
+    const root = activeRenderer!.root;
+    const fixedColorsSwitch = root.findByProps({
+      accessibilityLabel: strings.settings.adjustFixedColorsInDarkMode,
+    });
+    expect(fixedColorsSwitch).toBeDefined();
+
+    // Valor inicial é true (padrão)
+    expect(
+      settingsRepo.getWithDefault('adjustFixedColorsInDarkMode', DEFAULT_SETTINGS.adjustFixedColorsInDarkMode)
+    ).toBe(true);
+
+    // Clica para desativar
+    await act(async () => {
+      fixedColorsSwitch.props.onPress();
+    });
+
+    expect(settingsRepo.get('adjustFixedColorsInDarkMode')).toBe(false);
+
+    // Clica novamente para reativar
+    await act(async () => {
+      fixedColorsSwitch.props.onPress();
+    });
+
+    expect(settingsRepo.get('adjustFixedColorsInDarkMode')).toBe(true);
   });
 });

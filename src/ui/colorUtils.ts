@@ -12,11 +12,26 @@ export interface RgbaColor {
 /**
  * Faz o parse de cores hex (#fff, #ffffff, #ffff, #ffffffff), rgb(r, g, b), rgba(r, g, b, a) ou 'transparent'.
  */
+const NAMED_COLORS: Record<string, RgbaColor> = {
+  black: { r: 0, g: 0, b: 0, a: 1 },
+  white: { r: 255, g: 255, b: 255, a: 1 },
+  transparent: { r: 0, g: 0, b: 0, a: 0 },
+  blue: { r: 0, g: 0, b: 255, a: 1 },
+  red: { r: 255, g: 0, b: 0, a: 1 },
+  green: { r: 0, g: 128, b: 0, a: 1 },
+  yellow: { r: 255, g: 255, b: 0, a: 1 },
+  gray: { r: 128, g: 128, b: 128, a: 1 },
+  grey: { r: 128, g: 128, b: 128, a: 1 },
+};
+
 export function parseCssColor(color: string | null | undefined): RgbaColor | null {
   if (!color) return null;
-  const s = color.trim().toLowerCase();
-  if (!s || s === 'transparent') {
-    return { r: 0, g: 0, b: 0, a: 0 };
+  const s = color.trim().toLowerCase().replace(/!important/gi, '').trim();
+  if (!s) {
+    return null;
+  }
+  if (NAMED_COLORS[s]) {
+    return { ...NAMED_COLORS[s] };
   }
 
   // Hex: #fff, #ffffff, #ffff, #ffffffff
@@ -92,3 +107,17 @@ export function getLuminance(color: string | null | undefined): number {
 export function isColorDark(color: string | null | undefined): boolean {
   return getLuminance(color) < 0.5;
 }
+
+/**
+ * Retorna a luminosidade/luminância perceptiva de cor no modelo HSL no intervalo [0, 1].
+ * Usado para preservar cores médias como azul rgb(0, 0, 255) (lightness = 0.5) enquanto
+ * remove cores fixas pretas (< 0.25) e fundos brancos (> 0.85) no modo escuro (M10 Passo 8).
+ */
+export function getColorLightness(color: string | null | undefined): number {
+  const parsed = parseCssColor(color);
+  if (!parsed) return 0.5;
+  const max = Math.max(parsed.r, parsed.g, parsed.b);
+  const min = Math.min(parsed.r, parsed.g, parsed.b);
+  return (max + min) / (2 * 255);
+}
+

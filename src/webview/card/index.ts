@@ -1,5 +1,9 @@
 import { NIGHT_MODE_CLASSES } from './ankiDocument';
-import { enhanceAnkiQaElement, renderCardToDom } from './renderer';
+import {
+  enhanceAnkiQaElement,
+  enhanceAnkiQaElementAfterScripts,
+  renderCardToDom,
+} from './renderer';
 import type { CardInboundMessage, CardOutboundMessage, CardRenderPayload, ThemeMode } from './types';
 
 function postMessageToRn(message: CardOutboundMessage): void {
@@ -57,6 +61,43 @@ function applyThemeClasses(theme: ThemeMode): void {
   }
 }
 
+let activeRenderToken = 0;
+
+function runAnkiQaRuntime(qaEl: HTMLElement, payload: CardRenderPayload): void {
+  const renderToken = ++activeRenderToken;
+  const immediateResult = enhanceAnkiQaElement(qaEl, document.body, payload, {
+    deferHighlightsAndZoom: true,
+  });
+  postMessageToRn({
+    type: 'rendered',
+    payload: {
+      side: immediateResult.side,
+      height: immediateResult.height,
+      backgroundColor: immediateResult.backgroundColor,
+    },
+  });
+
+  enhanceAnkiQaElementAfterScripts(qaEl, document.body, payload)
+    .then((settledResult) => {
+      if (renderToken !== activeRenderToken) return;
+      postMessageToRn({
+        type: 'rendered',
+        payload: {
+          side: settledResult.side,
+          height: settledResult.height,
+          backgroundColor: settledResult.backgroundColor,
+        },
+      });
+    })
+    .catch((error) => {
+      const errMessage = error instanceof Error ? error.message : String(error);
+      postMessageToRn({
+        type: 'error',
+        payload: { message: errMessage },
+      });
+    });
+}
+
 function handleInboundMessage(rawMessage: unknown, rootEl: HTMLElement): void {
   let message: CardInboundMessage;
 
@@ -79,18 +120,19 @@ function handleInboundMessage(rawMessage: unknown, rootEl: HTMLElement): void {
         if (message.payload.theme) {
           applyThemeClasses(message.payload.theme);
         }
-        if (message.payload.html) {
+        // Só substitui qaEl.innerHTML se for uma atualização diferente do documento inicial
+        // (para não sobrescrever mutações já iniciadas pelos scripts do template do documento atual)
+        if (
+          message.payload.html &&
+          (!window.__INITIAL_CARD_DATA__ ||
+            window.__INITIAL_CARD_DATA__.side !== message.payload.side ||
+            window.__INITIAL_CARD_DATA__.cardId !== message.payload.cardId)
+        ) {
           qaEl.innerHTML = message.payload.html;
+          window.__INITIAL_CARD_DATA__ = { ...message.payload, html: '' };
+          runAnkiLifecycleHooks();
         }
-        runAnkiLifecycleHooks();
-        const result = enhanceAnkiQaElement(qaEl, document.body, message.payload);
-        postMessageToRn({
-          type: 'rendered',
-          payload: {
-            side: result.side,
-            height: result.height,
-          },
-        });
+        runAnkiQaRuntime(qaEl, message.payload);
       } else {
         const result = renderCardToDom(rootEl, message.payload);
         postMessageToRn({
@@ -98,6 +140,7 @@ function handleInboundMessage(rawMessage: unknown, rootEl: HTMLElement): void {
           payload: {
             side: result.side,
             height: result.height,
+            backgroundColor: result.backgroundColor,
           },
         });
       }
@@ -123,17 +166,19 @@ function initCardWebView(): void {
   if (window.__INITIAL_CARD_DATA__) {
     try {
       const initialPayload: CardRenderPayload = window.__INITIAL_CARD_DATA__;
-      const result =
-        qaEl && !document.getElementById('root')
-          ? enhanceAnkiQaElement(qaEl, document.body, initialPayload)
-          : renderCardToDom(rootEl, initialPayload);
-      postMessageToRn({
-        type: 'rendered',
-        payload: {
-          side: result.side,
-          height: result.height,
-        },
-      });
+      if (qaEl && !document.getElementById('root')) {
+        runAnkiQaRuntime(qaEl, initialPayload);
+      } else {
+        const result = renderCardToDom(rootEl, initialPayload);
+        postMessageToRn({
+          type: 'rendered',
+          payload: {
+            side: result.side,
+            height: result.height,
+            backgroundColor: result.backgroundColor,
+          },
+        });
+      }
     } catch (error) {
       const errMessage = error instanceof Error ? error.message : String(error);
       postMessageToRn({

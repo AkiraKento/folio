@@ -76,9 +76,9 @@ export interface CardViewProps {
   theme?: ThemeMode;
 
   /**
-   * Callback invocado quando a WebView conclui a renderização do DOM.
+   * Callback invocado quando a WebView conclui a renderização do DOM (inclui cor de fundo efetiva do Passo 5).
    */
-  onRendered?: (payload: { side: CardSide; height: number }) => void;
+  onRendered?: (payload: { side: CardSide; height: number; backgroundColor?: string }) => void;
 
   /**
    * Callback invocado quando um link <a> é clicado no card.

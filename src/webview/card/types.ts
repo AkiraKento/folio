@@ -26,7 +26,7 @@ export type CardInboundMessage =
 
 export type CardOutboundMessage =
   | { type: 'ready' }
-  | { type: 'rendered'; payload: { side: CardSide; height: number } }
+  | { type: 'rendered'; payload: { side: CardSide; height: number; backgroundColor?: string } }
   | { type: 'error'; payload: { message: string } }
   | { type: 'scriptError'; payload: { message: string } }
   | { type: 'linkClick'; payload: { url: string } }

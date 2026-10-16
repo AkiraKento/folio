@@ -23,7 +23,35 @@ const SKIP: Record<string, boolean> = {
   STYLE: true,
   NOSCRIPT: true,
   TEXTAREA: true,
+  BUTTON: true,
 };
+
+/**
+ * Verifica se um elemento deve ser ignorado como texto âncora (M10 Passo 5):
+ * tags de script/estilo/botão e containers de tags/bloco de notas dos modelos Anki.
+ */
+export function shouldSkipAnchorElement(el: Element): boolean {
+  const tagName = el.nodeName ? el.nodeName.toUpperCase() : '';
+  if (SKIP[tagName]) {
+    return true;
+  }
+  const id = el.id || '';
+  if (id === 'tags-container' || id === 'action-container' || id === 'reload-imgs-btn') {
+    return true;
+  }
+  const classList = el.classList;
+  if (
+    classList &&
+    (classList.contains('tags-container') ||
+      classList.contains('notepad-wrapper') ||
+      classList.contains('tag-pill') ||
+      classList.contains('card-note-tooltip') ||
+      classList.contains('weiss-zoom-overlay'))
+  ) {
+    return true;
+  }
+  return false;
+}
 
 // Constantes numéricas do DOM para compatibilidade sem depender de variáveis globais
 const DOCUMENT_NODE_TYPE = 9;
@@ -81,7 +109,27 @@ function getOwnerDocument(node: Node): Document {
   );
 }
 
+export function extractAnchorText(root: Node): string {
+  const nodes = textNodes(root);
+  let out = '';
+  for (let i = 0; i < nodes.length; i++) {
+    out += nodes[i].data;
+  }
+  return out;
+}
+
 function textOffset(root: Node, node: Node, offset: number): number {
+  const nodes = textNodes(root);
+  if (node.nodeType === TEXT_NODE_TYPE) {
+    let pos = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      if (nodes[i] === node) {
+        return pos + Math.min(Math.max(0, offset), nodes[i].data.length);
+      }
+      pos += nodes[i].data.length;
+    }
+  }
+
   const doc = getOwnerDocument(root);
   if (!doc) return -1;
   const r = doc.createRange();
@@ -91,6 +139,26 @@ function textOffset(root: Node, node: Node, offset: number): number {
   } catch {
     return -1;
   }
+
+  if (typeof r.comparePoint === 'function') {
+    let pos = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      const tn = nodes[i];
+      try {
+        if (r.comparePoint(tn, tn.data.length) <= 0) {
+          pos += tn.data.length;
+          continue;
+        }
+        if (r.comparePoint(tn, 0) > 0) {
+          break;
+        }
+      } catch {
+        return r.toString().length;
+      }
+    }
+    return pos;
+  }
+
   return r.toString().length;
 }
 
@@ -105,7 +173,7 @@ export function describe(root: Element, range: Range): DescribedRange | null {
   if (!root.contains(r.endContainer)) {
     r.setEnd(root, root.childNodes.length);
   }
-  const text = root.textContent || '';
+  const text = extractAnchorText(root);
   let start = textOffset(root, r.startContainer, r.startOffset);
   let end = textOffset(root, r.endContainer, r.endOffset);
   if (start < 0 || end < 0) return null;
@@ -193,7 +261,7 @@ export function squash(text: string): { text: string; map: number[] } {
  * Reencontra o trecho no elemento root conforme as 4 etapas de MODO_CONSULTA.md §5.
  */
 export function locate(root: Node, ann: AnnotationLocateQuery): [number, number] | null {
-  const text = root.textContent || '';
+  const text = extractAnchorText(root);
   const q = ann.quote || '';
   if (!q) return null;
 
@@ -250,7 +318,7 @@ function textNodes(root: Node): Text[] {
     if (node.nodeType === TEXT_NODE_TYPE) {
       out.push(node as Text);
     } else if (node.nodeType === 1) {
-      if (!SKIP[node.nodeName.toUpperCase()]) {
+      if (!shouldSkipAnchorElement(node as Element)) {
         let c = node.lastChild;
         while (c) {
           stack.push(c);

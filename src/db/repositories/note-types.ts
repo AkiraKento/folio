@@ -8,7 +8,7 @@ import {
   type NoteTypeTemplate,
 } from '../schema';
 import { generateId } from './utils';
-import { getBuiltinNoteTypes } from '../builtin-note-types';
+import { getBuiltinNoteTypes, migrateBuiltinNoteTypes } from '../builtin-note-types';
 
 export interface CreateNoteTypeInput {
   id?: string;
@@ -149,14 +149,9 @@ export class NoteTypesRepository {
    * Se já existirem, não duplica nem altera customizações prévias do usuário.
    */
   seedBuiltins(): NoteType[] {
-    const builtins = getBuiltinNoteTypes();
-    for (const item of builtins) {
-      const existing = this.getById(item.id, { includeDeleted: true });
-      if (!existing) {
-        this.db.insert(noteTypes).values(item).run();
-      }
-    }
+    migrateBuiltinNoteTypes(this.db);
 
+    const builtins = getBuiltinNoteTypes();
     return builtins
       .map((item) => this.getById(item.id, { includeDeleted: true }))
       .filter((nt): nt is NoteType => nt !== null);

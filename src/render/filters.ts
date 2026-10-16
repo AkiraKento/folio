@@ -99,6 +99,17 @@ export function applyFilter(
       return '';
     }
 
+    case 'weiss-tags': {
+      const text = stripHtml(value || (context.tags ? context.tags.join(' ') : '')).trim();
+      if (!text) {
+        return '';
+      }
+      const tagList = text.split(/\s+/).filter(Boolean);
+      return tagList
+        .map((tag) => `<span class="tag-pill">${tag}</span>`)
+        .join(' ');
+    }
+
     case 'hint': {
       if (isFieldEmpty(value)) {
         return '';

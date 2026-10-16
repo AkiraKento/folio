@@ -291,6 +291,43 @@ describe('renderTemplate', () => {
       warnSpy.mockRestore();
     });
 
+    it('filtro weiss-tags: converte tags em spans .tag-pill sem necessidade de scripts (M10 Passo 9)', () => {
+      const template = '<div class="tags-container">{{weiss-tags:Tags}}</div>';
+
+      // 1. Com lista de tags
+      const outputWithTags = renderTemplate(template, {
+        fields: {},
+        tags: ['Cardiologia::Arritmias', 'urgencia'],
+      });
+      expect(outputWithTags).toBe(
+        '<div class="tags-container"><span class="tag-pill">Cardiologia::Arritmias</span> <span class="tag-pill">urgencia</span></div>'
+      );
+
+      // 2. Sem tags (deve resultar em tags-container vazio)
+      const outputEmpty = renderTemplate(template, {
+        fields: {},
+        tags: [],
+      });
+      expect(outputEmpty).toBe('<div class="tags-container"></div>');
+
+      // 3. Dentro de condicional {{#Tags}}
+      const templateConditional =
+        '{{#Tags}}<div class="tags-container">{{weiss-tags:Tags}}</div>{{/Tags}}';
+      const outputConditional = renderTemplate(templateConditional, {
+        fields: {},
+        tags: ['Pediatria'],
+      });
+      expect(outputConditional).toBe(
+        '<div class="tags-container"><span class="tag-pill">Pediatria</span></div>'
+      );
+
+      const outputNoTagsConditional = renderTemplate(templateConditional, {
+        fields: {},
+        tags: [],
+      });
+      expect(outputNoTagsConditional).toBe('');
+    });
+
     it('renderiza as fixtures avicena e AnKing preservando scripts do template e removendo <script> malicioso de dentro de um campo', () => {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { AVICENA_FIXTURE, ANKING_FIXTURE } = require('../../webview/card/__fixtures__');

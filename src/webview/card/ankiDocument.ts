@@ -8,6 +8,7 @@ export const NIGHT_MODE_CLASSES = 'nightMode night_mode night-mode';
 
 const LEGACY_BUILTIN_CSS_SNIPPETS = [
   'hr#answer {\n  border: 0;\n  border-top: 1px solid #e0e6e6;\n  margin: 1.5em 0;\n}',
+  '/*~~~~~~~~~CORES (Calmcoder)~~~~~~~~~*/',
 ];
 
 /**

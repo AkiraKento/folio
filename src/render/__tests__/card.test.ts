@@ -15,11 +15,11 @@ describe('renderCard & renderCardSide', () => {
         cardOrd: 0,
       });
 
-      expect(result.front).toBe('O que é a síndrome de Wolff-Parkinson-White?');
+      expect(result.front).toContain('<div class="main question-field" id="question">O que é a síndrome de Wolff-Parkinson-White?</div>');
       expect(result.back).toContain('O que é a síndrome de Wolff-Parkinson-White?');
       expect(result.back).toContain('<hr id="answer">');
       expect(result.back).toContain(
-        'Uma síndrome de pré-excitação ventricular por via acessória.'
+        '<div class="main answer-field" id="answer">Uma síndrome de pré-excitação ventricular por via acessória.</div>'
       );
     });
 
@@ -30,7 +30,8 @@ describe('renderCard & renderCardSide', () => {
         cardOrd: 0,
         side: 'front',
       });
-      expect(front).toBe(fields.Frente);
+      expect(front).toContain(fields.Frente);
+      expect(front).toContain('class="main question-field"');
 
       const back = renderCardSide({
         noteType: BUILTIN_NOTE_TYPES.BASIC,
@@ -40,6 +41,7 @@ describe('renderCard & renderCardSide', () => {
       });
       expect(back).toContain(fields.Frente);
       expect(back).toContain(fields.Verso);
+      expect(back).toContain('class="main answer-field"');
     });
   });
 
@@ -56,9 +58,11 @@ describe('renderCard & renderCardSide', () => {
         cardOrd: 0,
       });
 
-      expect(card0.front).toBe('Bradicardia');
+      expect(card0.front).toContain('Bradicardia');
+      expect(card0.front).toContain('class="main question-field"');
       expect(card0.back).toContain('Bradicardia');
       expect(card0.back).toContain('Frequência cardíaca < 50 bpm');
+      expect(card0.back).toContain('class="main answer-field"');
     });
 
     it('renderiza Card 2 (ord 1: Verso -> Frente)', () => {
@@ -68,9 +72,11 @@ describe('renderCard & renderCardSide', () => {
         cardOrd: 1,
       });
 
-      expect(card1.front).toBe('Frequência cardíaca < 50 bpm');
+      expect(card1.front).toContain('Frequência cardíaca < 50 bpm');
+      expect(card1.front).toContain('class="main question-field"');
       expect(card1.back).toContain('Frequência cardíaca < 50 bpm');
       expect(card1.back).toContain('Bradicardia');
+      expect(card1.back).toContain('class="main answer-field"');
     });
   });
 

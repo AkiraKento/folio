@@ -2,8 +2,11 @@ import { createTestDatabase } from './test-utils';
 import {
   BUILTIN_NOTE_TYPE_IDS,
   BUILTIN_NOTE_TYPES,
+  LEGACY_BUILTIN_NOTE_TYPES,
   getBuiltinNoteTypes,
   getExpectedCardOrdsForNote,
+  migrateBuiltinNoteTypes,
+  isLegacyUntouchedBuiltin,
 } from '../builtin-note-types';
 import { NoteTypesRepository } from '../repositories/note-types';
 import type { NoteType } from '../schema';
@@ -31,13 +34,13 @@ describe('Builtin Note Types', () => {
       { name: 'Verso', ord: 1 },
     ]);
     expect(basic.templates).toHaveLength(1);
-    expect(basic.templates[0]).toEqual({
-      name: 'Card 1',
-      ord: 0,
-      front: '{{Frente}}',
-      back: '{{FrontSide}}\n\n<hr id="answer">\n\n{{Verso}}',
-    });
-    expect(basic.css).toContain('.card');
+    expect(basic.templates[0].name).toBe('Card 1');
+    expect(basic.templates[0].ord).toBe(0);
+    expect(basic.templates[0].front).toContain('<div class="main question-field" id="question">{{Frente}}</div>');
+    expect(basic.templates[0].back).toContain('<div class="main answer-field" id="answer">{{Verso}}</div>');
+    expect(basic.templates[0].back).toContain('{{weiss-tags:Tags}}');
+    expect(basic.css).toContain('.main');
+    expect(basic.css).toContain('.tag-pill');
   });
 
   test('define corretamente o modelo Básico + invertido', () => {
@@ -50,18 +53,14 @@ describe('Builtin Note Types', () => {
       { name: 'Verso', ord: 1 },
     ]);
     expect(basicReversed.templates).toHaveLength(2);
-    expect(basicReversed.templates[0]).toEqual({
-      name: 'Card 1',
-      ord: 0,
-      front: '{{Frente}}',
-      back: '{{FrontSide}}\n\n<hr id="answer">\n\n{{Verso}}',
-    });
-    expect(basicReversed.templates[1]).toEqual({
-      name: 'Card 2',
-      ord: 1,
-      front: '{{Verso}}',
-      back: '{{FrontSide}}\n\n<hr id="answer">\n\n{{Frente}}',
-    });
+    expect(basicReversed.templates[0].name).toBe('Card 1');
+    expect(basicReversed.templates[0].front).toContain('<div class="main question-field" id="question">{{Frente}}</div>');
+    expect(basicReversed.templates[0].back).toContain('<div class="main answer-field" id="answer">{{Verso}}</div>');
+    expect(basicReversed.templates[0].back).toContain('{{weiss-tags:Tags}}');
+    expect(basicReversed.templates[1].name).toBe('Card 2');
+    expect(basicReversed.templates[1].front).toContain('<div class="main question-field" id="question">{{Verso}}</div>');
+    expect(basicReversed.templates[1].back).toContain('<div class="main answer-field" id="answer">{{Frente}}</div>');
+    expect(basicReversed.templates[1].back).toContain('{{weiss-tags:Tags}}');
   });
 
   test('define corretamente o modelo Cloze', () => {
@@ -74,13 +73,13 @@ describe('Builtin Note Types', () => {
       { name: 'Verso extra', ord: 1 },
     ]);
     expect(cloze.templates).toHaveLength(1);
-    expect(cloze.templates[0]).toEqual({
-      name: 'Cloze',
-      ord: 0,
-      front: '{{cloze:Texto}}',
-      back: '{{cloze:Texto}}\n\n<hr id="answer">\n\n{{Verso extra}}',
-    });
+    expect(cloze.templates[0].name).toBe('Cloze');
+    expect(cloze.templates[0].front).toContain('<div class="main question-field" id="question">{{cloze:Texto}}</div>');
+    expect(cloze.templates[0].front).toContain('{{weiss-tags:Tags}}');
+    expect(cloze.templates[0].back).toContain('<div class="main answer-field" id="answer">{{cloze:Texto}}</div>');
+    expect(cloze.templates[0].back).toContain('{{weiss-tags:Tags}}');
     expect(cloze.css).toContain('.cloze');
+    expect(cloze.css).toContain('.main');
   });
 
   test('getBuiltinNoteTypes retorna os três modelos com timestamps', () => {
@@ -260,5 +259,92 @@ describe('NoteTypesRepository', () => {
     const foundWithDeleted = repo.getById(BUILTIN_NOTE_TYPE_IDS.BASIC, { includeDeleted: true });
     expect(foundWithDeleted).not.toBeNull();
     expect(foundWithDeleted?.deleted_at).toBeGreaterThan(0);
+  });
+
+  describe('Migração por Hash dos Modelos Embutidos (M10 Passo 9)', () => {
+    test('detecta corretamente modelos legados intocados com isLegacyUntouchedBuiltin', () => {
+      expect(isLegacyUntouchedBuiltin(LEGACY_BUILTIN_NOTE_TYPES.BASIC)).toBe(true);
+      expect(isLegacyUntouchedBuiltin(LEGACY_BUILTIN_NOTE_TYPES.BASIC_REVERSED)).toBe(true);
+      expect(isLegacyUntouchedBuiltin(LEGACY_BUILTIN_NOTE_TYPES.CLOZE)).toBe(true);
+
+      // Modelo com template alterado
+      const editedTpl = {
+        ...LEGACY_BUILTIN_NOTE_TYPES.BASIC,
+        templates: [{ ...LEGACY_BUILTIN_NOTE_TYPES.BASIC.templates[0], front: '{{Custom}}' }],
+      };
+      expect(isLegacyUntouchedBuiltin(editedTpl)).toBe(false);
+
+      // Modelo com CSS alterado
+      const editedCss = {
+        ...LEGACY_BUILTIN_NOTE_TYPES.BASIC,
+        css: '.card { color: red; }',
+      };
+      expect(isLegacyUntouchedBuiltin(editedCss)).toBe(false);
+
+      // Novo modelo já migrado
+      expect(isLegacyUntouchedBuiltin(BUILTIN_NOTE_TYPES.BASIC)).toBe(false);
+    });
+
+    test('migrateBuiltinNoteTypes atualiza modelos legados intocados para o novo padrão Avicena', () => {
+      const { db: freshDb } = createTestDatabase();
+      const freshRepo = new NoteTypesRepository(freshDb);
+
+      // Insere propositalmente os modelos com conteúdo legado do MVP
+      for (const item of Object.values(LEGACY_BUILTIN_NOTE_TYPES)) {
+        freshRepo.create(item);
+      }
+
+      // Executa a migração
+      const result = migrateBuiltinNoteTypes(freshDb);
+      expect(result.migratedCount).toBe(3);
+      expect(result.untouchedIds).toHaveLength(0);
+
+      // Verifica se o modelo básico no banco agora possui a estrutura Avicena
+      const basic = freshRepo.getById(BUILTIN_NOTE_TYPE_IDS.BASIC);
+      expect(basic?.templates[0].front).toContain('class="main question-field"');
+      expect(basic?.templates[0].back).toContain('class="main answer-field"');
+      expect(basic?.templates[0].back).toContain('{{weiss-tags:Tags}}');
+      expect(basic?.css).toContain('.main');
+      expect(basic?.css).toContain('.tag-pill');
+    });
+
+    test('migrateBuiltinNoteTypes NÃO altera modelos que foram modificados pelo usuário', () => {
+      const { db: freshDb } = createTestDatabase();
+      const freshRepo = new NoteTypesRepository(freshDb);
+
+      // Insere Básico customizado pelo usuário
+      freshRepo.create({
+        ...LEGACY_BUILTIN_NOTE_TYPES.BASIC,
+        css: '.card { color: purple; font-size: 28px; }',
+      });
+      // Insere Cloze legado intocado
+      freshRepo.create(LEGACY_BUILTIN_NOTE_TYPES.CLOZE);
+
+      const result = migrateBuiltinNoteTypes(freshDb);
+      expect(result.migratedCount).toBe(2); // Cloze migrado + Basic_Reversed inserido
+      expect(result.untouchedIds).toContain(BUILTIN_NOTE_TYPE_IDS.BASIC);
+
+      // O modelo básico do usuário NÃO foi alterado
+      const basic = freshRepo.getById(BUILTIN_NOTE_TYPE_IDS.BASIC);
+      expect(basic?.css).toBe('.card { color: purple; font-size: 28px; }');
+      expect(basic?.templates[0].front).toBe('{{Frente}}');
+
+      // O modelo Cloze foi devidamente migrado
+      const cloze = freshRepo.getById(BUILTIN_NOTE_TYPE_IDS.CLOZE);
+      expect(cloze?.templates[0].front).toContain('class="main question-field"');
+      expect(cloze?.css).toContain('.main');
+    });
+
+    test('migrateBuiltinNoteTypes é idempotente ao rodar múltiplas vezes', () => {
+      const { db: freshDb } = createTestDatabase();
+      const freshRepo = new NoteTypesRepository(freshDb);
+
+      freshRepo.seedBuiltins();
+
+      // Segunda execução
+      const result2 = migrateBuiltinNoteTypes(freshDb);
+      expect(result2.migratedCount).toBe(0);
+      expect(result2.untouchedIds).toHaveLength(0);
+    });
   });
 });

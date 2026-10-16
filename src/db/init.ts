@@ -3,6 +3,7 @@ import { migrate } from 'drizzle-orm/expo-sqlite/migrator';
 import { getDb, type FolioDatabase } from './client';
 import { loadSampleDeck, isSampleDeckLoaded, type LoadSampleDeckResult, type StudyArea } from './sample-deck';
 import { SettingsRepository } from './repositories/settings';
+import { NoteTypesRepository } from './repositories/note-types';
 import type { Deck } from './schema';
 import { logError } from '@/logging';
 import migrations from './migrations/migrations';
@@ -30,6 +31,9 @@ export async function initAppDatabase(db?: FolioDatabase): Promise<InitAppDataba
       `Falha na migração do banco de dados: ${error instanceof Error ? error.message : String(error)}`
     );
   }
+
+  const noteTypesRepo = new NoteTypesRepository(targetDb);
+  noteTypesRepo.seedBuiltins();
 
   const settingsRepo = new SettingsRepository(targetDb);
   const onboardingCompleted = settingsRepo.get<boolean>('onboardingCompleted') === true;

@@ -4,6 +4,7 @@ import { getDb, type FolioDatabase } from './client';
 import { loadSampleDeck, isSampleDeckLoaded, type LoadSampleDeckResult, type StudyArea } from './sample-deck';
 import { SettingsRepository } from './repositories/settings';
 import type { Deck } from './schema';
+import { logError } from '@/logging';
 import migrations from './migrations/migrations';
 
 export interface InitAppDatabaseResult {
@@ -13,7 +14,7 @@ export interface InitAppDatabaseResult {
 
 /**
  * Inicializa o banco de dados do aplicativo:
- * 1. Aplica migrações pendentes do SQLite.
+ * 1. Aplica migrações pendentes do SQLite (falha caso a migração seja interrompida).
  * 2. Garante o deck de exemplo se o onboarding já foi concluído ou se já foi carregado.
  */
 export async function initAppDatabase(db?: FolioDatabase): Promise<InitAppDatabaseResult> {
@@ -24,8 +25,10 @@ export async function initAppDatabase(db?: FolioDatabase): Promise<InitAppDataba
     await migrate(targetDb as unknown as ExpoSQLiteDatabase<Record<string, unknown>>, migrations);
     migrated = true;
   } catch (error) {
-    // Registra aviso caso já tenha sido executado ou ocorra em ambiente não-expo
-    console.warn('Migração automática do SQLite:', error);
+    logError('DatabaseMigration', error);
+    throw new Error(
+      `Falha na migração do banco de dados: ${error instanceof Error ? error.message : String(error)}`
+    );
   }
 
   const settingsRepo = new SettingsRepository(targetDb);

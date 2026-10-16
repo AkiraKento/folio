@@ -1,17 +1,24 @@
-import { applyFilter, isFieldEmpty, stripHtml } from './filters';
+import { applyFilter, isFieldEmpty, resetUnknownFilterWarnings, stripHtml } from './filters';
 import { parseTemplate, type TemplateNode } from './parser';
+import { sanitizeFieldHtml } from './sanitizeField';
 import type { RenderContext } from './types';
 
-export { isFieldEmpty, stripHtml };
+export { isFieldEmpty, resetUnknownFilterWarnings, sanitizeFieldHtml, stripHtml };
 
 /**
- * Resolve o valor bruto de um campo ou campo especial Anki (FrontSide, Tags, Deck, Subdeck, Card).
+ * Resolve o valor de um campo da nota (sanitizado via DOMPurify antes da substituição)
+ * ou campo especial do Anki (FrontSide, Tags, Deck, Subdeck, Card, CardFlag).
  */
 function resolveFieldValue(fieldName: string, context: RenderContext): string {
   const normalized = fieldName.trim();
+  if (!normalized) {
+    return '';
+  }
 
-  // Tratamento de FrontSide
-  if (normalized.toLowerCase() === 'frontside') {
+  const lower = normalized.toLowerCase();
+
+  // Tratamento de FrontSide (já renderizado a partir do template da frente)
+  if (lower === 'frontside') {
     if (context.side === 'back') {
       return context.frontHtml ?? '';
     }
@@ -19,15 +26,15 @@ function resolveFieldValue(fieldName: string, context: RenderContext): string {
   }
 
   // Campos especiais do Anki
-  if (normalized.toLowerCase() === 'tags') {
+  if (lower === 'tags') {
     return (context.tags ?? []).join(' ');
   }
 
-  if (normalized.toLowerCase() === 'deck') {
+  if (lower === 'deck') {
     return context.deckName ?? '';
   }
 
-  if (normalized.toLowerCase() === 'subdeck') {
+  if (lower === 'subdeck') {
     if (!context.deckName) {
       return '';
     }
@@ -35,19 +42,22 @@ function resolveFieldValue(fieldName: string, context: RenderContext): string {
     return parts[parts.length - 1] ?? '';
   }
 
-  if (normalized.toLowerCase() === 'card') {
+  if (lower === 'card') {
     return context.cardName ?? '';
   }
 
-  // Busca nos campos da nota (primeiro exato, depois case-insensitive)
-  if (context.fields[normalized] !== undefined) {
-    return context.fields[normalized];
+  if (lower === 'cardflag') {
+    return context.cardFlag !== undefined ? String(context.cardFlag) : '';
   }
 
-  const lower = normalized.toLowerCase();
+  // Busca nos campos da nota (primeiro exato, depois case-insensitive) e sanitiza o campo
+  if (context.fields[normalized] !== undefined) {
+    return sanitizeFieldHtml(context.fields[normalized]);
+  }
+
   for (const [key, value] of Object.entries(context.fields)) {
     if (key.toLowerCase() === lower) {
-      return value;
+      return sanitizeFieldHtml(value);
     }
   }
 
@@ -95,7 +105,8 @@ function evaluateNodes(nodes: TemplateNode[], options: RenderContext): string {
 }
 
 /**
- * Renderiza uma string de template aplicando os campos, filtros, condicionais e campos especiais.
+ * Renderiza uma string de template aplicando os campos sanitizados, filtros, condicionais e campos especiais.
+ * Preserva os <script> e comentários <!-- --> do template, removendo [sound:...].
  */
 export function renderTemplate(template: string, options: RenderContext): string {
   if (!template) {
@@ -103,5 +114,6 @@ export function renderTemplate(template: string, options: RenderContext): string
   }
 
   const ast = parseTemplate(template);
-  return evaluateNodes(ast, options);
+  const rendered = evaluateNodes(ast, options);
+  return rendered.replace(/\[sound:[^\]]*\]/gi, '');
 }

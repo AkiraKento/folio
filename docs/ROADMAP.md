@@ -129,9 +129,9 @@ Detalhes, arquivos e linhas em `docs/AUDITORIA_2026-10-11.md`. Faça na ordem; o
 Siga `docs/PASSO_A_PASSO_REVIEWER_ANKI.md` passo a passo. Pré-requisitos: M9 P0-3 (imagens + `baseUrl`) e P0-5 (log de erros).
 - [x] Passo 1 — Fixtures de `docs/referencia/modelos/` + tela "Laboratório de cards". *(Decisão: criado módulo `src/webview/card/__fixtures__/` sincronizado no `build:webview` a partir de `docs/referencia/modelos/{avicena,anking}/` com suporte às variações Avicena Cloze/Básico e AnKing Cloze múltiplo/único, imagem `exemplo-avicena.png` copiada para a pasta de mídia de teste e tela `CardLabView` desbloqueada por 7 toques na versão em Ajustes → Desenvolvedor → Laboratório de cards; criada também a pasta `docs/referencia/modelos-txt/` para recebimento de `.txt` do usuário).*
 - [x] Passo 2 — Documento no formato do Anki (`html`/`body.card`/`#qa`, classes de modo noturno, CSS sem escopo, sem `BASE_CARD_STYLES` em modelo importado). *(Decisão: criado `src/webview/card/ankiDocument.ts` gerando documento completo por lado com `html.mobile.android.js`, `body.card.card{ORD+1}`, `nightMode night_mode night-mode` no tema escuro, `#weiss-reset`, `#note-css` cru sem `scopeCss` e sem `BASE_CARD_STYLES` para modelos importados, `#weiss-overlay` para grifos/tooltip e `<div id="qa">` carregado em `CardView` com `baseUrl` da pasta de mídia).*
-- [ ] Passo 3 — Filtros `edit:`, `clickable::`, `cloze-only`, `tts`; sanitizar campos antes da substituição.
-
+- [x] Passo 3 — Filtros `edit:`, `clickable::`, `cloze-only`, `tts`; sanitizar campos antes da substituição. *(Decisão: implementados filtros `edit:`, `clickable::`/`clickable:`, `cloze-only:`, tags `{{tts ...}}`, remoção de `[sound:...]` e deduplicação de avisos de filtro desconhecido por modelo; criada `sanitizeFieldHtml` em `src/render/sanitizeField.ts` para sanitizar cada valor de campo antes da substituição no template, mantendo intactos os `<script>` do template).*
 - [ ] Passo 4 — Scripts do template + shims (`pycmd`, hooks, AnkiDroidJS, AnkiConnect local para o Bloco de Notas) + bloqueio de rede.
+
 - [ ] Passo 5 — Runtime do Weiss no documento (grifos depois dos scripts, balão, links, zoom, cor de fundo para o RN).
 - [ ] Passo 6 — Lato offline.
 - [ ] Passo 7 — Tela de revisão sem moldura (fundo sincronizado, barra flutuante, fade).

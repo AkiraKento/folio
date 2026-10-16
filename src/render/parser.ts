@@ -114,17 +114,34 @@ export function parseTemplate(template: string): TemplateNode[] {
         }
       }
     } else {
-      // Tag de campo com ou sem filtros (ou FrontSide)
-      const parts = inner.split(':');
+      // Tag de TTS do Anki (ex: {{tts en_US voices=...:cloze:Text}}) -> filtrada como tts
+      if (/^tts(?:\s|:|$)/i.test(inner)) {
+        getCurrentContainer().push({
+          type: 'tag',
+          raw: fullMatch,
+          filters: ['tts'],
+          fieldName: '',
+        });
+        continue;
+      }
+
+      // Tag de campo com ou sem filtros (suporta clickable::Tags com dois-pontos duplos)
+      const parts = inner
+        .split(':')
+        .map((p) => p.trim())
+        .filter((p) => p.length > 0);
+
       let filters: string[];
       let fieldName: string;
 
-      if (parts.length === 1) {
+      if (parts.length === 0) {
+        continue;
+      } else if (parts.length === 1) {
         filters = [];
-        fieldName = parts[0].trim();
+        fieldName = parts[0];
       } else {
-        filters = parts.slice(0, -1).map((f) => f.trim());
-        fieldName = parts[parts.length - 1].trim();
+        filters = parts.slice(0, -1);
+        fieldName = parts[parts.length - 1];
       }
 
       getCurrentContainer().push({
@@ -134,6 +151,7 @@ export function parseTemplate(template: string): TemplateNode[] {
         fieldName,
       });
     }
+
   }
 
   // Texto restante após a última tag

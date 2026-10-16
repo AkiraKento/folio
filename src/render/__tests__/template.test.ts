@@ -1,4 +1,5 @@
-import { isFieldEmpty, renderTemplate, stripHtml } from '../template';
+import { isFieldEmpty, renderTemplate, resetUnknownFilterWarnings, stripHtml } from '../template';
+
 
 describe('stripHtml & isFieldEmpty', () => {
   it('remove tags html e decodifica entidades comuns', () => {
@@ -242,17 +243,89 @@ describe('renderTemplate', () => {
       expect(output).toBe('Tratar com Heparina.');
     });
 
-    it('filtro desconhecido emite aviso no console e exibe o campo cru', () => {
+    it('filtro desconhecido emite UM aviso por modelo no console/log e exibe o campo cru', () => {
+      resetUnknownFilterWarnings();
       const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
       const template = '{{filtroCustom:Frente}}';
-      const output = renderTemplate(template, {
-        fields: { Frente: 'Valor do campo' },
+
+      const output1 = renderTemplate(template, {
+        fields: { Frente: 'Valor 1' },
+        modelName: 'ModeloTeste',
       });
-      expect(output).toBe('Valor do campo');
+      const output2 = renderTemplate(template, {
+        fields: { Frente: 'Valor 2' },
+        modelName: 'ModeloTeste',
+      });
+
+      expect(output1).toBe('Valor 1');
+      expect(output2).toBe('Valor 2');
+      // Deve emitir apenas 1 aviso para o mesmo modelo, mesmo renderizando 2 cards
+      expect(warnSpy).toHaveBeenCalledTimes(1);
       expect(warnSpy).toHaveBeenCalledWith(
         expect.stringContaining('Filtro desconhecido: "filtroCustom"')
       );
       warnSpy.mockRestore();
     });
+
+    it('suporta edit:, edit:cloze:, clickable::Tags, cloze-only:, tts e [sound:...] sem warnings', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const outEdit = renderTemplate(
+        '<div>{{edit:question}}</div> | <div>{{edit:cloze:Text}}</div> | <div id="tags">{{clickable::Tags}}</div> | {{cloze-only:Text}} | {{tts en_US voices=Apple_Samantha:cloze:Text}}',
+        {
+          fields: {
+            question: 'Pergunta [sound:audio1.mp3] limpa',
+            Text: 'Lacuna {{c1::ativa}}',
+          },
+          tags: ['Assunto::Cirurgia', 'origem::Osler'],
+          side: 'front',
+          clozeNumber: 1,
+        }
+      );
+
+      expect(warnSpy).not.toHaveBeenCalled();
+      expect(outEdit).toContain('<div>Pergunta  limpa</div>');
+      expect(outEdit).toContain('<div>Lacuna <span class="cloze">[...]</span></div>');
+      expect(outEdit).toContain('<div id="tags">Assunto::Cirurgia origem::Osler</div>');
+      expect(outEdit).not.toContain('audio1.mp3');
+      warnSpy.mockRestore();
+    });
+
+    it('renderiza as fixtures avicena e AnKing preservando scripts do template e removendo <script> malicioso de dentro de um campo', () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { AVICENA_FIXTURE, ANKING_FIXTURE } = require('../../webview/card/__fixtures__');
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const { renderCard } = require('../card');
+
+      const avicenaResult = renderCard({
+        noteType: AVICENA_FIXTURE.toNoteType(),
+        fields: {
+          ...AVICENA_FIXTURE.example.fields,
+          question:
+            AVICENA_FIXTURE.example.fields.question +
+            '<script>window.__HACKED_FIELD__ = true;</script><img src="x" onerror="alert(1)">',
+        },
+        cardOrd: 0,
+        tags: AVICENA_FIXTURE.example.tags,
+      });
+
+      expect(avicenaResult.front).toContain('class="main question-field"');
+      expect(avicenaResult.front).toContain('<script>');
+      expect(avicenaResult.front).toContain('document.querySelectorAll(".tags-container")');
+      expect(avicenaResult.front).not.toContain('__HACKED_FIELD__');
+      expect(avicenaResult.front).not.toContain('onerror=');
+
+      const ankingResult = renderCard({
+        noteType: ANKING_FIXTURE.toNoteType(),
+        fields: ANKING_FIXTURE.example.fields,
+        cardOrd: 0,
+        tags: ANKING_FIXTURE.example.tags,
+      });
+
+      expect(ankingResult.front).toContain('<div id="text">');
+      expect(ankingResult.front).toContain('<span class="cloze">[Dica de exemplo]</span>');
+      expect(ankingResult.back).toContain('<div id="tags-container">1°semestre Fisio UNESP2027-CB::Circulatorio</div>');
+    });
   });
 });
+

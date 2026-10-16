@@ -1,6 +1,16 @@
+import { logWarn } from '../logging';
 import { strings } from '../ui/strings';
 import { processCloze } from './cloze';
 import type { RenderContext } from './types';
+
+const warnedFiltersByModel = new Set<string>();
+
+/**
+ * Limpa o cache de avisos de filtros desconhecidos por modelo (útil para testes).
+ */
+export function resetUnknownFilterWarnings(): void {
+  warnedFiltersByModel.clear();
+}
 
 /**
  * Remove tags HTML e decodifica entidades básicas para extrair texto puro.
@@ -44,13 +54,15 @@ export function isFieldEmpty(value: string | undefined | null): boolean {
 }
 
 /**
- * Aplica um filtro nomeado ao valor de um campo.
- * Filtros conhecidos:
+ * Aplica um filtro nomeado ao valor de um campo (M10 Passo 3):
  * - cloze: processa lacunas Anki
+ * - edit: ignora edit: e aplica o resto (add-on Edit Field During Review), sem warning
+ * - clickable: devolve o valor como está (ex.: {{clickable::Tags}} devolve tags separadas por espaço)
+ * - cloze-only / tts: removidos da saída (sem áudio no MVP)
  * - hint: gera componente expansível <details class="hint">
  * - text: remove tags HTML e decodifica entidades
  * - type: mostra o campo (sem campo de digitação no MVP)
- * - filtros desconhecidos: exibem o valor cru e registram um warning no console.
+ * - filtros desconhecidos: exibem o valor cru e registram UM aviso por modelo no log.
  */
 export function applyFilter(
   filterName: string,
@@ -59,6 +71,10 @@ export function applyFilter(
   context: RenderContext
 ): string {
   const normalizedFilter = filterName.trim().toLowerCase();
+
+  if (normalizedFilter === 'tts' || normalizedFilter.startsWith('tts ')) {
+    return '';
+  }
 
   switch (normalizedFilter) {
     case 'cloze': {
@@ -69,6 +85,18 @@ export function applyFilter(
         targetClozeNumber,
         allClozesRevealed: context.allClozesRevealed,
       });
+    }
+
+    case 'edit': {
+      return value;
+    }
+
+    case 'clickable': {
+      return value;
+    }
+
+    case 'cloze-only': {
+      return '';
     }
 
     case 'hint': {
@@ -88,9 +116,14 @@ export function applyFilter(
     }
 
     default: {
-      console.warn(
-        `[Folio Render] Filtro desconhecido: "${filterName}" no campo "${fieldName}". Mostrando campo cru.`
-      );
+      const modelKey = context.modelName ?? context.cardName ?? 'default';
+      const warnKey = `${modelKey}::${normalizedFilter}`;
+      if (!warnedFiltersByModel.has(warnKey)) {
+        warnedFiltersByModel.add(warnKey);
+        const msg = `[Folio Render] Filtro desconhecido: "${filterName}" no campo "${fieldName}" (modelo "${modelKey}"). Mostrando campo cru.`;
+        console.warn(msg);
+        logWarn('Render', msg);
+      }
       return value;
     }
   }

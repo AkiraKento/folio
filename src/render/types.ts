@@ -13,6 +13,10 @@ export interface RenderContext {
   deckName?: string;
   /** Nome do modelo de card (ex: Card 1) */
   cardName?: string;
+  /** Nome do noteType/modelo (ex: avicena, AnKing) para deduplicação de avisos no log */
+  modelName?: string;
+  /** Bandeira do card (CardFlag) */
+  cardFlag?: number | string;
   /** Índice ordinal do card (0-indexed) */
   cardOrd?: number;
   /** Número da lacuna cloze ativa (1-indexed: 1 para c1, 2 para c2...) */
@@ -32,7 +36,7 @@ export interface RenderTemplateOptions extends RenderContext {
 
 export interface RenderCardInput {
   /** Note type com os templates e tipo ('basic', 'cloze', etc.) */
-  noteType: Pick<NoteType, 'kind' | 'templates'>;
+  noteType: Pick<NoteType, 'kind' | 'templates'> & { name?: string };
   /** Campos da nota */
   fields: Record<string, string>;
   /** Índice ordinal do card sendo gerado (0, 1, 2...) */
@@ -49,7 +53,7 @@ export interface RenderCardInput {
 
 export interface RenderCardFullInput {
   /** Note type com os templates e tipo ('basic', 'cloze', etc.) */
-  noteType: Pick<NoteType, 'kind' | 'templates'>;
+  noteType: Pick<NoteType, 'kind' | 'templates'> & { name?: string };
   /** Campos da nota */
   fields: Record<string, string>;
   /** Índice ordinal do card sendo gerado (0, 1, 2...) */
@@ -61,6 +65,7 @@ export interface RenderCardFullInput {
   /** No Modo Consulta: todas as lacunas são reveladas e marcadas com <span class="cloze"> */
   allClozesRevealed?: boolean;
 }
+
 
 export interface RenderCardResult {
   front: string;

@@ -36,6 +36,8 @@ export function renderCardSide(input: RenderCardInput): string {
     return '';
   }
 
+  const modelName = input.noteType.name ?? templateDef.name;
+
   if (input.side === 'front') {
     return renderTemplate(templateDef.front, {
       fields: input.fields,
@@ -45,6 +47,7 @@ export function renderCardSide(input: RenderCardInput): string {
       tags: input.tags,
       deckName: input.deckName,
       cardName: templateDef.name,
+      modelName,
       allClozesRevealed: input.allClozesRevealed,
     });
   }
@@ -58,6 +61,7 @@ export function renderCardSide(input: RenderCardInput): string {
     tags: input.tags,
     deckName: input.deckName,
     cardName: templateDef.name,
+    modelName,
     allClozesRevealed: input.allClozesRevealed,
   });
 
@@ -70,6 +74,7 @@ export function renderCardSide(input: RenderCardInput): string {
     tags: input.tags,
     deckName: input.deckName,
     cardName: templateDef.name,
+    modelName,
     allClozesRevealed: input.allClozesRevealed,
   });
 }
@@ -85,6 +90,8 @@ export function renderCard(input: RenderCardFullInput): RenderCardResult {
     return { front: '', back: '' };
   }
 
+  const modelName = input.noteType.name ?? templateDef.name;
+
   const front = renderTemplate(templateDef.front, {
     fields: input.fields,
     side: 'front',
@@ -93,6 +100,7 @@ export function renderCard(input: RenderCardFullInput): RenderCardResult {
     tags: input.tags,
     deckName: input.deckName,
     cardName: templateDef.name,
+    modelName,
     allClozesRevealed: input.allClozesRevealed,
   });
 
@@ -105,8 +113,10 @@ export function renderCard(input: RenderCardFullInput): RenderCardResult {
     tags: input.tags,
     deckName: input.deckName,
     cardName: templateDef.name,
+    modelName,
     allClozesRevealed: input.allClozesRevealed,
   });
 
   return { front, back };
 }
+

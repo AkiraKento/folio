@@ -1,0 +1,150 @@
+appId: com.weiss.app
+---
+# ==============================================================================
+# Fluxo Maestro — Auditoria Visual do Reviewer (M10 Passo 10)
+#
+# Este fluxo automatiza:
+# 1. Abertura do app Weiss
+# 2. Navegação até Ajustes
+# 3. Desbloqueio da seção Desenvolvedor (7 toques na versão do app)
+# 4. Abertura do "Laboratório de cards"
+# 5. Captura dos 8 screenshots automatizados:
+#    - Avicena: Frente/Verso x Claro/Escuro
+#    - AnKing: Frente/Verso x Claro/Escuro
+# ==============================================================================
+
+- launchApp:
+    clearState: false
+
+# 1. Abrir Ajustes (tenta pelo botão de configurações na tela Hoje ou pelo texto)
+- tapOn:
+    id: "today-settings-button"
+    optional: true
+
+# Se estiver na tela de Baralhos
+- tapOn:
+    id: "decks-settings-button"
+    optional: true
+
+# Aguarda a tela de Ajustes carregar
+- assertVisible: "Ajustes"
+
+# 2. Desbloquear seção Desenvolvedor com 7 toques na versão
+- repeat:
+    times: 7
+    commands:
+      - tapOn:
+          id: "settings-version-tap"
+
+# Confirma que a seção Desenvolvedor apareceu
+- assertVisible:
+    id: "settings-developer-section"
+
+# 3. Abrir o Laboratório de Cards
+- tapOn:
+    id: "open-card-lab-button"
+
+# Confirma que o Laboratório de Cards carregou
+- assertVisible:
+    id: "card-lab-view"
+
+# ------------------------------------------------------------------------------
+# MODELO AVICENA (Fixtures)
+# ------------------------------------------------------------------------------
+
+# Seleciona o modelo Avicena
+- tapOn:
+    id: "card-lab-model-fixture-avicena"
+
+# 4. Avicena — Frente · Claro
+- tapOn:
+    id: "card-lab-side-front"
+- tapOn:
+    id: "card-lab-theme-light"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-avicena-frente-claro"
+
+# 5. Avicena — Verso · Claro
+- tapOn:
+    id: "card-lab-side-back"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-avicena-verso-claro"
+
+# 6. Avicena — Frente · Escuro
+- tapOn:
+    id: "card-lab-side-front"
+- tapOn:
+    id: "card-lab-theme-dark"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-avicena-frente-escuro"
+
+# 7. Avicena — Verso · Escuro
+- tapOn:
+    id: "card-lab-side-back"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-avicena-verso-escuro"
+
+# ------------------------------------------------------------------------------
+# MODELO ANKING (Fixtures)
+# ------------------------------------------------------------------------------
+
+# 8. Seleciona o modelo AnKing
+- tapOn:
+    id: "card-lab-model-fixture-anking"
+
+# 9. AnKing — Frente · Claro
+- tapOn:
+    id: "card-lab-side-front"
+- tapOn:
+    id: "card-lab-theme-light"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-anking-frente-claro"
+
+# 10. AnKing — Verso · Claro
+- tapOn:
+    id: "card-lab-side-back"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-anking-verso-claro"
+
+# 11. AnKing — Frente · Escuro
+- tapOn:
+    id: "card-lab-side-front"
+- tapOn:
+    id: "card-lab-theme-dark"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-anking-frente-escuro"
+
+# 12. AnKing — Verso · Escuro
+- tapOn:
+    id: "card-lab-side-back"
+- extendedWaitUntil:
+    visible:
+      id: "card-lab-preview"
+    timeout: 3000
+- takeScreenshot: "docs/referencia/visual/weiss-anking-verso-escuro"
+
+# 13. Retornar aos Ajustes
+- tapOn:
+    id: "card-lab-back-button"
+- assertVisible: "Ajustes"

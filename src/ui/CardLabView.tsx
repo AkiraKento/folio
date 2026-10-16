@@ -78,7 +78,7 @@ function buildDefaultFieldsForNoteType(noteType: NoteType): {
 }
 
 export function CardLabView({ onBack, db }: CardLabViewProps) {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const database = db ?? getDb();
   const defaultMediaDir = useMediaDirectory();
   const [mediaDir, setMediaDir] = useState<string>(defaultMediaDir);
@@ -194,7 +194,7 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
     return { fields: {}, tags: [], cardOrd: 0 };
   }, [realNoteOverride, activeFixtureExample, selectedItem]);
 
-  const rendered = useMemo(() => {
+  const renderedLight = useMemo(() => {
     if (!selectedItem) {
       return { front: '', back: '' };
     }
@@ -204,10 +204,27 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
       cardOrd: activeNoteData.cardOrd,
       tags: activeNoteData.tags,
       deckName: 'Laboratório::Exemplo',
-      theme: isDark ? 'dark' : 'light',
+      theme: 'light',
       adjustFixedColorsInDarkMode,
     });
-  }, [selectedItem, activeNoteData, isDark, adjustFixedColorsInDarkMode]);
+  }, [selectedItem, activeNoteData, adjustFixedColorsInDarkMode]);
+
+  const renderedDark = useMemo(() => {
+    if (!selectedItem) {
+      return { front: '', back: '' };
+    }
+    return renderCard({
+      noteType: selectedItem.noteType,
+      fields: activeNoteData.fields,
+      cardOrd: activeNoteData.cardOrd,
+      tags: activeNoteData.tags,
+      deckName: 'Laboratório::Exemplo',
+      theme: 'dark',
+      adjustFixedColorsInDarkMode,
+    });
+  }, [selectedItem, activeNoteData, adjustFixedColorsInDarkMode]);
+
+  const renderedSingle = cardTheme === 'dark' ? renderedDark : renderedLight;
 
   const handleSelectModel = (item: LabModelItem) => {
     setSelectedItemId(item.id);
@@ -557,7 +574,7 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
         <View style={styles.previewArea}>
           <CardView
             testID="card-lab-preview"
-            html={side === 'front' ? rendered.front : rendered.back}
+            html={side === 'front' ? renderedSingle.front : renderedSingle.back}
             side={side}
             theme={cardTheme}
             css={selectedItem?.noteType.css ?? undefined}
@@ -587,20 +604,22 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
               { s: 'front' as CardSide, t: 'dark' as ThemeMode, label: 'Frente · Escuro' },
               { s: 'back' as CardSide, t: 'dark' as ThemeMode, label: 'Verso · Escuro' },
             ] as const
-          ).map((cell) => (
-            <View
-              key={`${cell.s}-${cell.t}`}
-              style={[styles.gridCell, { borderColor: theme.border }]}
-            >
-              <View style={[styles.gridCellHeader, { backgroundColor: theme.elevated2 }]}>
-                <Text style={[styles.gridCellLabel, { color: theme.fg }]}>{cell.label}</Text>
-              </View>
-              <View style={styles.gridCardWrapper}>
-                <CardView
-                  testID={`card-lab-grid-${cell.s}-${cell.t}`}
-                  html={cell.s === 'front' ? rendered.front : rendered.back}
-                  side={cell.s}
-                  theme={cell.t}
+          ).map((cell) => {
+            const cellRendered = cell.t === 'dark' ? renderedDark : renderedLight;
+            return (
+              <View
+                key={`${cell.s}-${cell.t}`}
+                style={[styles.gridCell, { borderColor: theme.border }]}
+              >
+                <View style={[styles.gridCellHeader, { backgroundColor: theme.elevated2 }]}>
+                  <Text style={[styles.gridCellLabel, { color: theme.fg }]}>{cell.label}</Text>
+                </View>
+                <View style={styles.gridCardWrapper}>
+                  <CardView
+                    testID={`card-lab-grid-${cell.s}-${cell.t}`}
+                    html={cell.s === 'front' ? cellRendered.front : cellRendered.back}
+                    side={cell.s}
+                    theme={cell.t}
                   css={selectedItem?.noteType.css ?? undefined}
                   isBuiltinModel={
                     selectedItem
@@ -620,7 +639,8 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
                 />
               </View>
             </View>
-          ))}
+          );
+        })}
         </ScrollView>
       )}
 

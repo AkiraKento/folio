@@ -187,6 +187,7 @@ export function DecksScreen({
         <View style={styles.headerActions}>
           {onSettingsPress && (
             <TouchableOpacity
+              testID="decks-settings-button"
               style={[
                 styles.settingsButton,
                 { backgroundColor: theme.elevated2, borderColor: theme.border },

@@ -83,6 +83,7 @@ export function TodayView({
         </View>
         {onSettingsPress && (
           <TouchableOpacity
+            testID="today-settings-button"
             style={[
               styles.settingsButton,
               { backgroundColor: theme.elevated, borderColor: theme.border },

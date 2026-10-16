@@ -96,6 +96,11 @@ export interface CardViewProps {
   onError?: (message: string) => void;
 
   /**
+   * Cor de fundo do container externo (padrão 'transparent' para evitar moldura sobre o card).
+   */
+  backgroundColor?: string;
+
+  /**
    * Estilo customizado para o container externo.
    */
   style?: StyleProp<ViewStyle>;
@@ -139,10 +144,11 @@ export function CardView({
   onLinkPress,
   onUpdateNoteFields,
   onError,
+  backgroundColor,
   style,
   testID = 'card-view',
 }: CardViewProps) {
-  const { isDark, theme: appTheme } = useTheme();
+  const { isDark } = useTheme();
   const defaultMediaDir = useMediaDirectory();
   const effectiveMediaDir = mediaBasePath ?? defaultMediaDir;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -266,7 +272,7 @@ export function CardView({
       testID={testID}
       style={[
         styles.container,
-        { backgroundColor: appTheme.elevated },
+        { backgroundColor: backgroundColor ?? 'transparent' },
         style,
       ]}
     >

@@ -14,6 +14,12 @@ html, body {
 `;
 
 export const WEISS_OVERLAY_STYLES = `
+/* Espaço inferior para barra de resposta flutuante (M10 Passo 7) */
+#qa {
+  padding-bottom: var(--weiss-footer-height, 84px);
+  box-sizing: border-box;
+}
+
 /* Ocultações de compatibilidade AnKing (Passo 4) */
 #pic {
   display: none !important;

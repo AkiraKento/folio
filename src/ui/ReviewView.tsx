@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Animated,
+  Platform,
+  StatusBar as RNStatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { useTheme } from './theme';
 import { strings } from './strings';
 import { CardView } from './CardView';
@@ -13,6 +17,7 @@ import type { UseReviewSessionReturn } from '@/review/types';
 import { Rating } from '@/scheduler';
 import { useMediaDirectory } from '@/media';
 import { BUILTIN_NOTE_TYPE_IDS } from '@/db/builtin-note-types';
+import { isColorDark, toRgbaString } from './colorUtils';
 
 
 export interface ReviewViewProps {
@@ -178,10 +183,80 @@ export function ReviewView({
     return theme.fgMuted;
   };
 
+  // Fundo sincronizado com o documento do card (M10 Passo 7)
+  const [currentBg, setCurrentBg] = useState<string>(theme.canvas);
+  const prevBgRef = useRef<string>(theme.canvas);
+  const bgAnim = useRef(new Animated.Value(1)).current;
+
+  // Atualiza fundo base se o tema da UI mudar
+  useEffect(() => {
+    if (!currentCardData) {
+      setCurrentBg(theme.canvas);
+      prevBgRef.current = theme.canvas;
+      bgAnim.setValue(1);
+    }
+  }, [theme.canvas, currentCardData, bgAnim]);
+
+  const handleCardBackgroundColor = (newBg: string | undefined) => {
+    if (!newBg) return;
+    const trimmed = newBg.trim();
+    if (!trimmed || trimmed === 'transparent' || trimmed === currentBg) return;
+
+    prevBgRef.current = currentBg;
+    setCurrentBg(trimmed);
+    bgAnim.setValue(0);
+    Animated.timing(bgAnim, {
+      toValue: 1,
+      duration: 150,
+      useNativeDriver: false,
+    }).start();
+  };
+
+  const animatedBg = bgAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [prevBgRef.current, currentBg],
+  });
+
+  const animatedFooterBg = bgAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [toRgbaString(prevBgRef.current, 0.92), toRgbaString(currentBg, 0.92)],
+  });
+
+  const isDarkCardBg = isColorDark(currentBg);
+
+  // Fade de 120 ms ao virar de frente para verso ou mudar de card (M10 Passo 7)
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    fadeAnim.setValue(0);
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 120,
+      useNativeDriver: true,
+    }).start();
+  }, [isAnswerRevealed, currentCardData?.card.id, fadeAnim]);
+
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      RNStatusBar.setBackgroundColor(currentBg, true);
+    }
+  }, [currentBg]);
+
   return (
-    <View style={[styles.container, { backgroundColor: theme.canvas }]}>
+    <Animated.View style={[styles.container, { backgroundColor: animatedBg }]}>
+      <StatusBar style={isDarkCardBg ? 'light' : 'dark'} />
       {/* 1. Barra superior */}
-      <View style={[styles.header, { borderBottomColor: theme.border }]}>
+      <Animated.View
+        style={[
+          styles.header,
+          {
+            backgroundColor: animatedBg,
+            borderBottomColor: isDarkCardBg
+              ? 'rgba(255, 255, 255, 0.08)'
+              : 'rgba(0, 0, 0, 0.06)',
+          },
+        ]}
+      >
         <TouchableOpacity
           style={styles.headerButton}
           onPress={onBack}
@@ -266,34 +341,49 @@ export function ReviewView({
             </TouchableOpacity>
           )}
         </View>
-      </View>
+      </Animated.View>
 
-      {/* 2. Área Central do Card */}
+      {/* 2. Área Central do Card (sem moldura nem fundo próprio) */}
       <View style={styles.cardArea}>
-        <CardView
-          html={isAnswerRevealed ? currentCardData.backHtml : currentCardData.frontHtml}
-          side={isAnswerRevealed ? 'back' : 'front'}
-          css={currentCardData.noteType.css ?? undefined}
-          isBuiltinModel={(Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
-            currentCardData.noteType.id
-          )}
-          executeModelScripts={session.executeModelScripts ?? true}
-          cardId={currentCardData.card.id}
-          noteId={currentCardData.note.id}
-          fields={currentCardData.note.fields}
-          mediaBasePath={mediaDir}
-          cardOrd={currentCardData.card.ord}
-          tags={currentCardData.note.tags}
-          annotations={currentCardData.annotations}
-          showHighlights={showHighlights}
-          onUpdateNoteFields={session.updateCurrentNoteFields}
-          style={styles.cardView}
-        />
+        <Animated.View style={[styles.cardFadeWrapper, { opacity: fadeAnim }]}>
+          <CardView
+            html={isAnswerRevealed ? currentCardData.backHtml : currentCardData.frontHtml}
+            side={isAnswerRevealed ? 'back' : 'front'}
+            css={currentCardData.noteType.css ?? undefined}
+            isBuiltinModel={(Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
+              currentCardData.noteType.id
+            )}
+            executeModelScripts={session.executeModelScripts ?? true}
+            cardId={currentCardData.card.id}
+            noteId={currentCardData.note.id}
+            fields={currentCardData.note.fields}
+            mediaBasePath={mediaDir}
+            cardOrd={currentCardData.card.ord}
+            tags={currentCardData.note.tags}
+            annotations={currentCardData.annotations}
+            showHighlights={showHighlights}
+            onUpdateNoteFields={session.updateCurrentNoteFields}
+            onRendered={({ backgroundColor }) => {
+              handleCardBackgroundColor(backgroundColor);
+            }}
+            backgroundColor="transparent"
+            style={styles.cardView}
+          />
+        </Animated.View>
       </View>
 
-
-      {/* 3. Barra Inferior de Ação / Avaliação */}
-      <View style={[styles.footer, { borderTopColor: theme.border, backgroundColor: theme.elevated }]}>
+      {/* 3. Barra Inferior de Ação / Avaliação Flutuante (M10 Passo 7) */}
+      <Animated.View
+        style={[
+          styles.footer,
+          {
+            backgroundColor: animatedFooterBg,
+            borderTopColor: isDarkCardBg
+              ? 'rgba(255, 255, 255, 0.08)'
+              : 'rgba(0, 0, 0, 0.06)',
+          },
+        ]}
+      >
         {!isAnswerRevealed ? (
           // Frente: Botão "Mostrar resposta"
           <TouchableOpacity
@@ -344,8 +434,8 @@ export function ReviewView({
             })}
           </View>
         )}
-      </View>
-    </View>
+      </Animated.View>
+    </Animated.View>
   );
 }
 
@@ -419,13 +509,26 @@ const styles = StyleSheet.create({
   cardArea: {
     flex: 1,
   },
+  cardFadeWrapper: {
+    flex: 1,
+  },
   cardView: {
     flex: 1,
   },
   footer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingTop: 10,
+    paddingBottom: 14,
     borderTopWidth: StyleSheet.hairlineWidth,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 8,
   },
   showAnswerButton: {
     minHeight: 52,

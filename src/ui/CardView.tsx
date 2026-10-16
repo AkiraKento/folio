@@ -12,7 +12,7 @@ import type {
 } from '@/webview/card/types';
 import { useTheme } from '@/ui/theme';
 import { useMediaDirectory } from '@/media';
-import { logWarn } from '@/logging';
+import { logError, logWarn } from '@/logging';
 
 export interface CardViewProps {
   /**
@@ -34,6 +34,26 @@ export interface CardViewProps {
    * Indica se o modelo é um dos embutidos do Weiss (recebe BASE_CARD_STYLES).
    */
   isBuiltinModel?: boolean;
+
+  /**
+   * Liga/desliga a execução de <script> dos templates do modelo (padrão true).
+   */
+  executeModelScripts?: boolean;
+
+  /**
+   * ID do card atual (para shims AnkiDroidJS / AnkiConnect).
+   */
+  cardId?: string;
+
+  /**
+   * ID da nota atual (para shims AnkiDroidJS / AnkiConnect).
+   */
+  noteId?: string;
+
+  /**
+   * Campos da nota atual (para shims AnkiConnect local).
+   */
+  fields?: Record<string, string>;
 
   /**
    * Caminho base local da pasta de mídia do app (para imagens relativas).
@@ -66,6 +86,11 @@ export interface CardViewProps {
   onLinkPress?: (url: string) => void;
 
   /**
+   * Callback invocado quando um script do card atualiza campos da nota atual (ex.: Bloco de Notas do AnKing).
+   */
+  onUpdateNoteFields?: (noteId: string, fields: Record<string, string>) => void;
+
+  /**
    * Callback invocado caso ocorra erro interno de sanitização ou DOM.
    */
   onError?: (message: string) => void;
@@ -93,13 +118,17 @@ export interface CardViewProps {
 
 /**
  * Componente React Native de exibição de card único.
- * Carrega um documento HTML completo no formato do AnkiDroid por lado do card (M10 Passo 2).
+ * Carrega um documento HTML completo no formato do AnkiDroid por lado do card (M10 Passo 2 e Passo 4).
  */
 export function CardView({
   html,
   side,
   css,
   isBuiltinModel,
+  executeModelScripts = true,
+  cardId,
+  noteId,
+  fields,
   mediaBasePath,
   cardOrd,
   tags,
@@ -108,6 +137,7 @@ export function CardView({
   showHighlights,
   onRendered,
   onLinkPress,
+  onUpdateNoteFields,
   onError,
   style,
   testID = 'card-view',
@@ -128,6 +158,10 @@ export function CardView({
       theme: resolvedTheme,
       css,
       isBuiltinModel,
+      executeModelScripts,
+      cardId,
+      noteId,
+      fields,
       mediaBasePath: effectiveMediaDir,
       cardOrd,
       tags,
@@ -140,6 +174,10 @@ export function CardView({
       resolvedTheme,
       css,
       isBuiltinModel,
+      executeModelScripts,
+      cardId,
+      noteId,
+      fields,
       effectiveMediaDir,
       cardOrd,
       tags,
@@ -197,6 +235,21 @@ export function CardView({
 
         case 'linkClick':
           onLinkPress?.(message.payload.url);
+          break;
+
+        case 'scriptError':
+          logError('CardScript', message.payload.message);
+          break;
+
+        case 'updateNoteFields':
+          if (!noteId || message.payload.noteId === noteId) {
+            onUpdateNoteFields?.(message.payload.noteId, message.payload.fields);
+          } else {
+            logWarn(
+              'CardScript',
+              `Ignorada tentativa de updateNoteFields para outra nota (${message.payload.noteId})`
+            );
+          }
           break;
 
         case 'error':

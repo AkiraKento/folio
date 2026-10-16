@@ -277,11 +277,16 @@ export function ReviewView({
           isBuiltinModel={(Object.values(BUILTIN_NOTE_TYPE_IDS) as string[]).includes(
             currentCardData.noteType.id
           )}
+          executeModelScripts={session.executeModelScripts ?? true}
+          cardId={currentCardData.card.id}
+          noteId={currentCardData.note.id}
+          fields={currentCardData.note.fields}
           mediaBasePath={mediaDir}
           cardOrd={currentCardData.card.ord}
           tags={currentCardData.note.tags}
           annotations={currentCardData.annotations}
           showHighlights={showHighlights}
+          onUpdateNoteFields={session.updateCurrentNoteFields}
           style={styles.cardView}
         />
       </View>

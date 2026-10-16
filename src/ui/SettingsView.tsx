@@ -52,6 +52,8 @@ export function SettingsView({
     buttonMode: settingsRepo.get<2 | 4>('buttonMode') ?? DEFAULT_SETTINGS.buttonMode,
     showHighlightsInReview:
       settingsRepo.get<boolean>('showHighlightsInReview') ?? DEFAULT_SETTINGS.showHighlightsInReview,
+    executeModelScripts:
+      settingsRepo.get<boolean>('executeModelScripts') ?? DEFAULT_SETTINGS.executeModelScripts,
     newCardsPerDay: settingsRepo.get<number>('newCardsPerDay') ?? DEFAULT_SETTINGS.newCardsPerDay,
     maxReviewsPerDay: settingsRepo.get<number>('maxReviewsPerDay') ?? DEFAULT_SETTINGS.maxReviewsPerDay,
     desiredRetention: settingsRepo.get<number>('desiredRetention') ?? DEFAULT_SETTINGS.desiredRetention,
@@ -578,6 +580,50 @@ export function SettingsView({
                   style={[
                     styles.toggleThumb,
                     settingsValues.showHighlightsInReview
+                      ? styles.toggleThumbActive
+                      : styles.toggleThumbInactive,
+                  ]}
+                />
+              </View>
+            </TouchableOpacity>
+
+            {/* Executar scripts dos modelos */}
+            <TouchableOpacity
+              testID="settings-execute-model-scripts-toggle"
+              style={[styles.toggleRow, { borderTopColor: theme.border }]}
+              onPress={() =>
+                handleUpdateSetting(
+                  'executeModelScripts',
+                  !settingsValues.executeModelScripts
+                )
+              }
+              activeOpacity={0.7}
+              accessibilityRole="switch"
+              accessibilityState={{ checked: settingsValues.executeModelScripts }}
+              accessibilityLabel={strings.settings.executeModelScripts}
+            >
+              <View style={styles.toggleTextContainer}>
+                <Text style={[styles.rowTitle, { color: theme.fg }]}>
+                  {strings.settings.executeModelScripts}
+                </Text>
+                <Text style={[styles.rowSubtitle, { color: theme.fgMuted }]}>
+                  {strings.settings.executeModelScriptsDesc}
+                </Text>
+              </View>
+              <View
+                style={[
+                  styles.toggleTrack,
+                  {
+                    backgroundColor: settingsValues.executeModelScripts
+                      ? theme.accent
+                      : theme.elevated2,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.toggleThumb,
+                    settingsValues.executeModelScripts
                       ? styles.toggleThumbActive
                       : styles.toggleThumbInactive,
                   ]}

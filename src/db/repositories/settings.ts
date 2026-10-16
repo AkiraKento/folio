@@ -11,6 +11,7 @@ export interface FolioSettingsMap {
   buttonMode: 2 | 4;
   dayRolloverHour: number;
   showHighlightsInReview: boolean;
+  executeModelScripts: boolean;
   lastHighlightColor: 'amarelo' | 'verde' | 'azul' | 'rosa' | 'laranja';
   fontSize: number;
   sampleDeckLoaded: boolean;
@@ -32,6 +33,7 @@ export const DEFAULT_SETTINGS: FolioSettingsMap = {
   buttonMode: 2,
   dayRolloverHour: 4,
   showHighlightsInReview: true,
+  executeModelScripts: true,
   lastHighlightColor: 'amarelo',
   fontSize: 17,
   sampleDeckLoaded: false,

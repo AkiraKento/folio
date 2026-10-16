@@ -29,20 +29,37 @@ const FORBID_ATTR = [
   'onwheel',
 ];
 
+let cachedWindow: Window | null = null;
+let cachedPurify: { sanitize: (dirty: string, cfg?: Record<string, unknown>) => string } | null = null;
+
 function getDomPurifyInstance(): { sanitize: (dirty: string, cfg?: Record<string, unknown>) => string } | null {
   if (typeof window !== 'undefined' && typeof window.document !== 'undefined') {
+    if (cachedWindow === window && cachedPurify) {
+      return cachedPurify;
+    }
     if (
       typeof DOMPurify === 'function' &&
       typeof (DOMPurify as unknown as { sanitize?: unknown }).sanitize !== 'function'
     ) {
-      return (DOMPurify as unknown as (win: Window) => typeof DOMPurify)(window);
+      cachedWindow = window;
+      cachedPurify = (DOMPurify as unknown as (win: Window) => typeof DOMPurify)(
+        window
+      ) as unknown as { sanitize: (dirty: string, cfg?: Record<string, unknown>) => string };
+      return cachedPurify;
     }
     if (typeof (DOMPurify as unknown as { sanitize?: unknown }).sanitize === 'function') {
-      return DOMPurify as unknown as { sanitize: (dirty: string, cfg?: Record<string, unknown>) => string };
+      cachedWindow = window;
+      cachedPurify = DOMPurify as unknown as {
+        sanitize: (dirty: string, cfg?: Record<string, unknown>) => string;
+      };
+      return cachedPurify;
     }
   }
   return null;
 }
+
+const POTENTIALLY_UNSAFE_HTML_RE =
+  /<(?:script|iframe|object|embed|link|svg|math|form|meta|base|style)\b|\bon[a-z]+\s*=|(?:javascript|vbscript)\s*:|data\s*:\s*text\/html|&#/i;
 
 /**
  * Sanitiza o valor HTML de um campo individual da nota ANTES de substituir no template (M10 Passo 3).
@@ -55,29 +72,38 @@ export function sanitizeFieldHtml(rawFieldValue: string): string {
   }
 
   // 1. Remove tags de áudio do Anki [sound:arquivo.mp3] (sem áudio no MVP)
-  let cleaned = rawFieldValue.replace(/\[sound:[^\]]*\]/gi, '');
+  let cleaned = rawFieldValue.includes('[sound:') || /\[sound:/i.test(rawFieldValue)
+    ? rawFieldValue.replace(/\[sound:[^\]]*\]/gi, '')
+    : rawFieldValue;
 
-  // 2. Quando em ambiente com DOM (WebView ou jsdom), aplica DOMPurify
-  const purify = getDomPurifyInstance();
-  if (purify) {
-    cleaned = purify.sanitize(cleaned, {
-      FORBID_TAGS,
-      FORBID_ATTR,
-      ALLOW_DATA_ATTR: true,
-      ADD_ATTR: ['target'],
-    });
+  // Fast-path para texto puro sem tags HTML nem esquemas javascript:
+  if (!cleaned.includes('<') && !/(?:javascript|vbscript)\s*:/i.test(cleaned)) {
+    return cleaned;
   }
 
-  // 3. Limpeza defensiva adicional (garante segurança também no Hermes / Node sem DOM)
-  cleaned = cleaned
-    .replace(/<script\b[\s\S]*?<\/script>/gi, '')
-    .replace(/<\/?script\b[^>]*>/gi, '')
-    .replace(/<(iframe|object|embed|link)\b[^>]*>([\s\S]*?<\/\1>)?/gi, '')
-    .replace(/\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
-    .replace(
-      /(\b(?:href|src|action|formaction)\s*=\s*(?:["']\s*)?)javascript:[^"'\s>]*/gi,
-      '$1#'
-    );
+  // 2. Quando o campo contém padrões potencialmente perigosos e estamos em ambiente com DOM, aplica DOMPurify
+  if (POTENTIALLY_UNSAFE_HTML_RE.test(cleaned)) {
+    const purify = getDomPurifyInstance();
+    if (purify) {
+      cleaned = purify.sanitize(cleaned, {
+        FORBID_TAGS,
+        FORBID_ATTR,
+        ALLOW_DATA_ATTR: true,
+        ADD_ATTR: ['target'],
+      });
+    }
+
+    // 3. Limpeza defensiva adicional (garante segurança também no Hermes / Node sem DOM)
+    cleaned = cleaned
+      .replace(/<script\b[\s\S]*?<\/script>/gi, '')
+      .replace(/<\/?script\b[^>]*>/gi, '')
+      .replace(/<(iframe|object|embed|link)\b[^>]*>([\s\S]*?<\/\1>)?/gi, '')
+      .replace(/\s+on[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+      .replace(
+        /(\b(?:href|src|action|formaction)\s*=\s*(?:["']\s*)?)javascript:[^"'\s>]*/gi,
+        '$1#'
+      );
+  }
 
   return cleaned;
 }

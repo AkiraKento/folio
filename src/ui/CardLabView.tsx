@@ -12,6 +12,7 @@ import * as schema from '@/db/schema';
 import type { NoteType } from '@/db/schema';
 import { BUILTIN_NOTE_TYPE_IDS } from '@/db/builtin-note-types';
 import { NoteTypesRepository } from '@/db/repositories/note-types';
+import { DEFAULT_SETTINGS, SettingsRepository } from '@/db/repositories/settings';
 
 import { renderCard } from '@/render';
 import {
@@ -84,6 +85,17 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
 
   const fixtures = useMemo(() => listCardModelFixtures(), []);
   const [dbModels, setDbModels] = useState<NoteType[]>([]);
+  const executeModelScripts = useMemo(() => {
+    try {
+      const repo = new SettingsRepository(database);
+      return repo.getWithDefault<boolean>(
+        'executeModelScripts',
+        DEFAULT_SETTINGS.executeModelScripts
+      );
+    } catch {
+      return DEFAULT_SETTINGS.executeModelScripts;
+    }
+  }, [database]);
 
   useEffect(() => {
     try {
@@ -542,6 +554,10 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
                   )
                 : false
             }
+            executeModelScripts={executeModelScripts}
+            cardId={`lab-card-${selectedItem?.id ?? 'default'}`}
+            noteId={`lab-note-${selectedItem?.id ?? 'default'}`}
+            fields={activeNoteData.fields}
             mediaBasePath={mediaDir}
             cardOrd={activeNoteData.cardOrd}
             tags={activeNoteData.tags}
@@ -579,6 +595,10 @@ export function CardLabView({ onBack, db }: CardLabViewProps) {
                         )
                       : false
                   }
+                  executeModelScripts={executeModelScripts}
+                  cardId={`lab-card-${selectedItem?.id ?? 'default'}`}
+                  noteId={`lab-note-${selectedItem?.id ?? 'default'}`}
+                  fields={activeNoteData.fields}
                   mediaBasePath={mediaDir}
                   cardOrd={activeNoteData.cardOrd}
                   tags={activeNoteData.tags}

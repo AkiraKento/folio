@@ -8,6 +8,31 @@ function postMessageToRn(message: CardOutboundMessage): void {
   }
 }
 
+function runAnkiLifecycleHooks(): void {
+  const hooks = [
+    ...(Array.isArray(window.onUpdateHook) ? window.onUpdateHook : []),
+    ...(Array.isArray(window.onShownHook) ? window.onShownHook : []),
+  ];
+
+  for (const hook of hooks) {
+    if (typeof hook === 'function') {
+      try {
+        hook();
+      } catch (err) {
+        if (typeof window.__weissLogScriptError === 'function') {
+          window.__weissLogScriptError(err);
+        } else {
+          const errMessage = err instanceof Error ? err.message : String(err);
+          postMessageToRn({
+            type: 'scriptError',
+            payload: { message: errMessage },
+          });
+        }
+      }
+    }
+  }
+}
+
 function applyThemeClasses(theme: ThemeMode): void {
   const nmList = NIGHT_MODE_CLASSES.split(' ');
   const htmlEl = document.documentElement;
@@ -57,6 +82,7 @@ function handleInboundMessage(rawMessage: unknown, rootEl: HTMLElement): void {
         if (message.payload.html) {
           qaEl.innerHTML = message.payload.html;
         }
+        runAnkiLifecycleHooks();
         const result = enhanceAnkiQaElement(qaEl, document.body, message.payload);
         postMessageToRn({
           type: 'rendered',
@@ -91,6 +117,8 @@ function initCardWebView(): void {
   const qaEl = document.getElementById('qa');
   const rootEl = document.getElementById('root') ?? document.body;
   if (!rootEl) return;
+
+  runAnkiLifecycleHooks();
 
   if (window.__INITIAL_CARD_DATA__) {
     try {

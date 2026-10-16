@@ -1,0 +1,166 @@
+<div class="main question-field" id="question">{{edit:question}}</div>
+
+{{#Tags}}
+<div class="tags-container">{{Tags}}</div>
+{{/Tags}}
+
+<div id="action-container" class="tags-container" style="margin-top: 10px;"></div>
+
+<!-- <script src="_bionic-reading.js"></script> -->
+<script>
+  var containers = document.querySelectorAll(".tags-container");
+  containers.forEach(function(c) {
+    if(!c.hasAttribute('data-processed') && c.id !== 'action-container') {
+      var tags = c.innerText.trim().split(" ");
+      var html = "";
+      tags.forEach(function(tag) {
+        if(tag.trim() !== "") html += "<span class='tag-pill'>" + tag + "</span>";
+      });
+      c.innerHTML = html;
+      c.setAttribute('data-processed', 'true');
+    }
+  });
+
+  setTimeout(function() {
+      var imgs = Array.from(document.querySelectorAll('img:not(.zoomed-img):not(.bionic-reading-img)'));
+      var editables = document.querySelectorAll('anki-editable');
+      editables.forEach(function(ed) {
+        if (ed.shadowRoot) {
+          var shadowImgs = ed.shadowRoot.querySelectorAll('img:not(.zoomed-img):not(.bionic-reading-img)');
+          shadowImgs.forEach(function(i) { imgs.push(i); });
+        }
+      });
+
+      // Botão de Recarregar Imagens
+      if (imgs.length > 0 && !document.getElementById('reload-imgs-btn')) {
+        var btn = document.createElement('span');
+        btn.id = 'reload-imgs-btn';
+        btn.className = 'tag-pill';
+        btn.style.cursor = 'pointer';
+        btn.innerText = '↻ Recarregar Imagens';
+        btn.onclick = function() {
+          imgs.forEach(function(img) {
+            img.style.display = '';
+            var srcUrl = img.getAttribute('src');
+            if (srcUrl && (srcUrl.startsWith('http') || srcUrl.startsWith('//'))) {
+               var baseSrc = srcUrl.replace(/(&|\?)t=\d+/, '');
+               var sep = baseSrc.indexOf('?') > -1 ? '&' : '?';
+               img.src = baseSrc + sep + 't=' + new Date().getTime();
+            } else {
+               var oldSrc = img.src;
+               img.src = '';
+               setTimeout(function() { img.src = oldSrc; }, 50);
+            }
+          });
+          btn.innerText = 'Recarregando...';
+          setTimeout(function() { btn.innerText = '↻ Recarregar Imagens'; }, 1000);
+        };
+        
+        var existingContainer = document.querySelector(".tags-container:not(#action-container)");
+        if (existingContainer) {
+          existingContainer.appendChild(btn);
+        } else {
+          var actionContainer = document.getElementById('action-container');
+          if (actionContainer) actionContainer.appendChild(btn);
+        }
+      }
+
+      // --- Image Zoom Logic ---
+      imgs.forEach(function(img) {
+          // Desativar seleção nativa e arrasto que cria a moldura azul
+          img.setAttribute('draggable', 'false');
+          
+          if (!img.classList.contains('zoom-enabled')) {
+              img.classList.add('zoom-enabled');
+              
+              img.dataset.scale = 1;
+              img.dataset.translateX = 0;
+              img.dataset.translateY = 0;
+
+              img.addEventListener('click', function(e) {
+                  e.stopPropagation();
+                  if (img.dataset.wasDragged === 'true') {
+                      img.dataset.wasDragged = 'false';
+                      return;
+                  }
+                  
+                  if (!this.classList.contains('zoomed-img')) {
+                      this.classList.add('zoomed-img');
+                      this.dataset.scale = 1;
+                      this.dataset.translateX = 0;
+                      this.dataset.translateY = 0;
+                      this.style.setProperty('transform', 'translate(-50%, -50%) scale(1)', 'important');
+                  } else {
+                      this.classList.remove('zoomed-img');
+                      this.style.removeProperty('transform');
+                  }
+              });
+
+              img.addEventListener('wheel', function(e) {
+                  if (this.classList.contains('zoomed-img')) {
+                      e.preventDefault();
+                      var scale = parseFloat(this.dataset.scale) || 1;
+                      scale += e.deltaY * -0.002;
+                      scale = Math.min(Math.max(0.5, scale), 15);
+                      this.dataset.scale = scale;
+                      
+                      var tx = parseFloat(this.dataset.translateX) || 0;
+                      var ty = parseFloat(this.dataset.translateY) || 0;
+
+                      this.style.setProperty('transform', 'translate(calc(-50% + ' + tx + 'px), calc(-50% + ' + ty + 'px)) scale(' + scale + ')', 'important');
+                  }
+              });
+
+              img.addEventListener('mousedown', function(e) {
+                  if (this.classList.contains('zoomed-img') && parseFloat(this.dataset.scale) > 1) {
+                      window.isZoomDragging = true;
+                      window.currentDragImg = this;
+                      this.dataset.wasDragged = 'false';
+                      this.dataset.initX = e.clientX;
+                      this.dataset.initY = e.clientY;
+                      this.dataset.startX = e.clientX - (parseFloat(this.dataset.translateX) || 0);
+                      this.dataset.startY = e.clientY - (parseFloat(this.dataset.translateY) || 0);
+                      this.style.cursor = 'grabbing';
+                      e.preventDefault();
+                  }
+              });
+          }
+      });
+
+      if (!window.zoomGlobalListeners) {
+          window.zoomGlobalListeners = true;
+          document.addEventListener('mousemove', function(e) {
+              if (window.isZoomDragging && window.currentDragImg && window.currentDragImg.classList.contains('zoomed-img')) {
+                  var img = window.currentDragImg;
+                  if (Math.abs(e.clientX - parseFloat(img.dataset.initX)) > 5 || Math.abs(e.clientY - parseFloat(img.dataset.initY)) > 5) {
+                      img.dataset.wasDragged = 'true';
+                  }
+                  var tx = e.clientX - parseFloat(img.dataset.startX);
+                  var ty = e.clientY - parseFloat(img.dataset.startY);
+                  img.dataset.translateX = tx;
+                  img.dataset.translateY = ty;
+                  var scale = parseFloat(img.dataset.scale) || 1;
+                  img.style.setProperty('transform', 'translate(calc(-50% + ' + tx + 'px), calc(-50% + ' + ty + 'px)) scale(' + scale + ')', 'important');
+              }
+          });
+
+          document.addEventListener('mouseup', function(e) {
+              if (window.isZoomDragging && window.currentDragImg) {
+                  window.isZoomDragging = false;
+                  window.currentDragImg.style.cursor = 'zoom-out';
+                  window.currentDragImg = null;
+              }
+          });
+
+          document.addEventListener('click', function(e) {
+              var allImgs = document.querySelectorAll('img.zoomed-img');
+              allImgs.forEach(function(img) {
+                  if (e.target !== img) {
+                      img.classList.remove('zoomed-img');
+                      img.style.removeProperty('transform');
+                  }
+              });
+          });
+      }
+  }, 100);
+</script>

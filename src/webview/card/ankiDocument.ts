@@ -1,3 +1,4 @@
+import { buildAnkiShimsScript, processTemplateScripts } from './ankiShims';
 import { BASE_CARD_STYLES, WEISS_OVERLAY_STYLES, WEISS_RESET_STYLES } from './styles';
 import type { CardRenderPayload } from './types';
 
@@ -43,11 +44,12 @@ export interface BuildAnkiDocumentOptions {
 }
 
 /**
- * Monta um documento HTML completo por lado do card no formato exato do AnkiDroid (M10 Passo 2):
+ * Monta um documento HTML completo por lado do card no formato exato do AnkiDroid (M10 Passo 2 e Passo 4):
  * - html.mobile.android.js (+ nightMode night_mode night-mode no escuro)
  * - body.card.card{ORD+1} (+ nightMode night_mode night-mode no escuro)
  * - #weiss-reset, #weiss-fonts, #note-css (CSS do modelo cru, sem escopo .card-root), #weiss-overlay
- * - <div id="qa">{HTML do lado}</div>
+ * - #weiss-anki-shims (shims do Anki ANTES do conteúdo)
+ * - <div id="qa">{HTML do lado com scripts protegidos por try/catch ou removidos se executeModelScripts=false}</div>
  */
 export function buildAnkiDocument(
   payload: CardRenderPayload,
@@ -65,7 +67,9 @@ export function buildAnkiDocument(
     : rawModelCss;
 
   const fontsCss = options.fontsCss ?? '';
-  const shimsScript = options.shimsScript ?? '';
+  const shimsScript = options.shimsScript ?? buildAnkiShimsScript(payload);
+  const executeScripts = payload.executeModelScripts !== false;
+  const qaHtml = processTemplateScripts(payload.html ?? '', executeScripts);
 
   // Serializa metadados do card para o runtime do Weiss (sem re-injetar o HTML inteiro)
   const runtimePayload: CardRenderPayload = {
@@ -89,7 +93,7 @@ export function buildAnkiDocument(
   <script id="weiss-anki-shims">${shimsScript}</script>
 </head>
 <body class="card card${ordNumber}${nmBody}">
-  <div id="qa">${payload.html}</div>
+  <div id="qa">${qaHtml}</div>
   <script id="weiss-runtime">${runtimeJs}</script>
 </body>
 </html>`;

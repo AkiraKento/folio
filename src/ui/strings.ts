@@ -392,6 +392,8 @@ export const strings = {
     dayRolloverHourDesc: (hour: number) => `Vira às ${hour}:00 no horário local`,
     showHighlightsInReview: 'Grifos na revisão',
     showHighlightsInReviewDesc: 'Exibe anotações e grifos do Modo Consulta ao virar o card',
+    executeModelScripts: 'Executar scripts dos modelos',
+    executeModelScriptsDesc: 'Permite que scripts de templates importados (como pílulas de tags e revelação um por um) rodem na revisão',
     themeSectionTitle: 'Aparência',
     themeSystem: 'Automático (Sistema)',
     themeLight: 'Claro (Calmcoder)',

@@ -9,13 +9,16 @@ export interface CardRenderPayload {
   theme?: ThemeMode;
   css?: string;
   isBuiltinModel?: boolean;
+  executeModelScripts?: boolean;
+  cardId?: string;
+  noteId?: string;
+  fields?: Record<string, string>;
   mediaBasePath?: string;
   cardOrd?: number;
   tags?: string[];
   annotations?: AnnotationData[];
   showHighlights?: boolean;
 }
-
 
 export type CardInboundMessage =
   | { type: 'renderCard'; payload: CardRenderPayload }
@@ -25,7 +28,11 @@ export type CardOutboundMessage =
   | { type: 'ready' }
   | { type: 'rendered'; payload: { side: CardSide; height: number } }
   | { type: 'error'; payload: { message: string } }
-  | { type: 'linkClick'; payload: { url: string } };
+  | { type: 'scriptError'; payload: { message: string } }
+  | { type: 'linkClick'; payload: { url: string } }
+  | { type: 'updateNoteFields'; payload: { noteId: string; fields: Record<string, string> } }
+  | { type: 'pycmd'; payload: { cmd: string } }
+  | { type: 'ankiToast'; payload: { message: string } };
 
 declare global {
   interface Window {
@@ -33,5 +40,10 @@ declare global {
       postMessage: (data: string) => void;
     };
     __INITIAL_CARD_DATA__?: CardRenderPayload;
+    onUpdateHook?: Array<() => void>;
+    onShownHook?: Array<() => void>;
+    pycmd?: (cmd: string) => void;
+    bridgeCommand?: (cmd: string) => void;
+    __weissLogScriptError?: (err: unknown) => void;
   }
 }

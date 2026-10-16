@@ -50,6 +50,7 @@ export interface UseReviewSessionReturn {
   nextReviewOptions: NextReviewOption[];
   buttonMode: 2 | 4;
   showHighlights: boolean;
+  executeModelScripts?: boolean;
   remainingCounts: ReviewQueueCounts;
   reviewedCount: number;
   canUndo: boolean;
@@ -58,4 +59,5 @@ export interface UseReviewSessionReturn {
   answerCard: (rating: Rating) => void;
   undo: () => boolean;
   reloadCurrentCard: () => void;
+  updateCurrentNoteFields?: (noteId: string, fields: Record<string, string>) => void;
 }

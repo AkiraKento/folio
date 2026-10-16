@@ -51,6 +51,10 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
     'showHighlightsInReview',
     DEFAULT_SETTINGS.showHighlightsInReview
   );
+  const executeModelScripts = settingsRepo.getWithDefault<boolean>(
+    'executeModelScripts',
+    DEFAULT_SETTINGS.executeModelScripts
+  );
   const desiredRetention = settingsRepo.getWithDefault<number>(
     'desiredRetention',
     DEFAULT_SETTINGS.desiredRetention
@@ -358,6 +362,33 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
     }
   }, [currentCardData, hydrateCard]);
 
+  // Atualiza campos apenas da nota atual (usado pelo Bloco de Notas do AnKing via shim AnkiConnect)
+  const updateCurrentNoteFields = useCallback(
+    (noteId: string, updatedFields: Record<string, string>) => {
+      if (!currentCardData || currentCardData.note.id !== noteId) {
+        return;
+      }
+
+      const mergedFields: Record<string, string> = {
+        ...currentCardData.note.fields,
+        ...updatedFields,
+      };
+
+      const updatedNote = notesRepo.update(noteId, { fields: mergedFields });
+      if (updatedNote) {
+        setCurrentCardData((prev) =>
+          prev && prev.note.id === noteId
+            ? {
+                ...prev,
+                note: updatedNote,
+              }
+            : prev
+        );
+      }
+    },
+    [currentCardData, notesRepo]
+  );
+
   const isFinished = !loading && queue.length === 0;
 
   return {
@@ -368,6 +399,7 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
     nextReviewOptions,
     buttonMode,
     showHighlights,
+    executeModelScripts,
     remainingCounts,
     reviewedCount,
     canUndo: undoStack.length > 0,
@@ -376,5 +408,6 @@ export function useReviewSession(options: UseReviewSessionOptions = {}): UseRevi
     answerCard,
     undo,
     reloadCurrentCard,
+    updateCurrentNoteFields,
   };
 }

@@ -70,7 +70,9 @@ describe('Componente <ConsultaView />', () => {
       testID: 'consulta-view-webview',
     });
     expect(webViewInstance).toBeDefined();
-    expect(webViewInstance.props.source).toEqual({ html: consultaHtml });
+    expect(webViewInstance.props.source).toEqual({ html: consultaHtml, baseUrl: 'media/' });
+    expect(webViewInstance.props.allowFileAccess).toBe(true);
+    expect(webViewInstance.props.originWhitelist).toEqual(['about:*', 'file://*']);
 
     const injectedScript: string =
       webViewInstance.props.injectedJavaScriptBeforeContentLoaded;

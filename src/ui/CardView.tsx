@@ -10,6 +10,8 @@ import type {
   ThemeMode,
 } from '@/webview/card/types';
 import { useTheme } from '@/ui/theme';
+import { useMediaDirectory } from '@/media';
+import { logWarn } from '@/logging';
 
 export interface CardViewProps {
   /**
@@ -105,6 +107,8 @@ export function CardView({
   testID = 'card-view',
 }: CardViewProps) {
   const { isDark, theme: appTheme } = useTheme();
+  const defaultMediaDir = useMediaDirectory();
+  const effectiveMediaDir = mediaBasePath ?? defaultMediaDir;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const webViewRef = useRef<any>(null);
   const [isReady, setIsReady] = useState(false);
@@ -117,13 +121,13 @@ export function CardView({
       side,
       theme: resolvedTheme,
       css,
-      mediaBasePath,
+      mediaBasePath: effectiveMediaDir,
       cardOrd,
       tags,
       annotations,
       showHighlights,
     }),
-    [html, side, resolvedTheme, css, mediaBasePath, cardOrd, tags, annotations, showHighlights]
+    [html, side, resolvedTheme, css, effectiveMediaDir, cardOrd, tags, annotations, showHighlights]
   );
 
   // Injeta os dados iniciais antes do primeiro carregamento do DOM para evitar tela em branco
@@ -173,8 +177,8 @@ export function CardView({
           onError?.(message.payload.message);
           break;
       }
-    } catch {
-      // Ignora mensagens com formato inválido
+    } catch (err) {
+      logWarn('CardView', 'Mensagem malformada recebida da WebView do Card', String(err));
     }
   };
 
@@ -190,10 +194,11 @@ export function CardView({
       <WebView
         ref={webViewRef}
         testID={`${testID}-webview`}
-        source={{ html: cardHtml }}
+        source={{ html: cardHtml, baseUrl: effectiveMediaDir }}
+        allowFileAccess
+        originWhitelist={['about:*', 'file://*']}
         injectedJavaScriptBeforeContentLoaded={initialDataScript}
         onMessage={handleMessage}
-        originWhitelist={['*']}
         javaScriptEnabled
         domStorageEnabled
         scrollEnabled

@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { MediaRepository, type CreateMediaInput } from '@/db/repositories/media';
 import { generateId } from '@/db/repositories/utils';
 import type { Media } from '@/db/schema';
+import { logWarn } from '@/logging';
 
 export interface SavedMediaResult {
   media: Media;
@@ -11,20 +12,27 @@ export interface SavedMediaResult {
 }
 
 /**
+ * Retorna o caminho absoluto do diretório de mídia de forma síncrona (com barra final).
+ */
+export function getMediaDirectorySync(): string {
+  const baseDir = FileSystem.documentDirectory ?? '';
+  return `${baseDir}media/`;
+}
+
+/**
  * Retorna o caminho absoluto do diretório de mídia do app (com barra final),
  * garantindo que o diretório exista no sistema de arquivos local.
  */
 export async function getMediaDirectory(): Promise<string> {
-  const baseDir = FileSystem.documentDirectory ?? '';
-  const mediaDir = `${baseDir}media/`;
+  const mediaDir = getMediaDirectorySync();
 
   try {
     const dirInfo = await FileSystem.getInfoAsync(mediaDir);
     if (!dirInfo.exists) {
       await FileSystem.makeDirectoryAsync(mediaDir, { intermediates: true });
     }
-  } catch {
-    // Em ambientes de teste mockados, continua com o diretório
+  } catch (err) {
+    logWarn('MediaService', 'Falha ao verificar/criar diretório de mídia local', String(err));
   }
 
   return mediaDir;
@@ -73,8 +81,8 @@ export async function saveMediaFromUri(
     if (info.exists && typeof info.size === 'number') {
       fileBytes = info.size;
     }
-  } catch {
-    // ignora
+  } catch (err) {
+    logWarn('MediaService', 'Falha ao obter tamanho do arquivo de mídia', String(err));
   }
 
   // Gera hash SHA-1 do conteúdo ou do caminho/timestamp para unicidade e integridade
@@ -85,7 +93,8 @@ export async function saveMediaFromUri(
       encoding: FileSystem.EncodingType.Base64,
     });
     sha1 = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA1, content);
-  } catch {
+  } catch (err) {
+    logWarn('MediaService', 'Fallback de SHA-1 por URI acionado', String(err));
     // Fallback para hash da URI + timestamp
     sha1 = await Crypto.digestStringAsync(
       Crypto.CryptoDigestAlgorithm.SHA1,
@@ -114,8 +123,8 @@ export async function saveMediaFromUri(
       from: sourceUri,
       to: targetUri,
     });
-  } catch {
-    // Caso copyAsync falhe (ex.: mock de teste), tenta registrar mesmo assim
+  } catch (err) {
+    logWarn('MediaService', 'Falha ao copiar arquivo de mídia para media/', String(err));
   }
 
   const mime = getMimeType(filename);

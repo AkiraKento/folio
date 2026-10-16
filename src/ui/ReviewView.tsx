@@ -11,6 +11,7 @@ import { strings } from './strings';
 import { CardView } from './CardView';
 import type { UseReviewSessionReturn } from '@/review/types';
 import { Rating } from '@/scheduler';
+import { useMediaDirectory } from '@/media';
 
 export interface ReviewViewProps {
   session: UseReviewSessionReturn;
@@ -26,6 +27,7 @@ export function ReviewView({
   onOpenConsulta,
 }: ReviewViewProps) {
   const { theme, isDark } = useTheme();
+  const mediaDir = useMediaDirectory();
 
   const {
     loading,
@@ -270,6 +272,7 @@ export function ReviewView({
           html={isAnswerRevealed ? currentCardData.backHtml : currentCardData.frontHtml}
           side={isAnswerRevealed ? 'back' : 'front'}
           css={currentCardData.noteType.css ?? undefined}
+          mediaBasePath={mediaDir}
           cardOrd={currentCardData.card.ord}
           tags={currentCardData.note.tags}
           annotations={currentCardData.annotations}

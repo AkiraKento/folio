@@ -27,6 +27,8 @@ import { AnnotationsRepository } from '@/db/repositories/annotations';
 import { ConsultaPosRepository } from '@/db/repositories/consulta-pos';
 import { SettingsRepository } from '@/db/repositories/settings';
 import { useTheme } from '@/ui/theme';
+import { useMediaDirectory } from '@/media';
+import { logWarn } from '@/logging';
 
 export interface ConsultaViewHandle {
   /** Rola até o índice da unidade e pisca a anotação opcional */
@@ -84,6 +86,11 @@ export interface ConsultaViewProps {
    * Indica se a frente do card deve ser exibida. Padrão: true.
    */
   showFront?: boolean;
+
+  /**
+   * Caminho base local da pasta de mídia do app (para imagens relativas).
+   */
+  mediaBasePath?: string;
 
   /**
    * Identificador do deck ou consulta para salvar posição em consulta_pos.
@@ -210,11 +217,14 @@ export const ConsultaView = forwardRef<ConsultaViewHandle, ConsultaViewProps>(
       onError,
       style,
       resetKey,
+      mediaBasePath,
       testID = 'consulta-view',
     },
     ref
   ) {
     const { isDark, theme: appTheme } = useTheme();
+    const defaultMediaDir = useMediaDirectory();
+    const effectiveMediaDir = mediaBasePath ?? defaultMediaDir;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const webViewRef = useRef<any>(null);
     const [isReady, setIsReady] = useState(false);
@@ -267,8 +277,8 @@ export const ConsultaView = forwardRef<ConsultaViewHandle, ConsultaViewProps>(
       return () => {
         try {
           bridge.sendFlushPosition();
-        } catch {
-          // Ignora
+        } catch (err) {
+          logWarn('ConsultaView', 'Falha ao enviar flush de posição no unmount', String(err));
         }
         bridge.dispose();
       };
@@ -424,8 +434,8 @@ export const ConsultaView = forwardRef<ConsultaViewHandle, ConsultaViewProps>(
     const handleMessage = (event: WebViewMessageEvent) => {
       try {
         bridge.receive(event.nativeEvent.data);
-      } catch {
-        // Ignora mensagens malformadas
+      } catch (err) {
+        logWarn('ConsultaView', 'Mensagem malformada recebida da WebView na Consulta', String(err));
       }
     };
 
@@ -441,10 +451,11 @@ export const ConsultaView = forwardRef<ConsultaViewHandle, ConsultaViewProps>(
         <WebView
           ref={webViewRef}
           testID={`${testID}-webview`}
-          source={{ html: consultaHtml }}
+          source={{ html: consultaHtml, baseUrl: effectiveMediaDir }}
+          allowFileAccess
+          originWhitelist={['about:*', 'file://*']}
           injectedJavaScriptBeforeContentLoaded={initialDataScript}
           onMessage={handleMessage}
-          originWhitelist={['*']}
           javaScriptEnabled
           domStorageEnabled
           scrollEnabled

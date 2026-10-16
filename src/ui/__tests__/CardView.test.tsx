@@ -53,7 +53,9 @@ describe('Componente <CardView />', () => {
 
     const webViewInstance = renderer!.root.findByProps({ testID: 'card-view-webview' });
     expect(webViewInstance).toBeDefined();
-    expect(webViewInstance.props.source).toEqual({ html: cardHtml });
+    expect(webViewInstance.props.source).toEqual({ html: cardHtml, baseUrl: 'media/' });
+    expect(webViewInstance.props.allowFileAccess).toBe(true);
+    expect(webViewInstance.props.originWhitelist).toEqual(['about:*', 'file://*']);
 
     const injectedScript: string = webViewInstance.props.injectedJavaScriptBeforeContentLoaded;
     expect(injectedScript).toContain('window.__INITIAL_CARD_DATA__');

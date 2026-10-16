@@ -195,6 +195,8 @@ describe('Consulta WebView Renderer - MODO_CONSULTA.md §2 e §3', () => {
     expect(unitEl.querySelector('iframe')).toBeNull();
     const img = unitEl.querySelector('img');
     expect(img?.getAttribute('onerror')).toBeNull();
+    expect(img?.getAttribute('loading')).toBe('lazy');
+    expect(img?.getAttribute('decoding')).toBe('async');
     const link = unitEl.querySelector('a');
     expect(link?.getAttribute('href')).toBeNull();
   });

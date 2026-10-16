@@ -547,6 +547,23 @@ export const strings = {
     copyInfoButton: 'Copiar informações',
     copySuccessSnackbar: 'Informações de contato e versão copiadas!',
   },
+  diagnostics: {
+    sectionTitle: 'Diagnóstico e Suporte',
+    description: 'Em caso de instabilidade ou travamento, envie o relatório técnico de diagnóstico aos desenvolvedores.',
+    copyDiagnosticButton: 'Copiar diagnóstico',
+    copyDiagnosticHint: 'Gera e compartilha o relatório de erros técnicos (sem dados pessoais ou de estudo)',
+    copyDiagnosticSuccess: 'Relatório de diagnóstico gerado com sucesso!',
+    copyDiagnosticError: 'Não foi possível gerar ou compartilhar o relatório.',
+    shareDialogTitle: 'Diagnóstico do Weiss',
+    errorBoundaryTitle: 'Ocorreu um erro inesperado',
+    errorBoundaryMessage:
+      'O Weiss encontrou um problema inesperado ao renderizar esta tela. Você pode tentar novamente ou copiar o relatório de diagnóstico.',
+    retryButton: 'Tentar novamente',
+    databaseInitErrorTitle: 'Falha ao inicializar banco de dados',
+    databaseInitErrorMessage:
+      'Não foi possível migrar ou inicializar os dados locais com segurança. O aplicativo não pode prosseguir para evitar corrupção de dados. Copie o diagnóstico para relatar o problema.',
+    errorDetailsToggle: 'Ver detalhes técnicos',
+  },
 } as const;
 
 export type Strings = typeof strings;

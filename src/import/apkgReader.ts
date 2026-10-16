@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
 import type { AnkiMediaMap, ExtractedApkg } from './types';
+import { logWarn } from '@/logging';
 
 /**
  * Lê e descompacta um arquivo/pacote .apkg usando JSZip.
@@ -70,7 +71,8 @@ export async function readApkgPackage(
       const decoder = new TextDecoder('utf-8');
       const mediaJsonText = decoder.decode(mediaBytes);
       mediaMap = JSON.parse(mediaJsonText) as AnkiMediaMap;
-    } catch {
+    } catch (err) {
+      logWarn('ApkgReader', 'Mapa de mídia inválido no pacote .apkg', String(err));
       mediaMap = {};
     }
   }

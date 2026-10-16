@@ -13,6 +13,7 @@ import type {
 } from './types';
 
 import type { FolioDatabase } from '@/db/client';
+import { logError } from '@/logging';
 
 export interface UseOnboardingReturn {
   step: 1 | 2 | 3;
@@ -96,7 +97,7 @@ export function useOnboarding(
           onSuccess(result);
         }
       } catch (err) {
-        console.error('Erro ao concluir onboarding:', err);
+        logError('Onboarding', err, 'Erro ao concluir onboarding');
       } finally {
         setIsSubmitting(false);
       }

@@ -10,6 +10,7 @@ import {
   type OpenFeedbackFormOptions,
 } from './feedbackService';
 import { strings } from '@/ui/strings';
+import { logError } from '@/logging';
 
 export interface UseFeedbackOptions {
   recipient?: string;
@@ -62,7 +63,8 @@ export function useFeedback(options: UseFeedbackOptions = {}): UseFeedbackResult
           options.onError?.(strings.feedback.emailAppNotFound);
           return false;
         }
-      } catch {
+      } catch (err) {
+        logError('UseFeedback', err, 'Falha ao abrir cliente de e-mail');
         options.onError?.(strings.feedback.errorOpening);
         return false;
       } finally {
@@ -88,7 +90,8 @@ export function useFeedback(options: UseFeedbackOptions = {}): UseFeedbackResult
           options.onError?.(strings.feedback.errorOpening);
           return false;
         }
-      } catch {
+      } catch (err) {
+        logError('UseFeedback', err, 'Falha ao abrir formulário web de feedback');
         options.onError?.(strings.feedback.errorOpening);
         return false;
       } finally {

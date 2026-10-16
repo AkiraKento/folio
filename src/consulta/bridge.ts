@@ -29,6 +29,7 @@ import { AnnotationsRepository } from '../db/repositories/annotations';
 import { ConsultaPosRepository } from '../db/repositories/consulta-pos';
 import { SettingsRepository } from '../db/repositories/settings';
 import type { Annotation } from '../db/schema';
+import { logWarn } from '@/logging';
 
 /**
  * Converte um registro de anotação do banco para o formato SavedAnnotation retornado à WebView.
@@ -286,8 +287,8 @@ export function createConsultaRnBridge(options: ConsultaRnBridgeOptions): Consul
       if (repo) {
         try {
           repo.save(activeDeckQuery, payload.unitIndex, payload.offset);
-        } catch {
-          // Ignora erro em contexto sem banco aberto
+        } catch (err) {
+          logWarn('ConsultaBridge', 'Falha ao salvar posição de leitura', String(err));
         }
       }
     }
@@ -298,8 +299,8 @@ export function createConsultaRnBridge(options: ConsultaRnBridgeOptions): Consul
     if (repo) {
       try {
         repo.set('fontSize', fontSize);
-      } catch {
-        // Ignora
+      } catch (err) {
+        logWarn('ConsultaBridge', 'Falha ao salvar tamanho de fonte', String(err));
       }
     }
   });
@@ -309,8 +310,8 @@ export function createConsultaRnBridge(options: ConsultaRnBridgeOptions): Consul
     if (repo) {
       try {
         repo.set('lastHighlightColor', color);
-      } catch {
-        // Ignora
+      } catch (err) {
+        logWarn('ConsultaBridge', 'Falha ao salvar última cor de grifo', String(err));
       }
     }
   });
@@ -422,8 +423,8 @@ export function createConsultaRnBridge(options: ConsultaRnBridgeOptions): Consul
         if (repo) {
           try {
             repo.save(activeDeckQuery, lastReportedPosition.unitIndex, lastReportedPosition.offset);
-          } catch {
-            // Ignora erro em fechamento
+          } catch (err) {
+            logWarn('ConsultaBridge', 'Falha ao salvar posição no fechamento', String(err));
           }
         }
       }

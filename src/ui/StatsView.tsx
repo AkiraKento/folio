@@ -15,6 +15,7 @@ import { Heatmap } from './Heatmap';
 import { Snackbar } from './Snackbar';
 import type { ReviewStatsSummary } from '@/stats/types';
 import { sendFeedbackEmail } from '@/feedback/feedbackService';
+import { logError } from '@/logging';
 
 export interface StatsViewProps {
   stats: ReviewStatsSummary | null;
@@ -58,7 +59,8 @@ export function StatsView({
       }
       setSnackbarMessage(strings.stats.exportSuccessSnackbar);
       setSnackbarVisible(true);
-    } catch {
+    } catch (err) {
+      logError('StatsView', err, 'Falha ao exportar texto do teste');
       setSnackbarMessage(strings.stats.exportError);
       setSnackbarVisible(true);
     }
@@ -79,7 +81,8 @@ export function StatsView({
         setSnackbarMessage(strings.feedback.emailAppNotFound);
         setSnackbarVisible(true);
       }
-    } catch {
+    } catch (err) {
+      logError('StatsView', err, 'Falha ao enviar e-mail de feedback');
       setSnackbarMessage(strings.feedback.errorOpening);
       setSnackbarVisible(true);
     }

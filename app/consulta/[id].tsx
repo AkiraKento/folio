@@ -27,6 +27,7 @@ import type { UnitMenuAction } from '@/webview/consulta/types';
 import { AnnotationsPanel } from '@/ui/AnnotationsPanel';
 import type { PanelOrphanItem } from '@/consulta/annotationsPanel';
 import { ConsultaSearchBar } from '@/ui/ConsultaSearchBar';
+import { logError, logWarn } from '@/logging';
 
 const BATCH_SIZE = 30;
 const MIN_FONT_SIZE = 14;
@@ -85,8 +86,8 @@ export default function ConsultaScreen() {
       hasTrackedOpenRef.current = true;
       try {
         new SettingsRepository().increment('consultaOpenCount');
-      } catch {
-        // Ignora em caso de indisponibilidade momentânea
+      } catch (err) {
+        logWarn('ConsultaScreen', 'Falha ao incrementar consultaOpenCount', String(err));
       }
     }
   }, [id]);
@@ -128,8 +129,8 @@ export default function ConsultaScreen() {
               targetOffset = 0;
               setInitialPosition({ unitIndex: targetUnitIndex, offset: 0 });
             }
-          } catch {
-            // Ignora
+          } catch (err) {
+            logWarn('ConsultaScreen', 'Falha ao buscar índice da nota por paramNoteId', String(err));
           }
         } else if (paramUnitIndex !== undefined) {
           targetUnitIndex = parseInt(paramUnitIndex, 10) || 0;
@@ -144,8 +145,8 @@ export default function ConsultaScreen() {
               targetOffset = savedPos.scroll_offset;
               setInitialPosition({ unitIndex: targetUnitIndex, offset: targetOffset });
             }
-          } catch {
-            // Ignora
+          } catch (err) {
+            logWarn('ConsultaScreen', 'Falha ao buscar posição salva em consulta_pos', String(err));
           }
         }
 
@@ -169,8 +170,8 @@ export default function ConsultaScreen() {
         setUnits(initialUnits);
         setMatchingCount(totalCount);
         setHasMore(initialUnits.length < totalCount);
-      } catch {
-        // Ignora erro de carregamento em teste
+      } catch (err) {
+        logError('ConsultaScreen', err, 'Falha ao carregar unidades iniciais da Consulta');
       } finally {
         setLoading(false);
       }
@@ -201,8 +202,8 @@ export default function ConsultaScreen() {
         setUnits((prev) => [...prev, ...nextBatch]);
       }
       setHasMore(units.length + nextBatch.length < matchingCount);
-    } catch {
-      // Ignora
+    } catch (err) {
+      logError('ConsultaScreen', err, 'Falha ao carregar lote adicional de unidades');
     }
   }, [id, hasMore, units.length, searchQuery, onlyWithNotes, matchingCount]);
 
@@ -269,8 +270,8 @@ export default function ConsultaScreen() {
                   : u
               )
             );
-          } catch {
-            // Ignora
+          } catch (err) {
+            logError('ConsultaScreen', err, 'Falha ao alterar estado suspenso do card');
           }
           break;
         }
@@ -284,8 +285,8 @@ export default function ConsultaScreen() {
       const next = Math.min(MAX_FONT_SIZE, prev + 1);
       try {
         new SettingsRepository().set('fontSize', next);
-      } catch {
-        // Ignora
+      } catch (err) {
+        logWarn('ConsultaScreen', 'Falha ao salvar aumento de fonte', String(err));
       }
       return next;
     });
@@ -296,8 +297,8 @@ export default function ConsultaScreen() {
       const next = Math.max(MIN_FONT_SIZE, prev - 1);
       try {
         new SettingsRepository().set('fontSize', next);
-      } catch {
-        // Ignora
+      } catch (err) {
+        logWarn('ConsultaScreen', 'Falha ao salvar diminuição de fonte', String(err));
       }
       return next;
     });
@@ -319,8 +320,8 @@ export default function ConsultaScreen() {
         deletedAnnotation.annotation,
         deletedAnnotation.unitIndex
       );
-    } catch {
-      // Ignora erro
+    } catch (err) {
+      logError('ConsultaScreen', err, 'Falha ao restaurar anotação apagada');
     } finally {
       setSnackbarVisible(false);
       setDeletedAnnotation(null);
@@ -342,8 +343,8 @@ export default function ConsultaScreen() {
           if (additionalUnits.length > 0) {
             setUnits((prev) => [...prev, ...additionalUnits]);
           }
-        } catch {
-          // Ignora
+        } catch (err) {
+          logError('ConsultaScreen', err, 'Falha ao carregar unidades adicionais no goto');
         }
       }
 
@@ -362,8 +363,8 @@ export default function ConsultaScreen() {
     if (!deletedOrphanId) return;
     try {
       new AnnotationsRepository().restore(deletedOrphanId);
-    } catch {
-      // Ignora erro
+    } catch (err) {
+      logError('ConsultaScreen', err, 'Falha ao restaurar anotação órfã');
     } finally {
       setOrphanSnackbarVisible(false);
       setDeletedOrphanId(null);
@@ -373,8 +374,8 @@ export default function ConsultaScreen() {
   const handleBack = useCallback(() => {
     try {
       consultaViewRef.current?.sendFlushPosition();
-    } catch {
-      // Ignora
+    } catch (err) {
+      logWarn('ConsultaScreen', 'Falha ao enviar flush de posição', String(err));
     }
     setTimeout(() => {
       router.back();

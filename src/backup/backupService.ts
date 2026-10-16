@@ -4,6 +4,7 @@ import type { FolioDatabase } from '@/db/client';
 import { getDb } from '@/db/client';
 import * as schema from '@/db/schema';
 import { getMediaDirectory } from '@/media/mediaService';
+import { logError, logWarn } from '@/logging';
 import type {
   BackupExportResult,
   BackupPreview,
@@ -90,8 +91,8 @@ async function defaultMediaReader(filename: string): Promise<Uint8Array | null> 
       const buffer = fsModule.readFileSync(testPath);
       return new Uint8Array(buffer);
     }
-  } catch {
-    // ignora
+  } catch (err) {
+    logWarn('BackupService', 'Falha ao ler arquivo de mídia local', String(err));
   }
 
   return null;
@@ -125,8 +126,8 @@ async function defaultMediaWriter(filename: string, bytes: Uint8Array): Promise<
       fsModule.mkdirSync(tempDir, { recursive: true });
     }
     fsModule.writeFileSync(pathModule.join(tempDir, filename), Buffer.from(bytes));
-  } catch {
-    // ignora
+  } catch (err) {
+    logWarn('BackupService', 'Falha ao gravar arquivo de mídia local', String(err));
   }
 }
 
@@ -221,8 +222,8 @@ export async function exportBackup(
         packedMediaCount++;
         packedMediaBytes += bytes.length;
       }
-    } catch {
-      // Arquivo de mídia não encontrado no disco não quebra o backup
+    } catch (err) {
+      logWarn('BackupService', `Mídia ausente no backup: ${item.filename}`, String(err));
     }
 
     options?.onProgress?.({
@@ -271,7 +272,8 @@ export async function getBackupPreview(
   let zip: JSZip;
   try {
     zip = await JSZip.loadAsync(zipData);
-  } catch {
+  } catch (err) {
+    logError('BackupService', err, 'Arquivo de backup inválido ou corrompido');
     throw new Error('Arquivo de backup inválido ou corrompido.');
   }
 
@@ -284,7 +286,8 @@ export async function getBackupPreview(
   let parsed: FolioBackupPayload;
   try {
     parsed = JSON.parse(jsonText);
-  } catch {
+  } catch (err) {
+    logError('BackupService', err, 'JSON do backup corrompido');
     throw new Error('Erro ao decodificar dados do backup (JSON corrompido).');
   }
 
@@ -378,8 +381,8 @@ export async function restoreBackup(
         const bytes = await file.async('uint8array');
         await mediaWriter(filename, bytes);
         restoredMediaCount++;
-      } catch {
-        // ignora erro em arquivo de mídia individual
+      } catch (err) {
+        logWarn('BackupService', `Falha ao restaurar mídia: ${filename}`, String(err));
       }
 
       options?.onProgress?.({

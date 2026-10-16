@@ -6,6 +6,7 @@ import { DecksRepository } from '@/db/repositories/decks';
 import { getTodaySummary } from './metrics';
 import type { TodaySummary } from './types';
 import type { ContinueReadingInfo } from '@/ui/DecksScreen';
+import { logError, logWarn } from '@/logging';
 
 export interface UseTodayOptions {
   db?: FolioDatabase;
@@ -56,11 +57,12 @@ export function useToday(options: UseTodayOptions = {}): UseTodayReturn {
         } else {
           setContinueReading(null);
         }
-      } catch {
+      } catch (err) {
+        logWarn('UseToday', 'Falha ao carregar atalho Continuar lendo', String(err));
         setContinueReading(null);
       }
     } catch (err) {
-      console.warn('Erro ao carregar dados da tela Hoje:', err);
+      logError('UseToday', err, 'Erro ao carregar dados da tela Hoje');
     } finally {
       setLoading(false);
     }

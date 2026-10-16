@@ -13,6 +13,7 @@ import { strings } from './strings';
 import { Heatmap } from './Heatmap';
 import type { TodaySummary } from '@/today/types';
 import type { ContinueReadingInfo } from './DecksScreen';
+import { logWarn } from '@/logging';
 
 export interface TodayViewProps {
   summary: TodaySummary | null;
@@ -47,7 +48,8 @@ export function TodayView({
         day: 'numeric',
         month: 'long',
       }).format(now);
-    } catch {
+    } catch (err) {
+      logWarn('TodayView', 'Falha ao formatar data do cabeçalho', String(err));
       return '';
     }
   }, []);

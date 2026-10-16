@@ -19,6 +19,7 @@ import {
 } from '@/consulta/annotationsPanel';
 import type { FolioDatabase } from '@/db/client';
 import { AnnotationsRepository } from '@/db/repositories/annotations';
+import { logError, logWarn } from '@/logging';
 
 export interface AnnotationsPanelProps {
   /** Indica se o modal do painel está aberto. */
@@ -76,8 +77,8 @@ export function AnnotationsPanel({
       const result = loadDeckAnnotations(deckId, { db, includeSubdecks: true });
       setAnnotations(result.annotations);
       setOrphans(result.orphans);
-    } catch {
-      // Ignora erro em ambiente de teste sem migrações completas
+    } catch (err) {
+      logWarn('AnnotationsPanel', 'Falha ao carregar anotações do deck', String(err));
     } finally {
       setLoading(false);
     }
@@ -104,8 +105,8 @@ export function AnnotationsPanel({
       repo.softDelete(orphan.id);
       setOrphans((prev) => prev.filter((o) => o.id !== orphan.id));
       onDeleteOrphan?.(orphan);
-    } catch {
-      // Ignora
+    } catch (err) {
+      logError('AnnotationsPanel', err, 'Falha ao apagar anotação órfã');
     }
   };
 

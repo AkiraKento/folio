@@ -5,6 +5,7 @@ import { generateId } from '@/db/repositories/utils';
 import { MediaRepository } from '@/db/repositories/media';
 import { SettingsRepository } from '@/db/repositories/settings';
 import { getMediaDirectory } from '@/media/mediaService';
+import { logWarn } from '@/logging';
 import { readApkgPackage } from './apkgReader';
 import {
   parseAnkiCollection,
@@ -49,8 +50,8 @@ async function computeSha1(bytes: Uint8Array): Promise<string> {
         binary
       );
     }
-  } catch {
-    // Ignora
+  } catch (err) {
+    logWarn('Importer', 'Falha ao calcular SHA-1 via expo-crypto', String(err));
   }
 
   // Fallback determinístico de hash em caso extremo
@@ -133,8 +134,8 @@ async function saveMediaBytes(filename: string, bytes: Uint8Array): Promise<void
       fsModule.mkdirSync(tempDir, { recursive: true });
     }
     fsModule.writeFileSync(pathModule.join(tempDir, filename), Buffer.from(bytes));
-  } catch {
-    // Ignora erro em ambientes de teste simulados
+  } catch (err) {
+    logWarn('Importer', `Falha ao salvar mídia extraída: ${filename}`, String(err));
   }
 }
 
@@ -938,8 +939,8 @@ export async function importApkg(
   try {
     const settingsRepo = new SettingsRepository(db);
     settingsRepo.increment('apkgImportCount');
-  } catch {
-    // Ignora erro em settings para não falhar importação concluída
+  } catch (err) {
+    logWarn('Importer', 'Falha ao incrementar contador apkgImportCount', String(err));
   }
 
   notify('completed', 100, 100, 'Importação concluída com sucesso!');

@@ -12,6 +12,7 @@ import { useStats } from '@/stats/useStats';
 import { StatsView } from '@/ui/StatsView';
 
 import { isOnboardingCompleted } from '@/onboarding/onboardingService';
+import { logError } from '@/logging';
 
 export type MainTab = 'today' | 'decks' | 'stats';
 
@@ -54,8 +55,8 @@ export default function HomeScreen() {
           router.replace('/onboarding' as unknown as Parameters<typeof router.replace>[0]);
           return;
         }
-      } catch {
-        // Ignora erro se DB estiver inicializando
+      } catch (err) {
+        logError('HomeScreenOnboardingCheck', err);
       }
       setOnboardingChecked(true);
       refreshToday();

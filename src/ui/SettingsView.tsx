@@ -19,6 +19,7 @@ import { Snackbar } from './Snackbar';
 import { useReminder } from '@/notifications/useReminder';
 import { ReminderTimePickerModal } from './ReminderTimePickerModal';
 import { useFeedback } from '@/feedback/useFeedback';
+import { copyOrShareDiagnostic, logWarn } from '@/logging';
 
 export interface SettingsViewProps {
   onBack?: () => void;
@@ -87,8 +88,8 @@ export function SettingsView({
         annotations: annCount,
         media: mediaCount,
       });
-    } catch {
-      // ignora
+    } catch (err) {
+      logWarn('SettingsView', 'Falha ao carregar estatísticas locais de dados', String(err));
     }
   };
 
@@ -653,6 +654,34 @@ export function SettingsView({
               >
                 <Text style={[styles.feedbackSecondaryButtonText, { color: theme.fg }]}>
                   🌐 {strings.feedback.openFormButton}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.feedbackSecondaryButton,
+                  {
+                    backgroundColor: theme.elevated2,
+                    borderColor: theme.border,
+                  },
+                ]}
+                onPress={async () => {
+                  try {
+                    const res = await copyOrShareDiagnostic();
+                    if (res.action === 'shared' || res.action === 'copied') {
+                      setSnackbarMessage(strings.diagnostics.copyDiagnosticSuccess);
+                    }
+                  } catch {
+                    setSnackbarMessage(strings.diagnostics.copyDiagnosticError);
+                  }
+                }}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel={strings.diagnostics.copyDiagnosticButton}
+                accessibilityHint={strings.diagnostics.copyDiagnosticHint}
+              >
+                <Text style={[styles.feedbackSecondaryButtonText, { color: theme.fg }]}>
+                  📋 {strings.diagnostics.copyDiagnosticButton}
                 </Text>
               </TouchableOpacity>
             </View>

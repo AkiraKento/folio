@@ -1,6 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 import { strings } from '@/ui/strings';
+import { logWarn } from '@/logging';
 import type { ReminderTime, NotificationScheduleResult } from './types';
 
 export const DAILY_REMINDER_CHANNEL_ID = 'daily-reminder';
@@ -71,7 +72,7 @@ export async function setupNotifications(): Promise<void> {
       });
     }
   } catch (error) {
-    console.warn('Erro ao configurar handlers de notificação:', error);
+    logWarn('NotificationService', 'Erro ao configurar handlers de notificação', String(error));
   }
 }
 
@@ -82,7 +83,8 @@ export async function hasNotificationPermission(): Promise<boolean> {
   try {
     const settings = await Notifications.getPermissionsAsync();
     return settings.status === 'granted';
-  } catch {
+  } catch (err) {
+    logWarn('NotificationService', 'Erro ao verificar permissão de notificação', String(err));
     return false;
   }
 }
@@ -99,7 +101,8 @@ export async function requestNotificationPermission(): Promise<boolean> {
 
     const requested = await Notifications.requestPermissionsAsync();
     return requested.status === 'granted';
-  } catch {
+  } catch (err) {
+    logWarn('NotificationService', 'Erro ao solicitar permissão de notificação', String(err));
     return false;
   }
 }
@@ -116,7 +119,7 @@ export async function cancelDailyReminder(): Promise<void> {
       }
     }
   } catch (error) {
-    console.warn('Erro ao cancelar lembretes diários:', error);
+    logWarn('NotificationService', 'Erro ao cancelar lembretes diários', String(error));
   }
 }
 
